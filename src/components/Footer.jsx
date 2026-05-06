@@ -1,46 +1,113 @@
-import { Linkedin, Instagram } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Instagram, Twitter, Linkedin, Github, Mail, MessageCircle } from 'lucide-react'
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear()
+
   return (
-    <footer className="py-20 border-t" style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)' }}>
-      <div className="container-custom">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-10">
-          <div className="flex flex-col gap-4 items-center md:items-start">
-            <span className="text-2xl font-black uppercase tracking-tighter" style={{ color: 'var(--text-primary)' }}>Aether</span>
-            <p className="text-sm max-w-xs text-center md:text-left" style={{ color: 'var(--text-secondary)' }}>
-              Building digital ecosystems that capture attention and convert audiences.
+    <footer className="relative pt-32 pb-10 overflow-hidden border-t" style={{ borderColor: 'var(--border-subtle)', background: 'var(--bg-base)' }}>
+      {/* Background Elements */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent opacity-50" />
+      <div className="absolute -bottom-40 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-cyan-500/5 blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="container-custom relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-20">
+          
+          {/* Brand Column */}
+          <div className="flex flex-col gap-6 lg:pr-8">
+            <a href="/" className="text-3xl font-black tracking-tighter uppercase inline-block">
+              Aether<span className="text-cyan-400">.</span>
+            </a>
+            <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              Engineering digital ecosystems that captivate and convert. We blend cinematic visuals with high-performance code.
             </p>
-          </div>
-
-          <div className="flex gap-12">
-            <div className="flex flex-col gap-4">
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>Navigation</span>
-              <div className="flex flex-col gap-2">
-                {['Services', 'Portfolio', 'Pricing', 'Testimonials'].map(item => (
-                  <a key={item} href={`#${item.toLowerCase()}`} className="text-sm transition-colors hover:text-purple-400" style={{ color: 'var(--text-secondary)' }}>{item}</a>
-                ))}
-              </div>
-            </div>
-            <div className="flex flex-col gap-4">
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>Legal</span>
-              <div className="flex flex-col gap-2">
-                {['Privacy', 'Terms', 'Contact'].map(item => (
-                  <a key={item} href={item === 'Contact' ? '#contact' : '#'} className="text-sm transition-colors hover:text-purple-400" style={{ color: 'var(--text-secondary)' }}>{item}</a>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-6 items-center md:items-end">
-            <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-full flex items-center justify-center transition-colors" style={{ background: 'var(--bg-glass)', color: 'var(--text-primary)', border: '1px solid var(--border-subtle)' }}>
-                <Linkedin size={18} />
+            <div className="flex items-center gap-4 mt-2">
+              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 transition-all">
+                <Twitter size={18} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full flex items-center justify-center transition-colors" style={{ background: 'var(--bg-glass)', color: 'var(--text-primary)', border: '1px solid var(--border-subtle)' }}>
+              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-fuchsia-400 hover:border-fuchsia-400/50 hover:bg-fuchsia-400/10 transition-all">
                 <Instagram size={18} />
               </a>
+              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 transition-all">
+                <Linkedin size={18} />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-fuchsia-400 hover:border-fuchsia-400/50 hover:bg-fuchsia-400/10 transition-all">
+                <Github size={18} />
+              </a>
             </div>
-            <span className="text-xs" style={{ color: 'var(--text-muted)' }}>© 2026 Aether Digital. Built for the future.</span>
+          </div>
+
+          {/* Quick Links */}
+          <div className="flex flex-col gap-4">
+            <h4 className="font-bold text-white mb-2 uppercase tracking-widest text-sm">Explore</h4>
+            {['About Us', 'Services', 'Our Portfolio', 'Pricing Plans'].map((item) => (
+              <a key={item} href="#" className="text-sm transition-colors hover:text-cyan-400 w-fit" style={{ color: 'var(--text-secondary)' }}>
+                {item}
+              </a>
+            ))}
+          </div>
+
+          {/* Legal */}
+          <div className="flex flex-col gap-4">
+            <h4 className="font-bold text-white mb-2 uppercase tracking-widest text-sm">Legal</h4>
+            {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map((item) => (
+              <a key={item} href="#" className="text-sm transition-colors hover:text-fuchsia-400 w-fit" style={{ color: 'var(--text-secondary)' }}>
+                {item}
+              </a>
+            ))}
+          </div>
+
+          {/* Contact info */}
+          <div className="flex flex-col gap-4">
+            <h4 className="font-bold text-white mb-2 uppercase tracking-widest text-sm">Connect</h4>
+            <div className="flex flex-col gap-3">
+              <a 
+                href="https://wa.me/919875417275" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-sm hover:text-cyan-400 transition-colors group"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                <div className="w-8 h-8 rounded-lg bg-cyan-400/10 flex items-center justify-center border border-cyan-400/20 group-hover:border-cyan-400/50 transition-all">
+                  <MessageCircle size={14} className="text-cyan-400" />
+                </div>
+                Chat with Anirudha
+              </a>
+              <a 
+                href="https://wa.me/918017790952" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-sm hover:text-fuchsia-400 transition-colors group"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                <div className="w-8 h-8 rounded-lg bg-fuchsia-400/10 flex items-center justify-center border border-fuchsia-400/20 group-hover:border-fuchsia-400/50 transition-all">
+                  <MessageCircle size={14} className="text-fuchsia-400" />
+                </div>
+                Chat with Vasudev
+              </a>
+              <a 
+                href="mailto:contact@aetheragency.digital" 
+                className="flex items-center gap-3 text-sm hover:text-white transition-colors group mt-2"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-white/20 transition-all">
+                  <Mail size={14} className="text-white/50 group-hover:text-white" />
+                </div>
+                contact@aetheragency.digital
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-white/5">
+          <p className="text-xs font-medium tracking-wide" style={{ color: 'var(--text-muted)' }}>
+            &copy; {currentYear} Aether Digital Agency. All rights reserved.
+          </p>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+            <span className="text-xs font-bold tracking-widest uppercase text-cyan-400">Systems Online</span>
           </div>
         </div>
       </div>

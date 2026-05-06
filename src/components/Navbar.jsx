@@ -17,7 +17,7 @@ export default function Navbar() {
   return (
     <nav 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'py-4 shadow-[0_8px_30px_rgb(0,0,0,0.12)] backdrop-blur-xl' : 'py-12 bg-transparent'
+        isScrolled ? 'py-3 shadow-[0_8px_30px_rgb(0,0,0,0.12)] backdrop-blur-xl' : 'py-6 bg-transparent'
       }`}
       style={isScrolled ? { background: 'var(--bg-glass)' } : {}}
     >
@@ -28,11 +28,11 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-10">
-          {['Services', 'Portfolio', 'Pricing', 'Testimonials'].map((item) => (
+          {['About', 'Services', 'Portfolio', 'Pricing', 'Testimonials'].map((item) => (
             <a 
               key={item} 
               href={`#${item.toLowerCase()}`}
-              className="text-sm font-medium transition-colors hover:text-purple-400"
+              className="text-sm font-medium transition-colors hover:text-cyan-400"
               style={{ color: 'var(--text-secondary)' }}
             >
               {item}
@@ -43,7 +43,7 @@ export default function Navbar() {
         <div className="flex items-center gap-6">
           <button 
             onClick={toggleTheme}
-            className="p-2 rounded-full transition-colors"
+            className="p-2 rounded-full transition-colors hover:bg-white/5"
             style={{ color: 'var(--text-primary)' }}
           >
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
@@ -75,7 +75,7 @@ export default function Navbar() {
             style={{ background: 'var(--bg-glass)', borderBottom: '1px solid var(--border-subtle)' }}
           >
             <div className="flex flex-col gap-6">
-              {['Services', 'Portfolio', 'Pricing', 'Testimonials'].map((item) => (
+              {['About', 'Services', 'Portfolio', 'Pricing', 'Testimonials'].map((item) => (
                 <a 
                   key={item} 
                   href={`#${item.toLowerCase()}`}

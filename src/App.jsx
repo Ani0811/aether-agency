@@ -2,7 +2,9 @@ import { useState, useEffect, useCallback } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from './context/ThemeContext'
 import Navbar from './components/Navbar'
+import CustomCursor from './components/CustomCursor'
 import Hero from './components/Hero'
+import About from './components/About'
 import Services from './components/Services'
 import Portfolio from './components/Portfolio'
 import Process from './components/Process'
@@ -12,23 +14,13 @@ import CTA from './components/CTA'
 import Footer from './components/Footer'
 import NotFound from './components/NotFound'
 
-function Loader({ onComplete }) {
-  useEffect(() => {
-    const timer = setTimeout(onComplete, 1200)
-    return () => clearTimeout(timer)
-  }, [onComplete])
-
-  return (
-    <div className="loader-container">
-      <div className="loader-spinner" />
-    </div>
-  )
-}
+import Loader from './components/Loader'
 
 function HomePage() {
   return (
     <>
       <Hero />
+      <About />
       <Services />
       <Portfolio />
       <Process />
@@ -54,6 +46,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <div className="min-h-screen">
+        <CustomCursor />
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
