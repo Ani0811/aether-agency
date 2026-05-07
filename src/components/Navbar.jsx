@@ -71,8 +71,11 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 right-0 p-8 md:hidden shadow-xl"
-            style={{ background: 'var(--bg-glass)', borderBottom: '1px solid var(--border-subtle)' }}
+            className="absolute top-full left-0 right-0 p-8 md:hidden shadow-2xl backdrop-blur-3xl"
+            style={{ 
+              background: theme === 'dark' ? 'rgba(10, 10, 15, 0.98)' : 'rgba(255, 255, 255, 0.98)', 
+              borderBottom: '1px solid var(--border-subtle)' 
+            }}
           >
             <div className="flex flex-col gap-6">
               {['About', 'Services', 'Portfolio', 'Pricing', 'Testimonials'].map((item) => (
@@ -80,7 +83,7 @@ export default function Navbar() {
                   key={item} 
                   href={`#${item.toLowerCase()}`}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-xl font-bold"
+                  className="text-xl font-bold py-2 border-b border-white/5 last:border-0"
                   style={{ color: 'var(--text-primary)' }}
                 >
                   {item}
