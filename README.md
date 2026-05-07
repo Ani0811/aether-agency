@@ -59,6 +59,7 @@ The repository includes an example GitHub Actions workflow (`.github/workflows/d
 How it works:
 
 - The workflow sets a `BASE` environment variable based on the repository name and runs `npm run build`. The Vite config reads `process.env.BASE` so assets are built with the correct base path.
+- The workflow also sets `VITE_API_URL` to your Render backend URL so the built frontend will post contact form submissions to the correct backend endpoint in production.
 - The action then deploys `./dist` to the `gh-pages` branch using `peaceiris/actions-gh-pages`.
 
 Notes and manual alternative:
@@ -81,6 +82,39 @@ After a successful deploy, enable GitHub Pages if needed (Repository Settings �
 ## Backend deployment (optional)
 
 GitHub Pages is static-only. If you use the email backend, deploy it separately (Render, Railway, Fly, Heroku, etc.) and set `SMTP_USER` / `SMTP_PASS` in the host. Update the CORS origin in the server to allow your production site domain.
+
+### Deploying the backend to Render
+
+Quick steps to deploy the `server.js` backend to Render (recommended):
+
+1. Sign in to https://render.com and click **New → Web Service**.
+2. Connect your GitHub repository and pick the `main` branch (or the branch you use).
+3. Set the **Root** to the repository root (this project is single-repo; leave empty if you host the backend at root).
+4. For **Environment**, choose **Node**. For **Build Command** you can leave blank; Render will run `npm install` automatically.
+5. Set **Start Command** to:
+
+```
+npm start
+```
+
+
+6. In the Environment (Render Dashboard) add the required environment variables:
+
+- `SMTP_USER` — your SMTP username (email address)
+- `SMTP_PASS` — your SMTP password or app password
+- `FRONTEND_ORIGIN` — the URL of your frontend (example: `https://your-username.github.io/your-repo/`) or `*` to allow all origins (not recommended)
+
+After you deploy the frontend to GitHub Pages, set `FRONTEND_ORIGIN` in Render to your Pages URL (for example: `https://your-username.github.io/your-repo/`). This ensures the backend accepts requests from the deployed frontend.
+
+7. Optionally set `PORT` (Render provides `$PORT`, so leaving it blank will let the app use the provided port).
+
+8. Create the service — Render will deploy and provide a URL for the backend.
+
+Notes:
+
+- The backend reads `FRONTEND_ORIGIN` to configure CORS. Use a comma-separated list for multiple allowed origins.
+- We included a `render.yaml` sample (`render.yaml`) as a convenience to define a Render service from the repo; do not store secrets in this file. Set secrets in the Render Dashboard.
+
 
 ## Email template
 

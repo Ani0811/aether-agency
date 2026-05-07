@@ -6,9 +6,14 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const app = express()
-const PORT = 3001
+const PORT = process.env.PORT || 3001
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'http://localhost:5173'
 
-app.use(cors({ origin: 'http://localhost:5173' }))
+const corsOptions = FRONTEND_ORIGIN === '*'
+  ? {}
+  : { origin: FRONTEND_ORIGIN.split(',').map(s => s.trim()) }
+
+app.use(cors(corsOptions))
 app.use(express.json())
 
 const transporter = nodemailer.createTransport({
@@ -132,5 +137,7 @@ app.post('/api/contact', async (req, res) => {
     res.status(500).json({ error: 'Failed to send email. Check your SMTP credentials.' })
   }
 })
+
+app.get('/', (req, res) => res.send('Aether Agency API'))
 
 app.listen(PORT, () => console.log(`✅ Aether API running on http://localhost:${PORT}`))

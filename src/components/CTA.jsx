@@ -14,6 +14,7 @@ const inputClass = `
 `
 
 export default function CTA() {
+  const API_BASE = import.meta.env.VITE_API_BACKEND_URL || ''
   const formRef = useRef()
   const [fields, setFields] = useState({ name: '', email: '', message: '' })
   const [status, setStatus] = useState('idle') // idle | loading | success | error
@@ -28,7 +29,8 @@ export default function CTA() {
 
     setStatus('loading')
     try {
-      const res = await fetch('/api/contact', {
+      const apiEndpoint = API_BASE ? `${API_BASE.replace(/\/$/, '')}/api/contact` : '/api/contact'
+      const res = await fetch(apiEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(fields),
@@ -54,7 +56,7 @@ export default function CTA() {
         >
           {/* Animated Background with its own overflow clipping */}
           <div className="absolute inset-0 rounded-[40px] overflow-hidden pointer-events-none">
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-cyan-600/5 via-transparent to-fuchsia-600/5 -z-10" />
+            <div className="absolute top-0 left-0 w-full h-full bg-linear-to-br from-cyan-600/5 via-transparent to-fuchsia-600/5 -z-10" />
             <div className="absolute -top-40 -right-40 w-80 h-80 bg-cyan-500/10 rounded-full blur-[100px] animate-pulse -z-10" />
             <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-fuchsia-500/10 rounded-full blur-[100px] animate-pulse -z-10" />
           </div>
@@ -100,7 +102,7 @@ export default function CTA() {
                       initial={{ opacity: 0, y: 10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      className="absolute top-full left-0 mt-4 p-1 rounded-2xl z-50 min-w-[300px] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10"
+                      className="absolute top-full left-0 mt-4 p-1 rounded-2xl z-50 min-w-75 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10"
                       style={{ 
                         background: 'rgba(15, 15, 20, 0.8)', 
                         backdropFilter: 'blur(24px)',
@@ -151,7 +153,7 @@ export default function CTA() {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="p-8 rounded-[32px] border"
+              className="p-8 rounded-4xl border"
               style={{ background: 'var(--bg-glass)', borderColor: 'var(--border-subtle)' }}
             >
               <AnimatePresence mode="wait">
@@ -172,7 +174,7 @@ export default function CTA() {
                     </p>
                     <button
                       onClick={() => setStatus('idle')}
-                      className="btn-secondary !text-xs !py-2 !px-5 mt-2"
+                      className="btn-secondary text-xs! py-2! px-5! mt-2"
                     >
                       Send another
                     </button>
