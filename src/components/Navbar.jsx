@@ -14,6 +14,24 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const scrollToSection = (e, id) => {
+    e.preventDefault()
+    const element = document.getElementById(id)
+    if (element) {
+      const offset = 80 // Navbar height
+      const bodyRect = document.body.getBoundingClientRect().top
+      const elementRect = element.getBoundingClientRect().top
+      const elementPosition = elementRect - bodyRect
+      const offsetPosition = elementPosition - offset
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      })
+    }
+    setMobileMenuOpen(false)
+  }
+
   return (
     <nav 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -32,6 +50,7 @@ export default function Navbar() {
             <a 
               key={item} 
               href={`#${item.toLowerCase()}`}
+              onClick={(e) => scrollToSection(e, item.toLowerCase())}
               className="text-sm font-medium transition-colors hover:text-cyan-400"
               style={{ color: 'var(--text-secondary)' }}
             >
@@ -49,7 +68,10 @@ export default function Navbar() {
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </button>
           
-          <button className="hidden md:block btn-primary !py-2.5 !text-sm !px-6">
+          <button 
+            onClick={(e) => scrollToSection(e, 'contact')}
+            className="hidden md:block btn-primary !py-2.5 !text-sm !px-6"
+          >
             Get Started
           </button>
 
@@ -82,14 +104,19 @@ export default function Navbar() {
                 <a 
                   key={item} 
                   href={`#${item.toLowerCase()}`}
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={(e) => scrollToSection(e, item.toLowerCase())}
                   className="text-xl font-bold py-2 border-b border-white/5 last:border-0"
                   style={{ color: 'var(--text-primary)' }}
                 >
                   {item}
                 </a>
               ))}
-              <button className="btn-primary w-full">Get Started</button>
+              <button 
+                onClick={(e) => scrollToSection(e, 'contact')}
+                className="btn-primary w-full"
+              >
+                Get Started
+              </button>
             </div>
           </motion.div>
         )}

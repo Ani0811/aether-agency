@@ -26,11 +26,17 @@ export default function Hero() {
             </p>
 
             <div className="flex flex-wrap gap-6">
-              <button className="btn-primary flex items-center gap-3 group shadow-2xl shadow-cyan-500/40 px-8! py-4!">
+              <a 
+                href="#contact" 
+                className="btn-primary flex items-center gap-3 group shadow-2xl shadow-cyan-500/40 px-8! py-4!"
+              >
                 Get a Free Audit
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-              <a href="#portfolio" className="btn-secondary px-8! py-4! inline-flex items-center justify-center">
+              </a>
+              <a 
+                href="#portfolio" 
+                className="btn-secondary px-8! py-4! inline-flex items-center justify-center"
+              >
                 View Our Work
               </a>
             </div>
