@@ -5,7 +5,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="relative pt-32 pb-10 overflow-hidden border-t" style={{ borderColor: 'var(--border-subtle)', background: 'var(--bg-base)' }}>
+    <footer className="relative pt-32 pb-10 overflow-hidden border-t" style={{ borderColor: 'var(--border-subtle)', background: 'var(--bg-primary)' }}>
       {/* Background Elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent opacity-50" />
       <div className="absolute -bottom-40 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-cyan-500/5 blur-[120px] rounded-full pointer-events-none" />
@@ -22,16 +22,16 @@ export default function Footer() {
               Engineering digital ecosystems that captivate and convert. We blend cinematic visuals with high-performance code.
             </p>
             <div className="flex items-center gap-4 mt-2">
-              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 transition-all">
+              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 transition-all" style={{ color: 'var(--text-muted)' }}>
                 <Twitter size={18} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-fuchsia-400 hover:border-fuchsia-400/50 hover:bg-fuchsia-400/10 transition-all">
+              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:text-fuchsia-400 hover:border-fuchsia-400/50 hover:bg-fuchsia-400/10 transition-all" style={{ color: 'var(--text-muted)' }}>
                 <Instagram size={18} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 transition-all">
+              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 transition-all" style={{ color: 'var(--text-muted)' }}>
                 <Linkedin size={18} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-fuchsia-400 hover:border-fuchsia-400/50 hover:bg-fuchsia-400/10 transition-all">
+              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:text-fuchsia-400 hover:border-fuchsia-400/50 hover:bg-fuchsia-400/10 transition-all" style={{ color: 'var(--text-muted)' }}>
                 <Github size={18} />
               </a>
             </div>
@@ -39,7 +39,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div className="flex flex-col gap-4">
-            <h4 className="font-bold text-white mb-2 uppercase tracking-widest text-sm">Explore</h4>
+            <h4 className="font-bold mb-2 uppercase tracking-widest text-sm">Explore</h4>
             {['About Us', 'Services', 'Our Portfolio', 'Pricing Plans'].map((item) => (
               <a key={item} href="#" className="text-sm transition-colors hover:text-cyan-400 w-fit" style={{ color: 'var(--text-secondary)' }}>
                 {item}
@@ -49,7 +49,7 @@ export default function Footer() {
 
           {/* Legal */}
           <div className="flex flex-col gap-4">
-            <h4 className="font-bold text-white mb-2 uppercase tracking-widest text-sm">Legal</h4>
+            <h4 className="font-bold mb-2 uppercase tracking-widest text-sm">Legal</h4>
             {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map((item) => (
               <a key={item} href="#" className="text-sm transition-colors hover:text-fuchsia-400 w-fit" style={{ color: 'var(--text-secondary)' }}>
                 {item}
@@ -59,7 +59,7 @@ export default function Footer() {
 
           {/* Contact info */}
           <div className="flex flex-col gap-4">
-            <h4 className="font-bold text-white mb-2 uppercase tracking-widest text-sm">Connect</h4>
+            <h4 className="font-bold mb-2 uppercase tracking-widest text-sm">Connect</h4>
             <div className="flex flex-col gap-3">
               <a 
                 href="https://wa.me/919875417275" 
@@ -87,11 +87,11 @@ export default function Footer() {
               </a>
               <a 
                 href="mailto:contact@aetheragency.digital" 
-                className="flex items-center gap-3 text-sm hover:text-white transition-colors group mt-2"
+                className="flex items-center gap-3 text-sm hover:text-cyan-400 transition-colors group mt-2"
                 style={{ color: 'var(--text-secondary)' }}
               >
                 <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-white/20 transition-all">
-                  <Mail size={14} className="text-white/50 group-hover:text-white" />
+                  <Mail size={14} className="group-hover:text-cyan-400" style={{ color: 'var(--text-muted)' }} />
                 </div>
                 contact@aetheragency.digital
               </a>
@@ -101,7 +101,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-white/5">
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
           <p className="text-xs font-medium tracking-wide" style={{ color: 'var(--text-muted)' }}>
             &copy; {currentYear} Aether Digital Agency. All rights reserved.
           </p>

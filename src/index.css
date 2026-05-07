@@ -48,15 +48,17 @@
 
 /* Skill pill used on image cards; theme-aware via data-theme */
 .skill-pill {
-  color: var(--text-primary);
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.08);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
 }
 
 [data-theme="light"] .skill-pill {
-  color: var(--text-primary);
-  background: rgba(0,0,0,0.06);
-  border: 1px solid rgba(0,0,0,0.08);
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
 }
 
 /* ===== Base ===== */
