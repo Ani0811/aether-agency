@@ -15,7 +15,14 @@ export default function Footer() {
           
           {/* Brand Column */}
           <div className="flex flex-col gap-6 lg:pr-8">
-            <a href="/" className="text-3xl font-black tracking-tighter uppercase inline-block">
+            <a 
+              href="/" 
+              onClick={(e) => {
+                e.preventDefault()
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }}
+              className="text-3xl font-black tracking-tighter uppercase inline-block"
+            >
               Aether<span className="text-cyan-400">.</span>
             </a>
             <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>

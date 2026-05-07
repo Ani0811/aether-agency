@@ -5,20 +5,17 @@ const services = [
   {
     icon: Code2,
     title: 'Web Engineering',
-    description: 'High-performance, scalable web solutions built with cutting-edge tech stacks for maximum speed and security.',
-    highlight: true
+    description: 'High-performance, scalable web solutions built with cutting-edge tech stacks for maximum speed and security.'
   },
   {
     icon: Video,
     title: 'Content Creation',
-    description: 'Cinematic storytelling and professional video production that captures your brand essence and engages audiences.',
-    highlight: false
+    description: 'Cinematic storytelling and professional video production that captures your brand essence and engages audiences.'
   },
   {
     icon: Rocket,
     title: 'Digital Strategy',
-    description: 'Data-driven growth strategies and marketing automation to scale your reach and maximize conversion rates.',
-    highlight: false
+    description: 'Data-driven growth strategies and marketing automation to scale your reach and maximize conversion rates.'
   }
 ]
 
@@ -43,7 +40,7 @@ export default function Services() {
               }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className={`glass-card p-10 relative overflow-hidden group cursor-pointer ${service.highlight ? 'ring-1 ring-cyan-400/50 shadow-[0_0_30px_rgba(0,240,255,0.2)]' : ''}`}
+              className="glass-card p-10 relative overflow-hidden group cursor-pointer hover:ring-1 hover:ring-cyan-400/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.2)] transition-all duration-300"
             >
               {/* Hover highlight background */}
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

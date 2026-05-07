@@ -40,7 +40,15 @@ export default function Navbar() {
       style={isScrolled ? { background: 'var(--bg-glass)' } : {}}
     >
       <div className="container-custom flex items-center justify-between">
-        <a href="/" className="text-2xl font-black tracking-tighter uppercase" style={{ color: 'var(--text-primary)' }}>
+        <a 
+          href="/" 
+          onClick={(e) => {
+            e.preventDefault()
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }}
+          className="text-2xl font-black tracking-tighter uppercase" 
+          style={{ color: 'var(--text-primary)' }}
+        >
           Aether
         </a>
 
