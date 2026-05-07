@@ -27,7 +27,7 @@ export default function About() {
     <section id="about" className="relative py-48 overflow-hidden">
       {/* Immersive background elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(0,240,255,0.03)_0%,transparent_70%)] -z-10" />
-      <div className="absolute -top-24 -left-24 w-150600px] bg-cyan-500/5 rounded-full blur-[160px] -z-10" />
+      <div className="absolute -top-24 -left-24 w-[600px] h-[600px] bg-cyan-500/5 rounded-full blur-[160px] -z-10" />
       <div className="absolute -bottom-24 -right-24 w-150 h-150 bg-fuchsia-500/5 rounded-full blur-[160px] -z-10" />
 
       <div className="container-custom">

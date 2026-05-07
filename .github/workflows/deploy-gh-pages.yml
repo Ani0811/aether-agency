@@ -26,8 +26,8 @@ jobs:
 
       - name: Set BASE and API URL for Vite
         run: |
-          echo "BASE=/${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-          echo "VITE_API_URL=https://aether-agency.onrender.com" >> $GITHUB_ENV
+          echo "BASE=/${GITHUB_REPOSITORY#*/}/" >> $GITHUB_ENV
+          echo "VITE_API_BACKEND_URL=https://aether-agency.onrender.com" >> $GITHUB_ENV
 
       - name: Build
         run: npm run build
