@@ -31,7 +31,7 @@ export default function Portfolio() {
           <p className="max-w-lg mx-auto" style={{ color: 'var(--text-secondary)' }}>Real results from real projects.</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-10">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
           {projects.map((project, index) => (
             <motion.div
               key={index}

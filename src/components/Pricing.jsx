@@ -54,7 +54,7 @@ export default function Pricing() {
           <p className="max-w-lg mx-auto" style={{ color: 'var(--text-secondary)' }}>Choose the plan that fits your business needs.</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {plans.map((plan, index) => (
             <motion.div 
               key={plan.name}

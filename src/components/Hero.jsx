@@ -17,11 +17,11 @@ export default function Hero() {
             transition={{ duration: 0.6 }}
             className="flex flex-col justify-center"
           >
-            <h1 className="text-4xl lg:text-[4rem] font-black leading-[1.1] mb-6 tracking-tighter" style={{ color: 'var(--text-primary)' }}>
+            <h1 className="text-4xl md:text-5xl lg:text-[4rem] font-black leading-[1.1] mb-6 tracking-tighter" style={{ color: 'var(--text-primary)' }}>
               We help businesses grow with <span className="gradient-text">high-converting</span> websites
             </h1>
 
-            <p className="text-lg lg:text-xl mb-10 leading-relaxed max-w-130" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-lg md:text-xl mb-10 leading-relaxed max-w-130" style={{ color: 'var(--text-secondary)' }}>
               Aether Digital bridges the gap between sophisticated engineering and compelling visual narratives. We build digital ecosystems designed to capture attention and convert audiences.
             </p>
 

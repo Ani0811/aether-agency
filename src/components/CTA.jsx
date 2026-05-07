@@ -70,7 +70,7 @@ export default function CTA() {
               className="flex flex-col justify-center"
             >
               <h2
-                className="text-4xl lg:text-5xl font-black mb-6 tracking-tighter leading-tight"
+                className="text-4xl md:text-5xl lg:text-5xl font-black mb-6 tracking-tighter leading-tight"
                 style={{ color: 'var(--text-primary)' }}
               >
                 Let's start your <br />

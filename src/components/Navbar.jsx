@@ -27,7 +27,7 @@ export default function Navbar() {
         </a>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-10">
+        <div className="hidden md:flex items-center md:gap-6 lg:gap-10">
           {['About', 'Services', 'Portfolio', 'Pricing', 'Testimonials'].map((item) => (
             <a 
               key={item} 

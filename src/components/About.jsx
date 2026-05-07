@@ -44,7 +44,7 @@ export default function About() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl lg:text-6xl font-black mb-8 tracking-tightest"
+            className="text-4xl md:text-5xl lg:text-6xl font-black mb-8 tracking-tightest"
           >
             Meet the <span className="gradient-text">Founders</span>
           </motion.h2>
@@ -68,7 +68,7 @@ export default function About() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-16 items-center`}
+              className={`flex flex-col md:flex-row ${index % 2 === 0 ? '' : 'md:flex-row-reverse'} gap-10 md:gap-16 items-center`}
             >
               {/* Image side */}
               <div className="w-full lg:w-1/2">
@@ -107,7 +107,7 @@ export default function About() {
                   {founder.color === 'cyan' ? <Zap size={16} /> : <Star size={16} />}
                   {founder.role}
                 </div>
-                <h3 className="text-3xl lg:text-5xl font-bold mb-8">{founder.name}</h3>
+                <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 lg:mb-8">{founder.name}</h3>
                 <p className="text-lg lg:text-xl leading-relaxed mb-10" style={{ color: 'var(--text-secondary)' }}>
                   {founder.description}
                 </p>
