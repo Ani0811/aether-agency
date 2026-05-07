@@ -3,14 +3,18 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
 jobs:
   build-and-deploy:
+    concurrency:
+      group: "pages"
+      cancel-in-progress: true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -19,21 +23,26 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '25'
+          node-version: '20'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Set BASE and API URL for Vite
-        run: |
-          echo "BASE=/${GITHUB_REPOSITORY#*/}/" >> $GITHUB_ENV
-          echo "VITE_API_BACKEND_URL=https://aether-agency.onrender.com" >> $GITHUB_ENV
-
       - name: Build
+        env:
+          BASE: /${{ github.event.repository.name }}/
+          VITE_API_BACKEND_URL: https://aether-agency.onrender.com
         run: npm run build
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          path: './dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
