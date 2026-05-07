@@ -46,7 +46,7 @@ export default function Hero() {
             <div className="relative z-10 rounded-[48px] overflow-hidden shadow-2xl shadow-cyan-500/30 p-2" style={{ background: 'var(--bg-glass)', border: '1px solid var(--border-subtle)' }}>
               <div className="rounded-[40px] overflow-hidden aspect-4/3">
                 <img
-                  src="/pexels-mintworkspace-18304033.jpg"
+                  src="pexels-mintworkspace-18304033.jpg"
                   alt="Aether Hero Visual"
                   className="w-full h-full object-cover opacity-90 hover:scale-105 transition-transform duration-700"
                 />

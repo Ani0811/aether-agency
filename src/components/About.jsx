@@ -7,7 +7,7 @@ const founders = [
     role: 'Technical Visionary & Full-Stack Architect',
     description: 'Expert full-stack developer dedicated to building high-performance, pixel-perfect digital ecosystems. I architect and build robust web solutions from the ground up—whether it is a complex SaaS platform, a high-converting landing page, or a custom internal tool, I translate any vision into clean, scalable code that delivers measurable impact. If you can dream it, I will code it.',
     icon: Code,
-    image: '/AnirudhaTechie.jpg',
+    image: 'AnirudhaTechie.jpg',
     color: 'cyan',
     skills: ['React & Next.js', 'Node.js Backend', 'System Architecture']
   },
@@ -16,7 +16,7 @@ const founders = [
     role: 'Creative Director & Cinematic Editor',
     description: 'A cinematic storyteller specializing in professional-grade video production and high-impact post-processing. I transform raw concepts into compelling visual narratives that captivate audiences and define brand identities. From high-energy social content to cinematic brand films, I craft the visual journey that brings your story to life, whatever the medium, whatever the request.',
     icon: Video,
-    image: '/VasudevVideoEditor.jpeg',
+    image: 'VasudevVideoEditor.jpeg',
     color: 'fuchsia',
     skills: ['Post-Production', 'Motion Graphics', 'Visual Storytelling']
   }
