@@ -7,7 +7,7 @@ const founders = [
     role: 'Technical Visionary & Full-Stack Architect',
     description: 'Expert full-stack developer dedicated to building high-performance, pixel-perfect digital ecosystems. I architect and build robust web solutions from the ground up—whether it is a complex SaaS platform, a high-converting landing page, or a custom internal tool, I translate any vision into clean, scalable code that delivers measurable impact. If you can dream it, I will code it.',
     icon: Code,
-    image: null,
+    image: '/AnirudhaTechie.jpg',
     color: 'cyan',
     skills: ['React & Next.js', 'Node.js Backend', 'System Architecture']
   },
@@ -26,9 +26,9 @@ export default function About() {
   return (
     <section id="about" className="relative py-48 overflow-hidden">
       {/* Immersive background elements */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(0,240,255,0.03)_0%,_transparent_70%)] -z-10" />
-      <div className="absolute -top-24 -left-24 w-[600px] h-[600px] bg-cyan-500/5 rounded-full blur-[160px] -z-10" />
-      <div className="absolute -bottom-24 -right-24 w-[600px] h-[600px] bg-fuchsia-500/5 rounded-full blur-[160px] -z-10" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(0,240,255,0.03)_0%,transparent_70%)] -z-10" />
+      <div className="absolute -top-24 -left-24 w-150600px] bg-cyan-500/5 rounded-full blur-[160px] -z-10" />
+      <div className="absolute -bottom-24 -right-24 w-150 h-150 bg-fuchsia-500/5 rounded-full blur-[160px] -z-10" />
 
       <div className="container-custom">
         <div className="text-center mb-32">
@@ -73,13 +73,13 @@ export default function About() {
               {/* Image side */}
               <div className="w-full lg:w-1/2">
                 <div className={`relative aspect-square max-w-md mx-auto group`}>
-                  <div className={`absolute inset-0 bg-gradient-to-br ${founder.color === 'cyan' ? 'from-cyan-500/20' : 'from-fuchsia-500/20'} to-transparent rounded-[48px] blur-2xl group-hover:blur-3xl transition-all duration-500`} />
+                  <div className={`absolute inset-0 bg-linear-to-br ${founder.color === 'cyan' ? 'from-cyan-500/20' : 'from-fuchsia-500/20'} to-transparent rounded-[48px] blur-2xl group-hover:blur-3xl transition-all duration-500`} />
                   <div className="relative h-full w-full rounded-[48px] overflow-hidden glass-card flex items-center justify-center">
                     {founder.image ? (
-                      <img 
-                        src={founder.image} 
-                        alt={founder.name} 
-                        className="w-full h-full object-cover group-hover:scale-110 group-hover:opacity-100 group-hover:brightness-110 transition-all duration-700 opacity-80" 
+                      <img
+                        src={founder.image}
+                        alt={founder.name}
+                        className="w-full h-full object-cover profile-crop group-hover:scale-110 group-hover:opacity-100 group-hover:brightness-110 transition-all duration-700 opacity-80"
                       />
                     ) : (
                       <founder.icon 
