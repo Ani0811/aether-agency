@@ -9,7 +9,7 @@ export default function Loader({ onComplete }) {
   }, [onComplete])
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-[#050508] flex flex-col items-center justify-center overflow-hidden">
+    <div className="fixed inset-0 z-9999 bg-[#050508] flex flex-col items-center justify-center overflow-hidden">
       {/* Background subtle glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px] animate-pulse" />
 
@@ -70,7 +70,7 @@ export default function Loader({ onComplete }) {
       </div>
       
       {/* Grid overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none opacity-10" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-size-[40px_40px] pointer-events-none opacity-10" />
     </div>
   )
 }
