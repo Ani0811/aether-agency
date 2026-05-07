@@ -37,6 +37,26 @@
   
   --border-subtle: rgba(0, 0, 0, 0.08);
   --border-glow: rgba(0, 240, 255, 0.3);
+  /* image overlay used for cards with photos; adapts to theme */
+  --image-overlay: linear-gradient(to top, rgba(255,255,255,0.95), rgba(255,255,255,0));
+}
+
+/* Default (dark) overlay for image cards */
+:root {
+  --image-overlay: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+}
+
+/* Skill pill used on image cards; theme-aware via data-theme */
+.skill-pill {
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+[data-theme="light"] .skill-pill {
+  color: var(--text-primary);
+  background: rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.08);
 }
 
 /* ===== Base ===== */

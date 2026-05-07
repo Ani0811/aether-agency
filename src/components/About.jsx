@@ -74,7 +74,7 @@ export default function About() {
               <div className="w-full lg:w-1/2">
                 <div className={`relative aspect-square max-w-md mx-auto group`}>
                   <div className={`absolute inset-0 bg-gradient-to-br ${founder.color === 'cyan' ? 'from-cyan-500/20' : 'from-fuchsia-500/20'} to-transparent rounded-[48px] blur-2xl group-hover:blur-3xl transition-all duration-500`} />
-                  <div className="relative h-full w-full rounded-[48px] border border-white/10 overflow-hidden bg-[#0a0a0f] glass-card flex items-center justify-center">
+                  <div className="relative h-full w-full rounded-[48px] overflow-hidden glass-card flex items-center justify-center">
                     {founder.image ? (
                       <img 
                         src={founder.image} 
@@ -87,11 +87,11 @@ export default function About() {
                         className={`opacity-20 ${founder.color === 'cyan' ? 'text-cyan-400' : 'text-fuchsia-400'} group-hover:scale-110 transition-transform duration-700`} 
                       />
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                    <div className="absolute inset-0" style={{ background: 'var(--image-overlay)' }} />
                     <div className="absolute bottom-10 left-10 right-10">
                        <div className="flex gap-2">
                          {founder.skills.map((skill, i) => (
-                           <span key={i} className="text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-white/5 border border-white/10">
+                           <span key={i} className="text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full skill-pill">
                              {skill}
                            </span>
                          ))}
@@ -107,7 +107,7 @@ export default function About() {
                   {founder.color === 'cyan' ? <Zap size={16} /> : <Star size={16} />}
                   {founder.role}
                 </div>
-                <h3 className="text-3xl lg:text-5xl font-bold mb-8 text-white">{founder.name}</h3>
+                <h3 className="text-3xl lg:text-5xl font-bold mb-8">{founder.name}</h3>
                 <p className="text-lg lg:text-xl leading-relaxed mb-10" style={{ color: 'var(--text-secondary)' }}>
                   {founder.description}
                 </p>
