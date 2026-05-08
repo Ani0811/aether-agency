@@ -70,7 +70,22 @@ export default function Hero() {
 
               <a
                 href="#"
-                className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-cyan-400 hover:text-cyan-300 transition-all border border-cyan-400/20 hover:border-cyan-400/50 px-3 py-1.5 rounded-full bg-cyan-400/5"
+                className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] transition-all border px-3 py-1.5 rounded-full"
+                style={{
+                  color: 'var(--accent-blue)',
+                  borderColor: 'var(--border-subtle)',
+                  background: 'rgba(0, 240, 255, 0.05)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'var(--accent-blue)'
+                  e.currentTarget.style.color = '#000000'
+                  e.currentTarget.style.borderColor = 'var(--accent-blue)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(0, 240, 255, 0.05)'
+                  e.currentTarget.style.color = 'var(--accent-blue)'
+                  e.currentTarget.style.borderColor = 'var(--border-subtle)'
+                }}
               >
                 <Download size={11} /> Brochure
               </a>
