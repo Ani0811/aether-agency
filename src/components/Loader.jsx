@@ -3,8 +3,8 @@ import { motion } from 'framer-motion'
 
 export default function Loader({ onComplete }) {
   useEffect(() => {
-    // Increase initial load time slightly so they can see the cool animation
-    const timer = setTimeout(onComplete, 2000)
+    // Dramatically reduced load time for a faster "millisecond" feel
+    const timer = setTimeout(onComplete, 600)
     return () => clearTimeout(timer)
   }, [onComplete])
 
