@@ -33,7 +33,7 @@ export default function Services() {
           <p className="max-w-lg mx-auto" style={{ color: 'var(--text-secondary)' }}>Specialized solutions engineered for measurable impact.</p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {services.map((service, index) => (
             <motion.div
               key={index}
