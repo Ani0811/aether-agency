@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Twitter, Instagram, Linkedin, Github } from 'lucide-react'
 
 export default function Hero() {
   return (
@@ -46,6 +46,36 @@ export default function Hero() {
                 Free Audit
               </a>
             </div>
+
+            {/* Social Proof / Links */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+              className="mt-12 flex items-center gap-8 border-t border-white/5 pt-8 w-fit"
+            >
+              <div className="flex items-center gap-5">
+                {[
+                  { icon: Twitter, href: "#", color: "hover:text-cyan-400" },
+                  { icon: Instagram, href: "#", color: "hover:text-fuchsia-400" },
+                  { icon: Linkedin, href: "#", color: "hover:text-cyan-400" },
+                  { icon: Github, href: "#", color: "hover:text-fuchsia-400" }
+                ].map((social, i) => (
+                  <a 
+                    key={i} 
+                    href={social.href} 
+                    className={`transition-all duration-300 transform hover:scale-110 ${social.color}`}
+                    style={{ color: 'var(--text-muted)' }}
+                  >
+                    <social.icon size={20} />
+                  </a>
+                ))}
+              </div>
+              <div className="h-4 w-px bg-white/10 hidden sm:block" />
+              <p className="text-[10px] font-bold uppercase tracking-[0.4em] opacity-30 hidden sm:block">
+                Follow our journey
+              </p>
+            </motion.div>
           </motion.div>
 
           {/* Visual */}
