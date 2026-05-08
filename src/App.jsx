@@ -15,6 +15,7 @@ import Footer from './components/Footer'
 import NotFound from './components/NotFound'
 
 import ScheduleModal from './components/ScheduleModal'
+import Loader from './components/Loader'
 
 function HomePage({ onScheduleCall }) {
   return (
