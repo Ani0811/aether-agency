@@ -39,20 +39,14 @@ export default function Hero() {
               >
                 View Our Work
               </a>
-              <a 
-                href="#" 
-                className="text-sm font-bold uppercase tracking-[0.2em] text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-2 ml-2"
-              >
-                <Download size={16} /> Brochure
-              </a>
             </div>
 
-            {/* Social Proof / Links */}
+            {/* Social Proof / Links / Resources */}
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}
-              className="mt-12 flex items-center gap-8 border-t border-white/5 pt-8 w-fit"
+              className="mt-12 flex flex-wrap items-center gap-8 border-t border-white/5 pt-8"
             >
               <div className="flex items-center gap-5">
                 {[
@@ -71,8 +65,19 @@ export default function Hero() {
                   </a>
                 ))}
               </div>
+
               <div className="h-4 w-px bg-white/10 hidden sm:block" />
-              <p className="text-[10px] font-bold uppercase tracking-[0.4em] opacity-30 hidden sm:block">
+
+              <a 
+                href="#" 
+                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400 hover:text-cyan-300 transition-all border border-cyan-400/20 hover:border-cyan-400/50 px-4 py-2 rounded-full bg-cyan-400/5"
+              >
+                <Download size={12} /> Brochure 2024
+              </a>
+
+              <div className="h-4 w-px bg-white/10 hidden lg:block" />
+
+              <p className="text-[10px] font-bold uppercase tracking-[0.4em] opacity-30 hidden lg:block">
                 Follow our journey
               </p>
             </motion.div>
