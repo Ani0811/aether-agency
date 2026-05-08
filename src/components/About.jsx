@@ -24,14 +24,12 @@ const founders = [
 
 export default function About() {
   return (
-    <section id="about" className="relative py-48 overflow-hidden">
+    <section id="about" className="relative py-32 overflow-hidden">
       {/* Immersive background elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(0,240,255,0.03)_0%,transparent_70%)] -z-10" />
-      <div className="absolute -top-24 -left-24 w-[600px] h-[600px] bg-cyan-500/5 rounded-full blur-[160px] -z-10" />
-      <div className="absolute -bottom-24 -right-24 w-150 h-150 bg-fuchsia-500/5 rounded-full blur-[160px] -z-10" />
-
+      
       <div className="container-custom">
-        <div className="text-center mb-32">
+        <div className="text-center mb-20">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -48,75 +46,50 @@ export default function About() {
           >
             Meet the <span className="gradient-text">Founders</span>
           </motion.h2>
-          <motion.p 
+        </div>
+
+        <div className="max-w-5xl mx-auto">
+          {/* Founders Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 mb-20">
+            {founders.map((founder, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.2 }}
+                className="flex flex-col items-center"
+              >
+                <div className="relative w-full aspect-square max-w-[320px] mb-8 group">
+                  <div className={`absolute inset-0 bg-linear-to-br ${founder.color === 'cyan' ? 'from-cyan-500/20' : 'from-fuchsia-500/20'} to-transparent rounded-[32px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                  <div className="relative h-full w-full rounded-[32px] overflow-hidden glass-card border-white/10">
+                    <img
+                      src={founder.image}
+                      alt={founder.name}
+                      className="w-full h-full object-cover profile-crop group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100"
+                    />
+                    <div className="absolute inset-0" style={{ background: 'var(--image-overlay)' }} />
+                  </div>
+                </div>
+                <h3 className="text-2xl font-bold mb-2 tracking-tight text-center">{founder.name}</h3>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-cyan-400/80 text-center">{founder.role.split(' & ')[0]}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Collaborative Description */}
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-xl lg:text-2xl max-w-4xl mx-auto leading-relaxed font-medium"
-            style={{ color: 'var(--text-secondary)' }}
+            transition={{ delay: 0.4 }}
+            className="glass-card p-8 md:p-12 border-white/5 relative overflow-hidden"
           >
-            Teaming up, we create the digital agency you can trust—merging top-tier engineering with cinematic excellence.
-          </motion.p>
-        </div>
-
-        <div className="flex flex-col gap-32">
-          {founders.map((founder, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: index % 2 === 0 ? -40 : 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className={`flex flex-col md:flex-row ${index % 2 === 0 ? '' : 'md:flex-row-reverse'} gap-10 md:gap-16 items-center`}
-            >
-              {/* Image side */}
-              <div className="w-full lg:w-1/2">
-                <div className={`relative aspect-square max-w-md mx-auto group`}>
-                  <div className={`absolute inset-0 bg-linear-to-br ${founder.color === 'cyan' ? 'from-cyan-500/20' : 'from-fuchsia-500/20'} to-transparent rounded-[48px] blur-2xl group-hover:blur-3xl transition-all duration-500`} />
-                  <div className="relative h-full w-full rounded-[48px] overflow-hidden glass-card flex items-center justify-center">
-                    {founder.image ? (
-                      <img
-                        src={founder.image}
-                        alt={founder.name}
-                        className="w-full h-full object-cover profile-crop group-hover:scale-110 group-hover:opacity-100 group-hover:brightness-110 transition-all duration-700 opacity-80"
-                      />
-                    ) : (
-                      <founder.icon 
-                        size={120} 
-                        className={`opacity-20 ${founder.color === 'cyan' ? 'text-cyan-400' : 'text-fuchsia-400'} group-hover:scale-110 transition-transform duration-700`} 
-                      />
-                    )}
-                    <div className="absolute inset-0" style={{ background: 'var(--image-overlay)' }} />
-                    <div className="absolute bottom-10 left-10 right-10">
-                       <div className="flex gap-2">
-                         {founder.skills.map((skill, i) => (
-                           <span key={i} className="text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full skill-pill">
-                             {skill}
-                           </span>
-                         ))}
-                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Text side */}
-              <div className="w-full lg:w-1/2 text-center lg:text-left">
-                <div className={`inline-flex items-center gap-2 mb-6 text-sm font-bold uppercase tracking-widest ${founder.color === 'cyan' ? 'text-cyan-400' : 'text-fuchsia-400'}`}>
-                  {founder.color === 'cyan' ? <Zap size={16} /> : <Star size={16} />}
-                  {founder.role}
-                </div>
-                <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 lg:mb-8">{founder.name}</h3>
-                <p className="text-lg lg:text-xl leading-relaxed mb-10" style={{ color: 'var(--text-secondary)' }}>
-                  {founder.description}
-                </p>
-                <div className="flex flex-wrap justify-center lg:justify-start gap-4">
-                  <button className="btn-primary">View Projects</button>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+            <div className="absolute top-0 left-0 w-1 h-full bg-linear-to-b from-cyan-400 to-fuchsia-500" />
+            <p className="text-lg md:text-xl leading-relaxed font-medium text-center md:text-left" style={{ color: 'var(--text-secondary)' }}>
+              At Aether Digital, we merge <span className="text-[var(--text-primary)] font-bold">high-end web engineering</span> with <span className="text-[var(--text-primary)] font-bold">cinematic storytelling</span> to build digital ecosystems that don't just exist—they dominate. Anirudha leads our technical front, architecting scalable, high-performance web solutions, while Vasudev drives our creative vision, crafting high-impact visual narratives that define brand identities. Our process is a seamless fusion of logic and art; we start by identifying your core goals, followed by rapid prototyping and cinematic production. Our intention is simple: to bridge the gap between sophisticated engineering and compelling narratives, providing businesses with a unified digital presence that captures attention and maximizes conversion.
+            </p>
+          </motion.div>
         </div>
       </div>
     </section>
