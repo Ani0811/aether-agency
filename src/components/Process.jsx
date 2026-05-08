@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Search, Palette, Video, Rocket } from 'lucide-react'
+import { Search, Palette, Video, Rocket, ChevronDown } from 'lucide-react'
 
 const steps = [
   { icon: Search, title: 'Discovery', description: 'We learn your goals, audience, and brand identity.' },
@@ -54,14 +54,14 @@ export default function Process() {
 
               {/* Connector for Mobile */}
               {index < steps.length - 1 && (
-                <div className="md:hidden absolute left-1/2 top-[calc(100%-20px)] h-8 w-[2px] -translate-x-1/2" style={{ background: 'var(--border-subtle)' }}>
-                  <motion.div 
-                    className="w-full bg-gradient-to-b from-purple-500 to-blue-500"
-                    initial={{ height: 0 }}
-                    whileInView={{ height: "100%" }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                  />
+                <div className="md:hidden flex justify-center py-4">
+                  <motion.div
+                    animate={{ y: [0, 5, 0] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="text-cyan-400 opacity-30"
+                  >
+                    <ChevronDown size={24} />
+                  </motion.div>
                 </div>
               )}
             </motion.div>
