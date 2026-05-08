@@ -92,16 +92,6 @@ export default function Footer() {
                 </div>
                 Chat with Vasudev
               </a>
-              <a 
-                href="mailto:contact@aetheragency.digital" 
-                className="flex items-center gap-3 text-base hover:text-cyan-400 transition-colors group mt-2"
-                style={{ color: 'var(--text-secondary)' }}
-              >
-                <div className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-white/20 transition-all">
-                  <Mail size={16} className="group-hover:text-cyan-400" style={{ color: 'var(--text-muted)' }} />
-                </div>
-                contact@aetheragency.digital
-              </a>
             </div>
           </div>
 

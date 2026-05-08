@@ -67,21 +67,23 @@ export default function CTA() {
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="flex flex-col justify-center"
+              className="flex flex-col h-full"
             >
-              <h2
-                className="text-4xl md:text-5xl lg:text-5xl font-black mb-6 tracking-tighter leading-tight"
-                style={{ color: 'var(--text-primary)' }}
-              >
-                Let's start your <br />
-                <span className="gradient-text">next project</span>
-              </h2>
-              <p className="text-lg mb-10 max-w-md" style={{ color: 'var(--text-secondary)' }}>
-                Ready to upgrade your digital presence? Fill out the form or reach out directly on
-                WhatsApp for an immediate response.
-              </p>
+              <div>
+                <h2
+                  className="text-4xl md:text-5xl lg:text-5xl font-black mb-6 tracking-tighter leading-tight"
+                  style={{ color: 'var(--text-primary)' }}
+                >
+                  Let's start your <br />
+                  <span className="gradient-text">next project</span>
+                </h2>
+                <p className="text-lg mb-10 max-w-md" style={{ color: 'var(--text-secondary)' }}>
+                  Ready to upgrade your digital presence? Fill out the form or reach out directly on
+                  WhatsApp for an immediate response.
+                </p>
+              </div>
 
-              <div className="relative w-fit">
+              <div className="relative w-fit mt-auto mb-2">
                 <motion.button
                   onClick={() => setShowWhatsAppOptions(!showWhatsAppOptions)}
                   whileHover={{ scale: 1.03, y: -2 }}
@@ -99,10 +101,10 @@ export default function CTA() {
                 <AnimatePresence>
                   {showWhatsAppOptions && (
                     <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      className="absolute top-full left-0 mt-4 p-1 rounded-2xl z-50 min-w-75 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10"
+                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: -20, scale: 1 }}
+                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                      className="absolute bottom-full left-0 mb-4 p-1 rounded-2xl z-50 min-w-75 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10"
                       style={{ 
                         background: 'rgba(15, 15, 20, 0.8)', 
                         backdropFilter: 'blur(24px)',

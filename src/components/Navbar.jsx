@@ -8,17 +8,44 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
+  const [activeSection, setActiveSection] = useState('')
+
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20)
     window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+
+    // Intersection Observer for Active Section
+    const sections = ['services', 'portfolio', 'pricing', 'testimonials', 'about', 'contact']
+    const observerOptions = {
+      root: null,
+      rootMargin: '-40% 0px -40% 0px',
+      threshold: 0
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id)
+        }
+      })
+    }, observerOptions)
+
+    sections.forEach((section) => {
+      const element = document.getElementById(section)
+      if (element) observer.observe(element)
+    })
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      observer.disconnect()
+    }
   }, [])
 
   const scrollToSection = (e, id) => {
     e.preventDefault()
     const element = document.getElementById(id)
     if (element) {
-      const offset = 80 // Navbar height
+      const offset = 80
       const bodyRect = document.body.getBoundingClientRect().top
       const elementRect = element.getBoundingClientRect().top
       const elementPosition = elementRect - bodyRect
@@ -54,17 +81,27 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center md:gap-6 lg:gap-10">
-          {['Services', 'Portfolio', 'Pricing', 'Testimonials', 'About'].map((item) => (
-            <a 
-              key={item} 
-              href={`#${item.toLowerCase()}`}
-              onClick={(e) => scrollToSection(e, item.toLowerCase())}
-              className="text-sm font-medium transition-colors hover:text-cyan-400"
-              style={{ color: 'var(--text-secondary)' }}
-            >
-              {item}
-            </a>
-          ))}
+          {['Services', 'Portfolio', 'Pricing', 'Testimonials', 'About'].map((item) => {
+            const id = item.toLowerCase()
+            const isActive = activeSection === id
+            
+            return (
+              <a 
+                key={item} 
+                href={`#${id}`}
+                onClick={(e) => scrollToSection(e, id)}
+                className={`text-sm font-bold transition-all duration-300 relative group py-2`}
+                style={{ color: isActive ? 'var(--accent-blue)' : 'var(--text-secondary)' }}
+              >
+                {item}
+                <span 
+                  className={`absolute bottom-0 left-0 h-0.5 bg-cyan-400 transition-all duration-300 ${
+                    isActive ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-1/2 group-hover:opacity-50'
+                  }`}
+                />
+              </a>
+            )
+          })}
         </div>
 
         <div className="flex items-center gap-6">
@@ -108,17 +145,22 @@ export default function Navbar() {
             }}
           >
             <div className="flex flex-col gap-6">
-              {['Services', 'Portfolio', 'Pricing', 'Testimonials', 'About'].map((item) => (
-                <a 
-                  key={item} 
-                  href={`#${item.toLowerCase()}`}
-                  onClick={(e) => scrollToSection(e, item.toLowerCase())}
-                  className="text-xl font-bold py-2 border-b border-white/5 last:border-0"
-                  style={{ color: 'var(--text-primary)' }}
-                >
-                  {item}
-                </a>
-              ))}
+              {['Services', 'Portfolio', 'Pricing', 'Testimonials', 'About'].map((item) => {
+                const id = item.toLowerCase()
+                const isActive = activeSection === id
+                return (
+                  <a 
+                    key={item} 
+                    href={`#${id}`}
+                    onClick={(e) => scrollToSection(e, id)}
+                    className={`text-2xl font-black py-4 border-b border-white/5 last:border-0 flex items-center justify-between transition-all`}
+                    style={{ color: isActive ? 'var(--accent-blue)' : 'var(--text-primary)' }}
+                  >
+                    {item}
+                    {isActive && <motion.div layoutId="activeDot" className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_10px_#00f0ff]" />}
+                  </a>
+                )
+              })}
               <button 
                 onClick={(e) => scrollToSection(e, 'contact')}
                 className="btn-primary w-full"
