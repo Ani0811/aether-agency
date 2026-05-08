@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ArrowRight, Twitter, Instagram, Linkedin, Github } from 'lucide-react'
+import { ArrowRight, Twitter, Instagram, Linkedin, Github, Download } from 'lucide-react'
 
 export default function Hero() {
   return (
@@ -40,10 +40,10 @@ export default function Hero() {
                 View Our Work
               </a>
               <a 
-                href="#contact" 
+                href="#" 
                 className="text-sm font-bold uppercase tracking-[0.2em] text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-2 ml-2"
               >
-                Free Audit
+                <Download size={16} /> Brochure
               </a>
             </div>
 
