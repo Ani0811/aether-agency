@@ -1,11 +1,16 @@
 import { motion } from 'framer-motion'
-import { Code2, Video, Rocket } from 'lucide-react'
+import { Code2, Video, Rocket, Bot } from 'lucide-react'
 
 const services = [
   {
     icon: Code2,
     title: 'Web Engineering',
     description: 'High-performance, scalable web solutions built with cutting-edge tech stacks for maximum speed and security.'
+  },
+  {
+    icon: Bot,
+    title: 'AI Agents',
+    description: 'Custom AI solutions and intelligent agents designed to automate workflows and enhance user interaction through natural language processing.'
   },
   {
     icon: Video,
