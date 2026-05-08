@@ -67,7 +67,7 @@ export default function CTA() {
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="flex flex-col h-full"
+              className="flex flex-col h-full py-8"
             >
               <div>
                 <h2
@@ -83,7 +83,7 @@ export default function CTA() {
                 </p>
               </div>
 
-              <div className="relative w-fit mt-auto mb-2">
+              <div className="relative w-fit mt-auto">
                 <motion.button
                   onClick={() => setShowWhatsAppOptions(!showWhatsAppOptions)}
                   whileHover={{ scale: 1.03, y: -2 }}
