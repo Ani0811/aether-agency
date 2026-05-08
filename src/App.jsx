@@ -14,12 +14,12 @@ import CTA from './components/CTA'
 import Footer from './components/Footer'
 import NotFound from './components/NotFound'
 
-import Loader from './components/Loader'
+import ScheduleModal from './components/ScheduleModal'
 
-function HomePage() {
+function HomePage({ onScheduleCall }) {
   return (
     <>
-      <Hero />
+      <Hero onScheduleCall={onScheduleCall} />
       <Services />
       <Portfolio />
       <Process />
@@ -33,6 +33,7 @@ function HomePage() {
 
 export default function App() {
   const [loading, setLoading] = useState(true)
+  const [isScheduleOpen, setIsScheduleOpen] = useState(false)
   const handleComplete = useCallback(() => setLoading(false), [])
 
   if (loading) {
@@ -48,8 +49,9 @@ export default function App() {
       <div className="min-h-screen">
         <CustomCursor />
         <Navbar />
+        <ScheduleModal isOpen={isScheduleOpen} onClose={() => setIsScheduleOpen(false)} />
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage onScheduleCall={() => setIsScheduleOpen(true)} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />

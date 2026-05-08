@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
-import { ArrowRight, Twitter, Instagram, Linkedin, Github, Download } from 'lucide-react'
+import { ArrowRight, Twitter, Instagram, Linkedin, Github, Download, Calendar } from 'lucide-react'
 
-export default function Hero() {
+export default function Hero({ onScheduleCall }) {
   return (
     <section className="relative overflow-hidden min-h-screen flex items-center pt-24 pb-8">
       {/* Background Ambient Glow */}
@@ -67,15 +67,16 @@ export default function Hero() {
                 href="#contact"
                 className="btn-primary flex items-center gap-3 group shadow-2xl shadow-cyan-500/40 px-7! py-3.5!"
               >
-                Contact Us
+                Get Started
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </a>
-              <a
-                href="#portfolio"
-                className="btn-secondary px-7! py-3.5! inline-flex items-center justify-center"
+              <button
+                onClick={onScheduleCall}
+                className="btn-secondary px-7! py-3.5! inline-flex items-center justify-center gap-2 hover:bg-cyan-400/5"
               >
-                View Our Work
-              </a>
+                <Calendar size={18} className="text-cyan-400" />
+                Schedule Call
+              </button>
             </div>
 
             {/* Social Proof / Links / Resources */}
