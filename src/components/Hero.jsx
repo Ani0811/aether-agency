@@ -10,12 +10,49 @@ export default function Hero() {
 
       <div className="container-custom relative z-10 w-full">
         <div className="grid lg:grid-cols-2 gap-8 items-center">
-          {/* Content */}
+          {/* Visual - First on Mobile */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative lg:ml-auto max-w-xl w-full order-1 lg:order-2"
+          >
+            <div className="relative z-10 rounded-[48px] overflow-hidden shadow-2xl shadow-cyan-500/30 p-2" style={{ background: 'var(--bg-glass)', border: '1px solid var(--border-subtle)' }}>
+              <div className="rounded-[40px] overflow-hidden aspect-4/3">
+                <img 
+                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" 
+                  alt="Aether Agency Work" 
+                  className="w-full h-full object-cover opacity-90 hover:scale-105 transition-transform duration-700"
+                />
+              </div>
+            </div>
+            {/* Floating UI element */}
+            <motion.div 
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -bottom-6 -left-6 z-20 glass-card p-4 rounded-2xl border-white/10 hidden md:block"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-cyan-400/20 flex items-center justify-center">
+                  <div className="w-5 h-5 bg-cyan-400 rounded-full animate-pulse" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-widest opacity-50">Strategy</p>
+                  <p className="text-xs font-bold">Systems Online</p>
+                </div>
+              </div>
+            </motion.div>
+            
+            {/* Decorative elements */}
+            <div className="absolute -inset-8 bg-fuchsia-500/20 blur-[100px] -z-10 opacity-50 animate-pulse" />
+          </motion.div>
+
+          {/* Content - Second on Mobile */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="flex flex-col justify-center"
+            className="flex flex-col justify-center order-2 lg:order-1"
           >
             <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-black leading-[1.1] mb-4 tracking-tighter" style={{ color: 'var(--text-primary)' }}>
               We help businesses grow with <span className="gradient-text">high-converting</span> websites
@@ -96,28 +133,6 @@ export default function Hero() {
                 Follow our journey
               </p>
             </motion.div>
-          </motion.div>
-
-          {/* Visual */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative lg:ml-auto max-w-xl w-full"
-          >
-            <div className="relative z-10 rounded-[48px] overflow-hidden shadow-2xl shadow-cyan-500/30 p-2" style={{ background: 'var(--bg-glass)', border: '1px solid var(--border-subtle)' }}>
-              <div className="rounded-[40px] overflow-hidden aspect-4/3">
-                <img
-                  src="pexels-mintworkspace-18304033.jpg"
-                  alt="Aether Hero Visual"
-                  className="w-full h-full object-cover opacity-90 hover:scale-105 transition-transform duration-700"
-                />
-              </div>
-              <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-            </div>
-
-            {/* Decorative elements */}
-            <div className="absolute -inset-8 bg-fuchsia-500/20 blur-[100px] -z-10 opacity-50 animate-pulse" />
           </motion.div>
         </div>
       </div>

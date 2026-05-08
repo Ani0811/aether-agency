@@ -51,6 +51,19 @@ export default function Process() {
                   />
                 </div>
               )}
+
+              {/* Connector for Mobile */}
+              {index < steps.length - 1 && (
+                <div className="md:hidden absolute left-1/2 top-[calc(100%-20px)] h-8 w-[2px] -translate-x-1/2" style={{ background: 'var(--border-subtle)' }}>
+                  <motion.div 
+                    className="w-full bg-gradient-to-b from-purple-500 to-blue-500"
+                    initial={{ height: 0 }}
+                    whileInView={{ height: "100%" }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                  />
+                </div>
+              )}
             </motion.div>
           ))}
         </div>
