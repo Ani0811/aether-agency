@@ -25,30 +25,30 @@ export default function Footer() {
             >
               Aether<span className="text-cyan-400">.</span>
             </a>
-            <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
               Engineering digital ecosystems that captivate and convert. We blend cinematic visuals with high-performance code.
             </p>
             <div className="flex items-center gap-4 mt-2">
-              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 transition-all" style={{ color: 'var(--text-muted)' }}>
-                <Twitter size={18} />
+              <a href="#" className="w-11 h-11 rounded-full border border-white/10 flex items-center justify-center hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 transition-all" style={{ color: 'var(--text-muted)' }}>
+                <Twitter size={20} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:text-fuchsia-400 hover:border-fuchsia-400/50 hover:bg-fuchsia-400/10 transition-all" style={{ color: 'var(--text-muted)' }}>
-                <Instagram size={18} />
+              <a href="#" className="w-11 h-11 rounded-full border border-white/10 flex items-center justify-center hover:text-fuchsia-400 hover:border-fuchsia-400/50 hover:bg-fuchsia-400/10 transition-all" style={{ color: 'var(--text-muted)' }}>
+                <Instagram size={20} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 transition-all" style={{ color: 'var(--text-muted)' }}>
-                <Linkedin size={18} />
+              <a href="#" className="w-11 h-11 rounded-full border border-white/10 flex items-center justify-center hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 transition-all" style={{ color: 'var(--text-muted)' }}>
+                <Linkedin size={20} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:text-fuchsia-400 hover:border-fuchsia-400/50 hover:bg-fuchsia-400/10 transition-all" style={{ color: 'var(--text-muted)' }}>
-                <Github size={18} />
+              <a href="#" className="w-11 h-11 rounded-full border border-white/10 flex items-center justify-center hover:text-fuchsia-400 hover:border-fuchsia-400/50 hover:bg-fuchsia-400/10 transition-all" style={{ color: 'var(--text-muted)' }}>
+                <Github size={20} />
               </a>
             </div>
           </div>
 
           {/* Quick Links */}
           <div className="flex flex-col gap-4">
-            <h4 className="font-bold mb-2 uppercase tracking-widest text-sm">Explore</h4>
+            <h4 className="font-bold mb-2 uppercase tracking-widest text-base">Explore</h4>
             {['About Us', 'Services', 'Our Portfolio', 'Pricing Plans'].map((item) => (
-              <a key={item} href="#" className="text-sm transition-colors hover:text-cyan-400 w-fit" style={{ color: 'var(--text-secondary)' }}>
+              <a key={item} href="#" className="text-base transition-colors hover:text-cyan-400 w-fit" style={{ color: 'var(--text-secondary)' }}>
                 {item}
               </a>
             ))}
@@ -56,9 +56,9 @@ export default function Footer() {
 
           {/* Legal */}
           <div className="flex flex-col gap-4">
-            <h4 className="font-bold mb-2 uppercase tracking-widest text-sm">Legal</h4>
+            <h4 className="font-bold mb-2 uppercase tracking-widest text-base">Legal</h4>
             {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map((item) => (
-              <a key={item} href="#" className="text-sm transition-colors hover:text-fuchsia-400 w-fit" style={{ color: 'var(--text-secondary)' }}>
+              <a key={item} href="#" className="text-base transition-colors hover:text-fuchsia-400 w-fit" style={{ color: 'var(--text-secondary)' }}>
                 {item}
               </a>
             ))}
@@ -66,17 +66,17 @@ export default function Footer() {
 
           {/* Contact info */}
           <div className="flex flex-col gap-4">
-            <h4 className="font-bold mb-2 uppercase tracking-widest text-sm">Connect</h4>
+            <h4 className="font-bold mb-2 uppercase tracking-widest text-base">Connect</h4>
             <div className="flex flex-col gap-3">
               <a 
                 href="https://wa.me/919875417275" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 text-sm hover:text-cyan-400 transition-colors group"
+                className="flex items-center gap-3 text-base hover:text-cyan-400 transition-colors group"
                 style={{ color: 'var(--text-secondary)' }}
               >
-                <div className="w-8 h-8 rounded-lg bg-cyan-400/10 flex items-center justify-center border border-cyan-400/20 group-hover:border-cyan-400/50 transition-all">
-                  <MessageCircle size={14} className="text-cyan-400" />
+                <div className="w-9 h-9 rounded-lg bg-cyan-400/10 flex items-center justify-center border border-cyan-400/20 group-hover:border-cyan-400/50 transition-all">
+                  <MessageCircle size={16} className="text-cyan-400" />
                 </div>
                 Chat with Anirudha
               </a>
@@ -84,21 +84,21 @@ export default function Footer() {
                 href="https://wa.me/918017790952" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 text-sm hover:text-fuchsia-400 transition-colors group"
+                className="flex items-center gap-3 text-base hover:text-fuchsia-400 transition-colors group"
                 style={{ color: 'var(--text-secondary)' }}
               >
-                <div className="w-8 h-8 rounded-lg bg-fuchsia-400/10 flex items-center justify-center border border-fuchsia-400/20 group-hover:border-fuchsia-400/50 transition-all">
-                  <MessageCircle size={14} className="text-fuchsia-400" />
+                <div className="w-9 h-9 rounded-lg bg-fuchsia-400/10 flex items-center justify-center border border-fuchsia-400/20 group-hover:border-fuchsia-400/50 transition-all">
+                  <MessageCircle size={16} className="text-fuchsia-400" />
                 </div>
                 Chat with Vasudev
               </a>
               <a 
                 href="mailto:contact@aetheragency.digital" 
-                className="flex items-center gap-3 text-sm hover:text-cyan-400 transition-colors group mt-2"
+                className="flex items-center gap-3 text-base hover:text-cyan-400 transition-colors group mt-2"
                 style={{ color: 'var(--text-secondary)' }}
               >
-                <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-white/20 transition-all">
-                  <Mail size={14} className="group-hover:text-cyan-400" style={{ color: 'var(--text-muted)' }} />
+                <div className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-white/20 transition-all">
+                  <Mail size={16} className="group-hover:text-cyan-400" style={{ color: 'var(--text-muted)' }} />
                 </div>
                 contact@aetheragency.digital
               </a>
@@ -109,12 +109,12 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
-          <p className="text-xs font-medium tracking-wide" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-sm font-medium tracking-wide" style={{ color: 'var(--text-muted)' }}>
             &copy; {currentYear} Aether Digital Agency. All rights reserved.
           </p>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-            <span className="text-xs font-bold tracking-widest uppercase text-cyan-400">Systems Online</span>
+            <span className="text-sm font-bold tracking-widest uppercase text-cyan-400">Systems Online</span>
           </div>
         </div>
       </div>
