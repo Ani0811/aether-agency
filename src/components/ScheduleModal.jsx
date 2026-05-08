@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Calendar, User, Mail, Briefcase, DollarSign, Send, CheckCircle, Loader } from 'lucide-react'
+import { X, Calendar, User, Mail, Briefcase, DollarSign, Send, CheckCircle, Loader, AlertCircle } from 'lucide-react'
 import { useState } from 'react'
 
 export default function ScheduleModal({ isOpen, onClose }) {
@@ -21,14 +21,34 @@ export default function ScheduleModal({ isOpen, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setStatus('loading')
-    setTimeout(() => {
+    
+    const API_BASE = import.meta.env.VITE_API_BACKEND_URL || ''
+    const apiEndpoint = API_BASE ? `${API_BASE.replace(/\/$/, '')}/api/contact` : '/api/contact'
+
+    try {
+      const res = await fetch(apiEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...fields,
+          currency,
+          subject: `Discovery Call Request: ${fields.service}`
+        }),
+      })
+
+      if (!res.ok) throw new Error('Failed to send')
+      
       setStatus('success')
       setTimeout(() => {
         onClose()
         setStatus('idle')
         setFields({ name: '', email: '', service: 'Websites', budget: budgetOptions[currency][0], details: '' })
-      }, 2500)
-    }, 1500)
+      }, 3000)
+    } catch (err) {
+      console.error(err)
+      setStatus('error')
+      setTimeout(() => setStatus('idle'), 4000)
+    }
   }
 
   return (
@@ -191,6 +211,17 @@ export default function ScheduleModal({ isOpen, onClose }) {
                         onChange={e => setFields({...fields, details: e.target.value})}
                       />
                     </div>
+
+                    {status === 'error' && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="flex items-center gap-2 text-red-400 text-sm px-4 py-3 rounded-xl bg-red-400/10 border border-red-400/20"
+                      >
+                        <AlertCircle size={16} />
+                        Something went wrong. Please check your connection and try again.
+                      </motion.div>
+                    )}
 
                     <motion.button
                       whileHover={{ scale: 1.02 }}
