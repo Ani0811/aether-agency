@@ -5,10 +5,10 @@ export default function Hero() {
   return (
     <section className="relative overflow-hidden min-h-screen flex items-center pt-20 pb-20">
       {/* Background Ambient Glow */}
-      <div className="absolute top-0 left-1/4 w-150600px] bg-cyan-500/20 rounded-full blur-[140px] -z-10" />
-      <div className="absolute bottom-0 right-1/4 w-125500px] bg-fuchsia-500/20 rounded-full blur-[120px] -z-10" />
+      <div className="absolute top-0 left-1/4 w-[600px] bg-cyan-500/20 rounded-full blur-[140px] -z-10" />
+      <div className="absolute bottom-0 right-1/4 w-[500px] bg-fuchsia-500/20 rounded-full blur-[120px] -z-10" />
 
-      <div className="container-custom w-full">
+      <div className="container-custom relative z-10 w-full">
         <div className="grid lg:grid-cols-2 gap-8 items-center">
           {/* Content */}
           <motion.div

@@ -54,7 +54,7 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center md:gap-6 lg:gap-10">
-          {['About', 'Services', 'Portfolio', 'Pricing', 'Testimonials'].map((item) => (
+          {['Services', 'Portfolio', 'Pricing', 'Testimonials', 'About'].map((item) => (
             <a 
               key={item} 
               href={`#${item.toLowerCase()}`}
@@ -108,7 +108,7 @@ export default function Navbar() {
             }}
           >
             <div className="flex flex-col gap-6">
-              {['About', 'Services', 'Portfolio', 'Pricing', 'Testimonials'].map((item) => (
+              {['Services', 'Portfolio', 'Pricing', 'Testimonials', 'About'].map((item) => (
                 <a 
                   key={item} 
                   href={`#${item.toLowerCase()}`}

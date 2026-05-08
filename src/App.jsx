@@ -20,12 +20,12 @@ function HomePage() {
   return (
     <>
       <Hero />
-      <About />
       <Services />
       <Portfolio />
       <Process />
       <Pricing />
       <Testimonials />
+      <About />
       <CTA />
     </>
   )
