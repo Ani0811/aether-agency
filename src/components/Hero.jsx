@@ -25,12 +25,12 @@ export default function Hero() {
               Aether Digital bridges the gap between sophisticated engineering and compelling visual narratives. We build digital ecosystems designed to capture attention and convert audiences.
             </p>
 
-            <div className="flex flex-wrap gap-6">
+            <div className="flex flex-wrap gap-6 items-center">
               <a 
                 href="#contact" 
                 className="btn-primary flex items-center gap-3 group shadow-2xl shadow-cyan-500/40 px-8! py-4!"
               >
-                Get a Free Audit
+                Contact Us
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </a>
               <a 
@@ -38,6 +38,12 @@ export default function Hero() {
                 className="btn-secondary px-8! py-4! inline-flex items-center justify-center"
               >
                 View Our Work
+              </a>
+              <a 
+                href="#contact" 
+                className="text-sm font-bold uppercase tracking-[0.2em] text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-2 ml-2"
+              >
+                Free Audit
               </a>
             </div>
           </motion.div>
