@@ -81,7 +81,7 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center md:gap-6 lg:gap-10">
-          {['Services', 'Portfolio', 'Pricing', 'Testimonials', 'About'].map((item) => {
+          {['Services', 'Portfolio', 'Pricing', 'Testimonials', 'About', 'Contact'].map((item) => {
             const id = item.toLowerCase()
             const isActive = activeSection === id
             
@@ -115,7 +115,7 @@ export default function Navbar() {
           
           <button 
             onClick={(e) => scrollToSection(e, 'contact')}
-            className="hidden md:block btn-primary !py-2.5 !text-sm !px-6"
+            className="hidden md:block btn-primary py-2.5! text-sm! px-6!"
           >
             Get Started
           </button>
@@ -145,7 +145,7 @@ export default function Navbar() {
             }}
           >
             <div className="flex flex-col gap-6">
-              {['Services', 'Portfolio', 'Pricing', 'Testimonials', 'About'].map((item) => {
+              {['Services', 'Portfolio', 'Pricing', 'Testimonials', 'About', 'Contact'].map((item) => {
                 const id = item.toLowerCase()
                 const isActive = activeSection === id
                 return (
