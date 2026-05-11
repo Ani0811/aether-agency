@@ -111,7 +111,7 @@ export default function About() {
           >
             <div className="absolute top-0 left-0 w-1.5 h-full bg-linear-to-b from-cyan-400 to-fuchsia-500" />
             <div className="grid md:grid-cols-2 gap-8">
-              <div className="space-y-6">shrink-0
+              <div className="space-y-6">
                 <div className="flex gap-4">
                   <div className="w-6 h-6 rounded-full bg-cyan-400/10 flex items-center justify-center shrink-0 mt-1 border border-cyan-400/20">
                     <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" />
