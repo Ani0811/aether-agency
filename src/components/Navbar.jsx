@@ -2,13 +2,17 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
 import { Sun, Moon, Menu, X } from 'lucide-react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
-export default function Navbar() {
+export default function Navbar({ onScheduleCall }) {
   const { theme, toggleTheme } = useTheme()
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const [activeSection, setActiveSection] = useState('')
+  
+  const location = useLocation()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20)
@@ -30,19 +34,30 @@ export default function Navbar() {
       })
     }, observerOptions)
 
-    sections.forEach((section) => {
-      const element = document.getElementById(section)
-      if (element) observer.observe(element)
-    })
+    if (location.pathname === '/') {
+      sections.forEach((section) => {
+        const element = document.getElementById(section)
+        if (element) observer.observe(element)
+      })
+    } else {
+      setActiveSection('')
+    }
 
     return () => {
       window.removeEventListener('scroll', handleScroll)
       observer.disconnect()
     }
-  }, [])
+  }, [location.pathname])
 
   const scrollToSection = (e, id) => {
     e.preventDefault()
+    setMobileMenuOpen(false)
+
+    if (location.pathname !== '/') {
+      navigate(`/#${id}`)
+      return
+    }
+
     const element = document.getElementById(id)
     if (element) {
       const offset = 80
@@ -56,7 +71,6 @@ export default function Navbar() {
         behavior: 'smooth'
       })
     }
-    setMobileMenuOpen(false)
   }
 
   return (
@@ -71,7 +85,11 @@ export default function Navbar() {
           href="/" 
           onClick={(e) => {
             e.preventDefault()
-            window.scrollTo({ top: 0, behavior: 'smooth' })
+            if (location.pathname !== '/') {
+              navigate('/')
+            } else {
+              window.scrollTo({ top: 0, behavior: 'smooth' })
+            }
           }}
           className="text-2xl font-black tracking-tighter uppercase" 
           style={{ color: 'var(--text-primary)' }}
@@ -114,7 +132,7 @@ export default function Navbar() {
           </button>
           
           <button 
-            onClick={(e) => scrollToSection(e, 'contact')}
+            onClick={onScheduleCall}
             className="hidden md:block btn-primary py-2.5! text-sm! px-6!"
           >
             Get Started
@@ -162,7 +180,10 @@ export default function Navbar() {
                 )
               })}
               <button 
-                onClick={(e) => scrollToSection(e, 'contact')}
+                onClick={() => {
+                  setMobileMenuOpen(false)
+                  onScheduleCall()
+                }}
                 className="btn-primary w-full"
               >
                 Get Started

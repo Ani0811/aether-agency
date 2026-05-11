@@ -9,13 +9,13 @@ export default function ScheduleModal({ isOpen, onClose }) {
     name: '',
     email: '',
     service: 'Websites',
-    budget: '$1,000 - $3,000',
+    budget: '$3,000',
     details: ''
   })
 
   const budgetOptions = {
-    USD: ['$1,000 - $3,000', '$3,000 - $10,000', '$10,000+'],
-    INR: ['₹50k - ₹2.5L', '₹2.5L - ₹10L', '₹10L+']
+    USD: ['$1,000', '$3,000', '$10,000', '$25,000+'],
+    INR: ['₹50,000', '₹2,50,000', '₹10,00,000', '₹25,00,000+']
   }
 
   const handleSubmit = async (e) => {
@@ -54,7 +54,7 @@ export default function ScheduleModal({ isOpen, onClose }) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6">
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-4 md:p-6">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -82,12 +82,12 @@ export default function ScheduleModal({ isOpen, onClose }) {
               <X size={20} />
             </button>
 
-            <div className="p-8 md:p-12 overflow-y-auto max-h-[85vh]">
-              <div className="mb-10">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-400/10 border border-cyan-400/20 text-cyan-400 text-[10px] font-black uppercase tracking-widest mb-4">
+            <div className="p-6 md:p-8 overflow-y-auto max-h-[85vh]">
+              <div className="mb-6">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-400/10 border border-cyan-400/20 text-cyan-400 text-[10px] font-black uppercase tracking-widest mb-2">
                   <Calendar size={12} /> Priority Booking
                 </div>
-                <h2 className="text-3xl md:text-4xl font-black mb-4 tracking-tighter" style={{ color: 'var(--text-primary)' }}>
+                <h2 className="text-3xl font-black mb-2 tracking-tighter" style={{ color: 'var(--text-primary)' }}>
                   Schedule a <span className="gradient-text">Discovery Call</span>
                 </h2>
                 <p className="text-sm md:text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
@@ -110,8 +110,8 @@ export default function ScheduleModal({ isOpen, onClose }) {
                     <p style={{ color: 'var(--text-secondary)' }}>We'll reach out shortly to confirm your slot.</p>
                   </motion.div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid md:grid-cols-2 gap-6">
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
                           <User size={12} /> Full Name
@@ -120,7 +120,7 @@ export default function ScheduleModal({ isOpen, onClose }) {
                           required
                           type="text"
                           placeholder="Anirudha Basu"
-                          className="w-full bg-black/5 dark:bg-white/5 border rounded-xl px-5 py-4 outline-none transition-all"
+                          className="w-full bg-black/5 dark:bg-white/5 border rounded-xl px-4 py-2.5 outline-none transition-all"
                           style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
                           value={fields.name}
                           onChange={e => setFields({...fields, name: e.target.value})}
@@ -134,7 +134,7 @@ export default function ScheduleModal({ isOpen, onClose }) {
                           required
                           type="email"
                           placeholder="contact@aether.com"
-                          className="w-full bg-black/5 dark:bg-white/5 border rounded-xl px-5 py-4 outline-none transition-all"
+                          className="w-full bg-black/5 dark:bg-white/5 border rounded-xl px-4 py-2.5 outline-none transition-all"
                           style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
                           value={fields.email}
                           onChange={e => setFields({...fields, email: e.target.value})}
@@ -142,21 +142,21 @@ export default function ScheduleModal({ isOpen, onClose }) {
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-6">
+                    <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
                           <Briefcase size={12} /> Service
                         </label>
                         <select 
-                          className="w-full bg-black/5 dark:bg-white/5 border rounded-xl px-5 py-4 outline-none transition-all appearance-none cursor-pointer"
+                          className="w-full bg-black/5 dark:bg-white/5 border rounded-xl px-4 py-2.5 outline-none transition-all appearance-none cursor-pointer"
                           style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
                           value={fields.service}
                           onChange={e => setFields({...fields, service: e.target.value})}
                         >
-                          <option value="Websites" className="bg-[var(--bg-card)]">Websites</option>
-                          <option value="AI Agents" className="bg-[var(--bg-card)]">AI Agents</option>
-                          <option value="Videos" className="bg-[var(--bg-card)]">Videos</option>
-                          <option value="Strategy" className="bg-[var(--bg-card)]">Strategy</option>
+                          <option value="Websites" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>Websites</option>
+                          <option value="AI Agents" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>AI Agents</option>
+                          <option value="Videos" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>Videos</option>
+                          <option value="Strategy" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>Strategy</option>
                         </select>
                       </div>
                       <div className="space-y-2">
@@ -176,7 +176,7 @@ export default function ScheduleModal({ isOpen, onClose }) {
                                 className={`px-2 py-0.5 rounded-md text-[9px] font-black transition-all ${
                                   currency === curr 
                                     ? 'bg-cyan-400 text-black shadow-lg' 
-                                    : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+                                    : 'text-(--text-muted) hover:text-(--text-primary)'
                                 }`}
                               >
                                 {curr}
@@ -185,13 +185,13 @@ export default function ScheduleModal({ isOpen, onClose }) {
                           </div>
                         </div>
                         <select 
-                          className="w-full bg-black/5 dark:bg-white/5 border rounded-xl px-5 py-4 outline-none transition-all appearance-none cursor-pointer"
+                          className="w-full bg-black/5 dark:bg-white/5 border rounded-xl px-4 py-2.5 outline-none transition-all appearance-none cursor-pointer"
                           style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
                           value={fields.budget}
                           onChange={e => setFields({...fields, budget: e.target.value})}
                         >
                           {budgetOptions[currency].map(opt => (
-                            <option key={opt} value={opt} className="bg-[var(--bg-card)]">{opt}</option>
+                            <option key={opt} value={opt} style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>{opt}</option>
                           ))}
                         </select>
                       </div>
@@ -203,9 +203,9 @@ export default function ScheduleModal({ isOpen, onClose }) {
                       </label>
                       <textarea 
                         required
-                        rows="4"
+                        rows="3"
                         placeholder="Tell us about your project goals..."
-                        className="w-full bg-black/5 dark:bg-white/5 border rounded-xl px-5 py-4 outline-none transition-all resize-none"
+                        className="w-full bg-black/5 dark:bg-white/5 border rounded-xl px-4 py-2.5 outline-none transition-all resize-none h-24"
                         style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
                         value={fields.details}
                         onChange={e => setFields({...fields, details: e.target.value})}
@@ -216,7 +216,7 @@ export default function ScheduleModal({ isOpen, onClose }) {
                       <motion.div
                         initial={{ opacity: 0, y: -4 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="flex items-center gap-2 text-red-400 text-sm px-4 py-3 rounded-xl bg-red-400/10 border border-red-400/20"
+                        className="flex items-center gap-2 text-red-400 text-sm px-4 py-2 rounded-xl bg-red-400/10 border border-red-400/20"
                       >
                         <AlertCircle size={16} />
                         Something went wrong. Please check your connection and try again.
@@ -228,7 +228,7 @@ export default function ScheduleModal({ isOpen, onClose }) {
                       whileTap={{ scale: 0.98 }}
                       type="submit"
                       disabled={status === 'loading'}
-                      className="btn-primary w-full flex items-center justify-center gap-3 py-5 rounded-2xl shadow-xl"
+                      className="btn-primary w-full flex items-center justify-center gap-3 py-4 rounded-2xl shadow-xl"
                     >
                       {status === 'loading' ? (
                         <>

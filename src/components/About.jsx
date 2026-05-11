@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Code, Video, Star, Zap } from 'lucide-react'
+import { Code, Video, Star, Zap, Handshake } from 'lucide-react'
 
 const founders = [
   {
@@ -85,13 +85,13 @@ export default function About() {
                 transition={{ duration: 0.8, delay: index * 0.1 }}
                 className="flex flex-col items-center"
               >
-                <div className="relative w-full aspect-square max-w-[280px] mb-6 group">
+                <div className="relative w-full aspect-square max-w-70 mb-6 group">
                   <div className={`absolute inset-0 bg-linear-to-br ${founder.color === 'cyan' ? 'from-cyan-500/30' : 'from-fuchsia-500/30'} to-transparent rounded-[40px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                   <div className="relative h-full w-full rounded-[40px] overflow-hidden glass-card border-white/10 shadow-2xl">
                     <img
                       src={founder.image}
                       alt={founder.name}
-                      className="w-full h-full object-cover profile-crop group-hover:scale-110 transition-all duration-1000 opacity-90 group-hover:opacity-100 grayscale-[30%] group-hover:grayscale-0"
+                      className="w-full h-full object-cover profile-crop group-hover:scale-110 transition-all duration-1000 opacity-90 group-hover:opacity-100 grayscale-30 group-hover:grayscale-0"
                     />
                     <div className="absolute inset-0" style={{ background: 'var(--image-overlay)' }} />
                   </div>
@@ -111,9 +111,9 @@ export default function About() {
           >
             <div className="absolute top-0 left-0 w-1.5 h-full bg-linear-to-b from-cyan-400 to-fuchsia-500" />
             <div className="grid md:grid-cols-2 gap-8">
-              <div className="space-y-6">
+              <div className="space-y-6">shrink-0
                 <div className="flex gap-4">
-                  <div className="w-6 h-6 rounded-full bg-cyan-400/10 flex items-center justify-center flex-shrink-0 mt-1 border border-cyan-400/20">
+                  <div className="w-6 h-6 rounded-full bg-cyan-400/10 flex items-center justify-center shrink-0 mt-1 border border-cyan-400/20">
                     <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" />
                   </div>
                   <div>
@@ -122,7 +122,7 @@ export default function About() {
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <div className="w-6 h-6 rounded-full bg-fuchsia-400/10 flex items-center justify-center flex-shrink-0 mt-1 border border-fuchsia-400/20">
+                  <div className="w-6 h-6 rounded-full bg-fuchsia-400/10 flex items-center justify-center shrink-0 mt-1 border border-fuchsia-400/20">
                     <div className="w-1.5 h-1.5 bg-fuchsia-400 rounded-full animate-pulse" />
                   </div>
                   <div>
@@ -133,7 +133,7 @@ export default function About() {
               </div>
               <div className="space-y-6">
                 <div className="flex gap-4">
-                  <div className="w-6 h-6 rounded-full bg-cyan-400/10 flex items-center justify-center flex-shrink-0 mt-1 border border-cyan-400/20">
+                  <div className="w-6 h-6 rounded-full bg-cyan-400/10 flex items-center justify-center shrink-0 mt-1 border border-cyan-400/20">
                     <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" />
                   </div>
                   <div>
@@ -142,7 +142,7 @@ export default function About() {
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <div className="w-6 h-6 rounded-full bg-fuchsia-400/10 flex items-center justify-center flex-shrink-0 mt-1 border border-fuchsia-400/20">
+                  <div className="w-6 h-6 rounded-full bg-fuchsia-400/10 flex items-center justify-center shrink-0er border-fuchsia-400/20">
                     <div className="w-1.5 h-1.5 bg-fuchsia-400 rounded-full animate-pulse" />
                   </div>
                   <div>

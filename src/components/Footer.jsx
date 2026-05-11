@@ -1,8 +1,41 @@
 import { motion } from 'framer-motion'
 import { Instagram, Twitter, Linkedin, Github, Mail, MessageCircle } from 'lucide-react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const scrollToSection = (e, id) => {
+    e.preventDefault()
+
+    if (location.pathname !== '/') {
+      navigate(`/#${id}`)
+      return
+    }
+
+    const element = document.getElementById(id)
+    if (element) {
+      const offset = 80
+      const bodyRect = document.body.getBoundingClientRect().top
+      const elementRect = element.getBoundingClientRect().top
+      const elementPosition = elementRect - bodyRect
+      const offsetPosition = elementPosition - offset
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      })
+    }
+  }
+
+  const exploreLinks = [
+    { label: 'About Us', id: 'about' },
+    { label: 'Services', id: 'services' },
+    { label: 'Our Portfolio', id: 'portfolio' },
+    { label: 'Pricing Plans', id: 'pricing' }
+  ]
 
   return (
     <footer className="relative pt-32 pb-10 overflow-hidden border-t" style={{ borderColor: 'var(--border-subtle)', background: 'var(--bg-primary)' }}>
@@ -19,7 +52,11 @@ export default function Footer() {
               href="/" 
               onClick={(e) => {
                 e.preventDefault()
-                window.scrollTo({ top: 0, behavior: 'smooth' })
+                if (location.pathname !== '/') {
+                  navigate('/')
+                } else {
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }
               }}
               className="text-3xl font-black tracking-tighter uppercase inline-block"
             >
@@ -47,9 +84,15 @@ export default function Footer() {
           {/* Quick Links */}
           <div className="flex flex-col gap-4">
             <h4 className="font-bold mb-2 uppercase tracking-widest text-base">Explore</h4>
-            {['About Us', 'Services', 'Our Portfolio', 'Pricing Plans'].map((item) => (
-              <a key={item} href="#" className="text-base transition-colors hover:text-cyan-400 w-fit" style={{ color: 'var(--text-secondary)' }}>
-                {item}
+            {exploreLinks.map((item) => (
+              <a 
+                key={item.label} 
+                href={`#${item.id}`} 
+                onClick={(e) => scrollToSection(e, item.id)}
+                className="text-base transition-colors hover:text-cyan-400 w-fit" 
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                {item.label}
               </a>
             ))}
           </div>

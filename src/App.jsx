@@ -24,7 +24,7 @@ function HomePage({ onScheduleCall }) {
       <Services />
       <Portfolio />
       <Process />
-      <Pricing />
+      <Pricing onScheduleCall={onScheduleCall} />
       <Testimonials />
       <About />
       <CTA />
@@ -49,7 +49,7 @@ export default function App() {
     <ThemeProvider>
       <div className="min-h-screen">
         <CustomCursor />
-        <Navbar />
+        <Navbar onScheduleCall={() => setIsScheduleOpen(true)} />
         <ScheduleModal isOpen={isScheduleOpen} onClose={() => setIsScheduleOpen(false)} />
         <Routes>
           <Route path="/" element={<HomePage onScheduleCall={() => setIsScheduleOpen(true)} />} />
