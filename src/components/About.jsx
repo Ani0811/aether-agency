@@ -50,7 +50,7 @@ export default function About() {
 
         <div className="max-w-4xl mx-auto relative">
           {/* Connecting Line (Nokia Style) */}
-          <div className="hidden md:block absolute top-[140px] left-1/2 -translate-x-1/2 w-[200px] z-0 pointer-events-none">
+          <div className="hidden md:block absolute top-35 left-1/2 -translate-x-1/2 w-50 z-0 pointer-events-none">
             <svg width="200" height="40" viewBox="0 0 200 40" fill="none">
               <motion.path
                 d="M0 20 Q 50 0, 100 20 T 200 20"
