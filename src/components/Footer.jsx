@@ -58,9 +58,17 @@ export default function Footer() {
                   window.scrollTo({ top: 0, behavior: 'smooth' })
                 }
               }}
-              className="text-3xl font-black tracking-tighter uppercase inline-block"
+              className="inline-block group"
             >
-              Aether<span className="text-cyan-400">.</span>
+              <img 
+                src={`${import.meta.env.BASE_URL}G-OneMedia.png`.replace(/\/+/g, '/')} 
+                alt="G-One Media Logo" 
+                className="h-24 w-80 object-contain object-left block transition-transform duration-500 ease-out group-hover:scale-115" 
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.parentElement.innerText = 'G-One Media';
+                }}
+              />
             </a>
             <p className="text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
               Engineering digital ecosystems that captivate and convert. We blend cinematic visuals with high-performance code.

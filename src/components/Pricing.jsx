@@ -163,8 +163,8 @@ export default function Pricing({ onScheduleCall }) {
                     onClick={() => setActiveCategory(cat)}
                     className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
                       isActive 
-                        ? 'bg-[var(--accent-blue)] text-black shadow-lg' 
-                        : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-white/5'
+                        ? 'bg-(--accent-blue)-black shadow-lg' 
+                        : 'text-(--text-muted) hover:text-(--text-primary) hover:bg-white/5'
                     }`}
                   >
                     <IconName size={16} className={isActive ? 'text-black' : ''} />
@@ -183,7 +183,7 @@ export default function Pricing({ onScheduleCall }) {
                   className={`px-5 py-2 rounded-lg text-sm font-black transition-all ${
                     currency === curr 
                       ? 'bg-fuchsia-500 text-white shadow-lg' 
-                      : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+                      : 'text-(--text-muted) hover:text-(--text-primary)'
                   }`}
                 >
                   {curr}
@@ -213,7 +213,7 @@ export default function Pricing({ onScheduleCall }) {
                 className="glass-card p-8 lg:p-10 relative overflow-hidden flex flex-col group cursor-pointer transition-all duration-300"
               >
                 {/* Hover background glow */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-blue)]/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <div className="absolute inset-0 bg-linear-to-br from-(--accent-blue)/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                 
                 {/* Subtle background icon */}
                 <div className="absolute top-0 right-0 p-6 opacity-[0.03] transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:opacity-10">
@@ -226,15 +226,15 @@ export default function Pricing({ onScheduleCall }) {
                   </span>
                   
                   <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-4xl font-black tracking-tighter text-[var(--text-primary)] group-hover:text-cyan-400 transition-colors duration-300">
+                    <span className="text-4xl font-black tracking-tighter text-(--text-primary) group-hover:text-cyan-400 transition-colors duration-300">
                       {plan.price[currency]}
                     </span>
                   </div>
-                  <span className="text-xs font-semibold text-[var(--text-muted)] group-hover:text-cyan-400/80 mb-6 tracking-wide">
+                  <span className="text-xs font-semibold text-(--text-muted) group-hover:text-cyan-400/80 mb-6 tracking-wide">
                     {plan.period}
                   </span>
                   
-                  <p className="text-sm mb-8 font-medium text-[var(--text-secondary)]">{plan.description}</p>
+                  <p className="text-sm mb-8 font-medium text-(--text-secondary)">{plan.description}</p>
 
                   <div className="space-y-4 mb-10 grow">
                     {plan.features.map((feature) => (
@@ -249,7 +249,7 @@ export default function Pricing({ onScheduleCall }) {
 
                   <button 
                     onClick={onScheduleCall}
-                    className="w-full py-4 text-sm font-bold rounded-xl transition-all duration-300 bg-transparent border border-white/10 hover:border-cyan-500/50 hover:bg-cyan-500/10 text-[var(--text-primary)]"
+                    className="w-full py-4 text-sm font-bold rounded-xl transition-all duration-300 bg-transparent border border-white/10 hover:border-cyan-500/50 hover:bg-cyan-500/10 text-(--text-primary)"
                   >
                     Get Started
                   </button>
@@ -281,10 +281,10 @@ export default function Pricing({ onScheduleCall }) {
                     key={index}
                     className="group flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-6 border-b border-white/5 last:border-0 hover:bg-white/5 transition-all"
                   >
-                    <div className="font-bold text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] mb-2 sm:mb-0 transition-colors">
+                    <div className="font-bold text-(--text-secondary) group-hover:text-(--text-primary) sm:mb-0 transition-colors">
                       {service.name}
                     </div>
-                    <div className="font-black text-[var(--text-primary)] tracking-tight px-4 py-1.5 rounded-lg bg-black/20 group-hover:bg-[var(--accent-blue)] group-hover:text-black transition-all">
+                    <div className="font-black text-(--text-primary) tracking-tight px-4 py-1.5 rounded-lg bg-black/20 group-hover:bg-(--accent-blue) group-hover:text-black transition-all">
                       {currency === 'INR' ? '₹' + service.price.INR : service.price.USD}
                     </div>
                   </div>
