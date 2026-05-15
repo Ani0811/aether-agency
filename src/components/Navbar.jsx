@@ -91,16 +91,16 @@ export default function Navbar({ onScheduleCall }) {
               window.scrollTo({ top: 0, behavior: 'smooth' })
             }
           }}
-          className="flex items-center group relative" 
+          className="flex items-center relative" 
           style={{ color: 'var(--text-primary)' }}
         >
           {/* Logo Glow Effect */}
-          <div className="absolute -inset-2 bg-cyan-500/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="absolute -inset-2 bg-cyan-500/20 blur-xl rounded-full opacity-100" />
           
           <img 
             src={`${import.meta.env.BASE_URL}G-OneMedia.png`.replace(/\/+/g, '/')} 
             alt="G-One Media Logo" 
-            className="h-16 w-48 object-contain object-left block relative z-10 transition-transform duration-500 ease-out group-hover:scale-125 origin-left" 
+            className="h-16 w-48 object-contain object-left block relative z-10 scale-125 origin-left" 
             onError={(e) => {
               console.error("Logo failed to load", e.target.src);
               e.target.style.display = 'none';

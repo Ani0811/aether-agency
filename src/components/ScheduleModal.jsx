@@ -15,7 +15,7 @@ export default function ScheduleModal({ isOpen, onClose }) {
 
   const budgetOptions = {
     USD: ['$1,000', '$3,000', '$10,000', '$25,000+'],
-    INR: ['₹50,000', '₹2,50,000', '₹10,00,000', '₹25,00,000+']
+    INR: ['₹10,000', '₹20,000', '₹50,000', '₹1,00,000+']
   }
 
   const handleSubmit = async (e) => {
@@ -119,7 +119,7 @@ export default function ScheduleModal({ isOpen, onClose }) {
                         <input 
                           required
                           type="text"
-                          placeholder="Anirudha Basu"
+                          placeholder="Your name"
                           className="w-full bg-black/5 dark:bg-white/5 border rounded-xl px-4 py-2.5 outline-none transition-all"
                           style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
                           value={fields.name}
@@ -156,7 +156,7 @@ export default function ScheduleModal({ isOpen, onClose }) {
                           <option value="Websites" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>Websites</option>
                           <option value="AI Agents" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>AI Agents</option>
                           <option value="Videos" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>Videos</option>
-                          <option value="Strategy" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>Strategy</option>
+                          <option value="Consultation" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>Consultation</option>
                         </select>
                       </div>
                       <div className="space-y-2">

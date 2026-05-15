@@ -8,21 +8,21 @@ const pricingData = {
     packages: [
       {
         name: 'Starter', icon: Sparkles,
-        price: { INR: '₹25,000', USD: '$300' },
+        price: { INR: '₹10,000', USD: '$150' },
         period: '/ project',
         description: 'Perfect for local businesses',
         features: ['Up to 5 Pages', 'Responsive Design', 'Contact Form', 'Basic SEO']
       },
       {
         name: 'Growth', icon: Zap,
-        price: { INR: '₹60,000', USD: '$750' },
+        price: { INR: '₹20,000', USD: '$250' },
         period: '/ project',
         description: 'For scaling companies',
         features: ['Custom UI Design', 'CMS Integration', 'Advanced Animations', 'Performance Optimization']
       },
       {
         name: 'Premium', icon: Building2,
-        price: { INR: '₹1.2L+', USD: '$1,500+' },
+        price: { INR: '₹50,000+', USD: '$600+' },
         period: '/ project +',
         description: 'Enterprise level solutions',
         features: ['Advanced Integrations', 'Custom Dashboards', 'Workflow Automations', 'AI Features']
@@ -41,21 +41,21 @@ const pricingData = {
     packages: [
       {
         name: 'Starter Package', icon: Sparkles,
-        price: { INR: '₹12K - ₹18K', USD: '$150 - $250' },
+        price: { INR: '₹10K - ₹15K', USD: '$120 - $200' },
         period: '/ month',
         description: 'Consistent content engine',
         features: ['12 Reels / Shorts per month', 'Standard Pacing & Cuts', 'Basic Motion Graphics', 'Trending Audio']
       },
       {
         name: 'Growth Package', icon: Zap,
-        price: { INR: '₹25K - ₹40K', USD: '$300 - $500' },
+        price: { INR: '₹20K - ₹35K', USD: '$250 - $450' },
         period: '/ month',
         description: 'Aggressive reach',
         features: ['20 Reels / Shorts per month', 'Advanced Motion Graphics', 'Retention Hooks', 'Scripting Assistance']
       },
       {
         name: 'Premium Package', icon: Building2,
-        price: { INR: '₹50K - ₹80K+', USD: '$600 - $1,000+' },
+        price: { INR: '₹50K - ₹100K+', USD: '$600 - $1,200+' },
         period: '/ month',
         description: 'Full channel dominance',
         features: ['30+ Reels / Shorts per month', 'Full Channel Management', 'Cinematic Edits', 'Dedicated Content Strategist']
@@ -75,21 +75,21 @@ const pricingData = {
     packages: [
       {
         name: 'Basic Bot', icon: Sparkles,
-        price: { INR: '₹25,000', USD: '$300' },
+        price: { INR: '₹10,000', USD: '$150' },
         period: 'starts from',
         description: 'Customer Support and FAQs',
         features: ['Website Integration', 'Knowledge Base Training', 'Lead Capture Form', 'Email Notifications']
       },
       {
         name: 'Advanced Agent', icon: Zap,
-        price: { INR: '₹50,000', USD: '$600' },
+        price: { INR: '₹20,000', USD: '$250' },
         period: 'starts from',
         description: 'Complex intelligent flows',
         features: ['API Integrations (CRM/ERP)', 'Appointment Scheduling', 'Sentiment Analysis', 'Multi-channel (Web, WA)']
       },
       {
         name: 'Full AI Ecosystem', icon: Building2,
-        price: { INR: '₹1.5L+', USD: '$1,800+' },
+        price: { INR: '₹50,000+', USD: '$600+' },
         period: 'starts from',
         description: 'Enterprise automation',
         features: ['Autonomous multi-agent', 'Custom AI Pipelines', 'Internal Team Tools', 'Ongoing Optimization']
@@ -107,21 +107,21 @@ const pricingData = {
     packages: [
       {
         name: 'Launch', icon: Sparkles,
-        price: { INR: '₹20,000', USD: '$250' },
+        price: { INR: '₹10,000', USD: '$150' },
         period: '/ month',
         description: 'Establish your presence',
         features: ['Social Media Management', '8 Posts per month', 'Basic Engagement Strategy', 'Monthly Report']
       },
       {
         name: 'Scale', icon: Zap,
-        price: { INR: '₹45,000', USD: '$550' },
+        price: { INR: '₹20,000', USD: '$250' },
         period: '/ month',
         description: 'Drive traffic and leads',
         features: ['Advanced SEO Implementation', '15 Social Posts / mo', 'Ad Campaign Management', 'Bi-weekly Strategy Call']
       },
       {
         name: 'Dominate', icon: Building2,
-        price: { INR: '₹90,000+', USD: '$1,100+' },
+        price: { INR: '₹50,000+', USD: '$600+' },
         period: '/ month',
         description: 'Market leadership',
         features: ['Omnichannel Strategy', 'Unlimited Ad Management', 'Daily Content Publishing', 'Advanced Analytics Dashboard']

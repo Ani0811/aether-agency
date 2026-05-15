@@ -19,7 +19,7 @@ const services = [
   },
   {
     icon: Rocket,
-    title: 'Digital Strategy',
+    title: 'Digital Consultation',
     description: 'Data-driven growth strategies and marketing automation to scale your reach and maximize conversion rates.'
   }
 ]

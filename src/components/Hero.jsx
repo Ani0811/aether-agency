@@ -37,7 +37,7 @@ export default function Hero({ onScheduleCall }) {
                   <div className="w-5 h-5 bg-cyan-400 rounded-full animate-pulse" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-widest opacity-50">Strategy</p>
+                  <p className="text-[10px] font-black uppercase tracking-widest opacity-50">Consultation</p>
                   <p className="text-xs font-bold">Systems Online</p>
                 </div>
               </div>
