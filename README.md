@@ -2,7 +2,7 @@
 
 Aether Agency bridges the gap between sophisticated engineering and compelling visual narratives. We build high-performance digital ecosystems designed to capture attention, build trust, and convert audiences.
 
-![Aether Agency Preview](G-OneMedia.png)
+![Aether Agency Preview](public/G-OneMedia.png)
 
 ## 🚀 Our Mission
 In an era of digital noise, we focus on **Engineering Impact**. Our work is a fusion of data-driven strategy and premium aesthetics, tailored for businesses that demand excellence and results.
