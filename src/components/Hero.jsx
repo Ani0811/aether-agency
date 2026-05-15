@@ -65,6 +65,21 @@ export default function Hero({ onScheduleCall }) {
             <div className="flex flex-wrap gap-4 items-center">
               <a
                 href="#contact"
+                onClick={(e) => {
+                  e.preventDefault()
+                  const element = document.getElementById('contact')
+                  if (element) {
+                    const offset = 80
+                    const bodyRect = document.body.getBoundingClientRect().top
+                    const elementRect = element.getBoundingClientRect().top
+                    const elementPosition = elementRect - bodyRect
+                    const offsetPosition = elementPosition - offset
+                    window.scrollTo({
+                      top: offsetPosition,
+                      behavior: 'smooth'
+                    })
+                  }
+                }}
                 className="btn-primary flex items-center gap-3 group shadow-2xl shadow-cyan-500/40 px-7! py-3.5!"
               >
                 Get Started

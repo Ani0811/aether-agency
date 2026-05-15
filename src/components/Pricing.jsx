@@ -247,12 +247,27 @@ export default function Pricing({ onScheduleCall }) {
                     ))}
                   </div>
 
-                  <button 
-                    onClick={onScheduleCall}
-                    className="w-full py-4 text-sm font-bold rounded-xl transition-all duration-300 bg-transparent border border-white/10 hover:border-cyan-500/50 hover:bg-cyan-500/10 text-(--text-primary)"
+                  <a 
+                    href="#contact"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      const element = document.getElementById('contact')
+                      if (element) {
+                        const offset = 80
+                        const bodyRect = document.body.getBoundingClientRect().top
+                        const elementRect = element.getBoundingClientRect().top
+                        const elementPosition = elementRect - bodyRect
+                        const offsetPosition = elementPosition - offset
+                        window.scrollTo({
+                          top: offsetPosition,
+                          behavior: 'smooth'
+                        })
+                      }
+                    }}
+                    className="w-full py-4 text-sm font-bold rounded-xl transition-all duration-300 bg-transparent border border-white/10 hover:border-cyan-500/50 hover:bg-cyan-500/10 text-(--text-primary) flex items-center justify-center"
                   >
                     Get Started
-                  </button>
+                  </a>
                 </div>
               </motion.div>
             ))}

@@ -143,12 +143,13 @@ export default function Navbar({ onScheduleCall }) {
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </button>
           
-          <button 
-            onClick={onScheduleCall}
-            className="hidden md:block btn-primary py-2.5! text-sm! px-6!"
+          <a 
+            href="#contact"
+            onClick={(e) => scrollToSection(e, 'contact')}
+            className="hidden md:block btn-primary py-2.5! text-sm! px-6! flex items-center justify-center"
           >
             Get Started
-          </button>
+          </a>
 
           {/* Mobile Menu Toggle */}
           <button 
@@ -191,15 +192,16 @@ export default function Navbar({ onScheduleCall }) {
                   </a>
                 )
               })}
-              <button 
-                onClick={() => {
+              <a 
+                href="#contact"
+                onClick={(e) => {
                   setMobileMenuOpen(false)
-                  onScheduleCall()
+                  scrollToSection(e, 'contact')
                 }}
-                className="btn-primary w-full"
+                className="btn-primary w-full flex items-center justify-center"
               >
                 Get Started
-              </button>
+              </a>
             </div>
           </motion.div>
         )}
