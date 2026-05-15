@@ -58,7 +58,7 @@ export default function Footer() {
                   window.scrollTo({ top: 0, behavior: 'smooth' })
                 }
               }}
-              className="inline-block group"
+              className="inline-block"
             >
               <img 
                 src={`${import.meta.env.BASE_URL}G-OneMedia.png`.replace(/\/+/g, '/')} 
