@@ -100,7 +100,7 @@ export default function Navbar({ onScheduleCall }) {
           <img 
             src={`${import.meta.env.BASE_URL}G-OneMedia.png`.replace(/\/+/g, '/')} 
             alt="G-One Media Logo" 
-            className="h-16 w-48 object-contain object-left block relative z-10 transition-transform duration-500 ease-out group-hover:scale-125" 
+            className="h-16 w-48 object-contain object-left block relative z-10 transition-transform duration-500 ease-out group-hover:scale-125 origin-left" 
             onError={(e) => {
               console.error("Logo failed to load", e.target.src);
               e.target.style.display = 'none';

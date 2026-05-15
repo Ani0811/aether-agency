@@ -63,7 +63,7 @@ export default function Footer() {
               <img 
                 src={`${import.meta.env.BASE_URL}G-OneMedia.png`.replace(/\/+/g, '/')} 
                 alt="G-One Media Logo" 
-                className="h-24 w-80 object-contain object-left block transition-transform duration-500 ease-out group-hover:scale-115" 
+                className="h-24 w-80 object-contain object-left block transition-transform duration-500 ease-out group-hover:scale-115 origin-left" 
                 onError={(e) => {
                   e.target.style.display = 'none';
                   e.target.parentElement.innerText = 'G-One Media';
