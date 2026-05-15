@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
 
 const categories = ['All', 'Websites', 'AI Agents', 'Videos']
+const videoSubCategories = ['All Videos', 'Reels', 'YT Videos', 'Vlogs']
 
 const projects = [
   {
@@ -21,10 +22,24 @@ const projects = [
   },
   {
     title: 'FitFlow Cinematic',
-    type: 'Videos',
-    category: 'Video • Branding',
-    description: 'Cinematic brand video package for a fitness app launch with 1M+ views.',
+    type: 'Reels',
+    category: 'IG Reels • Fitness',
+    description: 'High-energy short-form content for Instagram Reels, driving 1M+ views and engagement.',
     image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    title: 'G-One Tech Review',
+    type: 'YT Videos',
+    category: 'YouTube • Tech',
+    description: 'In-depth YouTube video production with custom graphics and cinematic B-roll.',
+    image: 'https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    title: 'Digital Nomad Life',
+    type: 'Vlogs',
+    category: 'Vlog • Travel',
+    description: 'Long-format cinematic vlog series documenting a global journey of digital entrepreneurship.',
+    image: 'https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?auto=format&fit=crop&q=80&w=800'
   },
   {
     title: 'Luxe Portfolio',
@@ -44,10 +59,18 @@ const projects = [
 
 export default function Portfolio() {
   const [activeTab, setActiveTab] = useState('All')
+  const [activeSubTab, setActiveSubTab] = useState('All Videos')
 
-  const filteredProjects = activeTab === 'All' 
-    ? projects 
-    : projects.filter(p => p.type === activeTab)
+  const filteredProjects = projects.filter(p => {
+    if (activeTab === 'All') return true
+    if (activeTab === 'Videos') {
+      if (activeSubTab === 'All Videos') {
+        return ['Reels', 'YT Videos', 'Vlogs'].includes(p.type)
+      }
+      return p.type === activeSubTab
+    }
+    return p.type === activeTab
+  })
 
   return (
     <section id="portfolio" className="py-32" style={{ background: 'var(--bg-primary)' }}>
@@ -64,20 +87,51 @@ export default function Portfolio() {
           </motion.h2>
           
           {/* Filters */}
-          <div className="flex flex-wrap justify-center gap-2 mt-8">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveTab(cat)}
-                className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 border ${
-                  activeTab === cat 
-                    ? 'bg-cyan-400 border-cyan-400 text-black shadow-[0_0_20px_rgba(0,240,255,0.4)]' 
-                    : 'border-white/10 text-[var(--text-muted)] hover:border-white/30'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+          <div className="flex flex-col items-center gap-6 mt-8">
+            <div className="flex flex-wrap justify-center gap-2">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => {
+                    setActiveTab(cat)
+                    if (cat !== 'Videos') setActiveSubTab('All Videos')
+                  }}
+                  className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 border ${
+                    activeTab === cat 
+                      ? 'bg-cyan-400 border-cyan-400 text-black shadow-[0_0_20px_rgba(0,240,255,0.4)]' 
+                      : 'border-white/10 text-[var(--text-muted)] hover:border-white/30'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            {/* Sub-Filters for Videos */}
+            <AnimatePresence>
+              {activeTab === 'Videos' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="flex flex-wrap justify-center gap-2 p-2 rounded-2xl bg-white/5 border border-white/10"
+                >
+                  {videoSubCategories.map((sub) => (
+                    <button
+                      key={sub}
+                      onClick={() => setActiveSubTab(sub)}
+                      className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${
+                        activeSubTab === sub 
+                          ? 'bg-white/10 text-cyan-400' 
+                          : 'text-[var(--text-muted)] hover:text-white'
+                      }`}
+                    >
+                      {sub}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 
