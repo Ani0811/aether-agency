@@ -1,126 +1,76 @@
-# Aether Agency — Marketing Website
+# Aether Agency — Digital Ecosystems Engineered for Growth
 
-Modern agency marketing website built with React + Vite + TailwindCSS. It includes a contact form on the frontend and an optional Node/Express backend for email delivery.
+Aether Agency bridges the gap between sophisticated engineering and compelling visual narratives. We build high-performance digital ecosystems designed to capture attention, build trust, and convert audiences.
 
-## Quickstart (local)
+![Aether Agency Preview](G-OneMedia.png)
 
-Prerequisites: Node.js 18+ and npm.
+## 🚀 Our Mission
+In an era of digital noise, we focus on **Engineering Impact**. Our work is a fusion of data-driven strategy and premium aesthetics, tailored for businesses that demand excellence and results.
 
-1. Install dependencies
+## 🛠 Core Verticals
 
-```bash
-npm ci
-```
+### 💻 Websites & Apps
+From high-converting landing pages to complex enterprise dashboards and MVPs. We build responsive, performant, and visually stunning web experiences.
 
-2. Run the frontend in development:
+### 🎬 Video Editing & Content
+Consistent content engines for the modern era. We specialize in high-retention Reels, Shorts, and long-form YouTube content with advanced motion graphics and cinematic pacing.
 
-```bash
-npm run dev
-```
+### 🤖 AI Agents & Automations
+Intelligent systems that handle customer support, appointment scheduling, and complex business workflows autonomously.
 
-Open http://localhost:5173 to view the site.
+### 📊 Individual Solutions
+Bespoke digital consultation and specialized services tailored to your specific brand goals.
 
-## Build & Preview
+## 💻 Technology Stack
 
-Build the static site:
+- **Core**: [React](https://reactjs.org/) + [Vite](https://vitejs.dev/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/) for premium, fluid interactions
+- **Styling**: Tailwind CSS with custom Design Tokens
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Backend**: Optional Node/Express server for secure contact form handling
 
-```bash
-npm run build
-```
+## 🛠 Development Setup
 
-Preview the production build locally:
+### Prerequisites
+- Node.js 18+
+- npm
 
-```bash
-npm run preview
-```
+### Quickstart
+1. **Clone and Install**
+   ```bash
+   git clone https://github.com/Ani0811/aether-agency.git
+   cd aether-agency
+   npm ci
+   ```
 
-## Contact form backend (optional)
+2. **Run Development Server**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:5173](http://localhost:5173) to view the site.
 
-The frontend can submit the contact form to a small Express server for email delivery. If you run the backend locally, create a `.env` file with:
+3. **Production Build**
+   ```bash
+   npm run build
+   ```
 
-```env
-SMTP_USER=your.email@gmail.com
-SMTP_PASS=your-app-password
-PORT=3001
-```
+## 📬 Contact Form Backend
+The site includes a lightweight Express backend for handling email delivery via SMTP.
 
-Run the backend server:
+1. **Configure Environment**
+   Create a `.env` file in the root:
+   ```env
+   SMTP_USER=your-email@example.com
+   SMTP_PASS=your-app-password
+   PORT=3001
+   ```
 
-```bash
-npm run server
-```
+2. **Start Backend**
+   ```bash
+   npm run server
+   ```
 
-The dev server proxies `/api` requests to `http://localhost:3001`.
+---
 
-## Deploying the frontend to GitHub Pages
-
-The repository includes an example GitHub Actions workflow (`.github/workflows/deploy-gh-pages.yml`) that builds the site and publishes the `dist/` folder to GitHub Pages (push to `main` triggers the action).
-
-How it works:
-
-- The workflow sets a `BASE` environment variable based on the repository name and runs `npm run build`. The Vite config reads `process.env.BASE` so assets are built with the correct base path.
-- The workflow also sets `VITE_API_URL` to your Render backend URL so the built frontend will post contact form submissions to the correct backend endpoint in production.
-- The action then deploys `./dist` to the `gh-pages` branch using `peaceiris/actions-gh-pages`.
-
-Notes and manual alternative:
-
-- If your default branch is not `main`, edit `.github/workflows/deploy-gh-pages.yml` to change the trigger branch.
-- Manual deploy (optional): the project has a `predeploy` + `deploy` script that use `gh-pages`:
-
-	```bash
-	# Unix/macOS
-	BASE=/your-repo-name/ npm run deploy
-
-	# Windows (PowerShell)
-	$env:BASE='/your-repo-name/'; npm run deploy
-	```
-
-	Replace `/your-repo-name/` with the actual repository name (e.g. `/aether-agency/`). The workflow does this automatically.
-
-After a successful deploy, enable GitHub Pages if needed (Repository Settings → Pages) and point it to the `gh-pages` branch.
-
-## Backend deployment (optional)
-
-GitHub Pages is static-only. If you use the email backend, deploy it separately (Render, Railway, Fly, Heroku, etc.) and set `SMTP_USER` / `SMTP_PASS` in the host. Update the CORS origin in the server to allow your production site domain.
-
-### Deploying the backend to Render
-
-Quick steps to deploy the `server.js` backend to Render (recommended):
-
-1. Sign in to https://render.com and click **New → Web Service**.
-2. Connect your GitHub repository and pick the `main` branch (or the branch you use).
-3. Set the **Root** to the repository root (this project is single-repo; leave empty if you host the backend at root).
-4. For **Environment**, choose **Node**. For **Build Command** you can leave blank; Render will run `npm install` automatically.
-5. Set **Start Command** to:
-
-```
-npm start
-```
-
-
-6. In the Environment (Render Dashboard) add the required environment variables:
-
-- `SMTP_USER` — your SMTP username (email address)
-- `SMTP_PASS` — your SMTP password or app password
-- `FRONTEND_ORIGIN` — the URL of your frontend (example: `https://your-username.github.io/your-repo/`) or `*` to allow all origins (not recommended)
-
-After you deploy the frontend to GitHub Pages, set `FRONTEND_ORIGIN` in Render to your Pages URL (for example: `https://your-username.github.io/your-repo/`). This ensures the backend accepts requests from the deployed frontend.
-
-7. Optionally set `PORT` (Render provides `$PORT`, so leaving it blank will let the app use the provided port).
-
-8. Create the service — Render will deploy and provide a URL for the backend.
-
-Notes:
-
-- The backend reads `FRONTEND_ORIGIN` to configure CORS. Use a comma-separated list for multiple allowed origins.
-- We included a `render.yaml` sample (`render.yaml`) as a convenience to define a Render service from the repo; do not store secrets in this file. Set secrets in the Render Dashboard.
-
-
-## Email template
-
-The HTML email template lives in the backend's `server.js` in the `transporter.sendMail({ html: ... })` payload.
-
-## Troubleshooting
-
-- If emails fail: verify `SMTP_USER` and `SMTP_PASS`. For Gmail, enable 2FA and create an App Password. Check the server logs for `Nodemailer error:` output.
-- CORS: allow your production domain in the backend when deployed.
+Built with precision by **Aether Agency**. 
+[Schedule a Discovery Call](https://ani0811.github.io/aether-agency/)
