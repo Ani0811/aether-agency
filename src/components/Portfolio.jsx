@@ -54,6 +54,62 @@ const projects = [
     category: 'AI • Analytics',
     description: 'Autonomous data analysis agent for real-time market sentiment tracking.',
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    title: 'Client Showcase',
+    type: 'Reels',
+    category: 'IG Reels • Client',
+    description: 'Dynamic client showcase reel highlighting key achievements and project milestones.',
+    video: '/Agency_Videos/Client Reel.mp4',
+    image: 'https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    title: 'Aesthetic Cloth Reel',
+    type: 'Reels',
+    category: 'IG Reels • Fashion',
+    description: 'Cinematic fashion showcase featuring high-end apparel with rapid-cut editing.',
+    video: '/Agency_Videos/Cloth Reel.mp4',
+    image: 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    title: 'Aether Essence',
+    type: 'YT Videos',
+    category: 'YouTube • Cinematic',
+    description: 'High-production value cinematic experience showcasing the essence of digital agency work.',
+    video: '/Agency_Videos/reel 1.mp4',
+    image: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    title: 'Production Highlights',
+    type: 'YT Videos',
+    category: 'YouTube • Production',
+    description: 'Detailed breakdown of our production process and equipment setup for large-scale projects.',
+    video: '/Agency_Videos/reel 2.mp4',
+    image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    title: 'Behind the Scenes',
+    type: 'Vlogs',
+    category: 'Vlog • BTS',
+    description: 'Raw and authentic look at our team in action during a major brand campaign shoot.',
+    video: '/Agency_Videos/0621(1).mp4',
+    image: 'https://images.unsplash.com/photo-1533750516457-a7f992034fec?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    title: 'Agency Lifestyle',
+    type: 'Vlogs',
+    category: 'Vlog • Culture',
+    description: 'Insight into the day-to-1-day culture and creative atmosphere at Aether Agency.',
+    video: '/Agency_Videos/reel 2 (1).mp4',
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    title: 'Dynamic Reel',
+    type: 'Reels',
+    category: 'IG Reels • Movement',
+    description: 'Fast-paced, high-transition reel demonstrating our creative editing capabilities.',
+    video: '/Agency_Videos/reel.mp4',
+    image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=800'
   }
 ]
 
@@ -151,11 +207,29 @@ export default function Portfolio() {
                 className="group cursor-pointer"
               >
                 <div className="relative aspect-[4/3] rounded-3xl overflow-hidden mb-8 border border-white/5 shadow-2xl">
-                  <img 
-                    src={project.image} 
-                    alt={project.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
+                  {project.video ? (
+                    <video 
+                      src={`${project.video}#t=0.1`}
+                      preload="metadata"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      muted
+                      loop
+                      onMouseEnter={(e) => {
+                        e.target.play().catch(() => {}); // catch play interruptions
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.pause();
+                        e.target.currentTime = 0.1;
+                      }}
+                      playsInline
+                    />
+                  ) : (
+                    <img 
+                      src={project.image} 
+                      alt={project.title} 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
                     <div className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.4)]">
                       <ExternalLink size={20} />

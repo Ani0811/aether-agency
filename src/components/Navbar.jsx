@@ -146,7 +146,7 @@ export default function Navbar({ onScheduleCall }) {
           <a 
             href="#contact"
             onClick={(e) => scrollToSection(e, 'contact')}
-            className="hidden md:block btn-primary py-2.5! text-sm! px-6! flex items-center justify-center"
+            className="md:block btn-primary py-2.5! text-sm! px-6! flex items-center justify-center"
           >
             Get Started
           </a>
