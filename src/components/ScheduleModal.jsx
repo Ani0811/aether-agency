@@ -4,19 +4,15 @@ import { useState } from 'react'
 
 export default function ScheduleModal({ isOpen, onClose }) {
   const [status, setStatus] = useState('idle') // idle | loading | success
-  const [currency, setCurrency] = useState('USD')
   const [fields, setFields] = useState({
     name: '',
     email: '',
     service: 'Websites',
-    budget: '$3,000',
+    budget: 'Package',
     details: ''
   })
 
-  const budgetOptions = {
-    USD: ['$1,000', '$3,000', '$10,000', '$25,000+'],
-    INR: ['₹10,000', '₹20,000', '₹50,000', '₹1,00,000+']
-  }
+  const budgetOptions = ['Package', 'Individual Service']
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -31,7 +27,6 @@ export default function ScheduleModal({ isOpen, onClose }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...fields,
-          currency,
           subject: `Discovery Call Request: ${fields.service}`
         }),
       })
@@ -42,7 +37,7 @@ export default function ScheduleModal({ isOpen, onClose }) {
       setTimeout(() => {
         onClose()
         setStatus('idle')
-        setFields({ name: '', email: '', service: 'Websites', budget: budgetOptions[currency][0], details: '' })
+        setFields({ name: '', email: '', service: 'Websites', budget: 'Package', details: '' })
       }, 3000)
     } catch (err) {
       console.error(err)
@@ -164,25 +159,6 @@ export default function ScheduleModal({ isOpen, onClose }) {
                           <label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
                             <DollarSign size={12} /> Budget
                           </label>
-                          <div className="flex gap-2 p-1 rounded-lg bg-black/5 dark:bg-white/5 border border-white/5">
-                            {['USD', 'INR'].map((curr) => (
-                              <button
-                                key={curr}
-                                type="button"
-                                onClick={() => {
-                                  setCurrency(curr)
-                                  setFields({...fields, budget: budgetOptions[curr][0]})
-                                }}
-                                className={`px-2 py-0.5 rounded-md text-[9px] font-black transition-all ${
-                                  currency === curr 
-                                    ? 'bg-cyan-400 text-black shadow-lg' 
-                                    : 'text-(--text-muted) hover:text-(--text-primary)'
-                                }`}
-                              >
-                                {curr}
-                              </button>
-                            ))}
-                          </div>
                         </div>
                         <select 
                           className="w-full bg-black/5 dark:bg-white/5 border rounded-xl px-4 py-2.5 outline-none transition-all appearance-none cursor-pointer"
@@ -190,7 +166,7 @@ export default function ScheduleModal({ isOpen, onClose }) {
                           value={fields.budget}
                           onChange={e => setFields({...fields, budget: e.target.value})}
                         >
-                          {budgetOptions[currency].map(opt => (
+                          {budgetOptions.map(opt => (
                             <option key={opt} value={opt} style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>{opt}</option>
                           ))}
                         </select>

@@ -163,7 +163,7 @@ export default function Pricing({ onScheduleCall }) {
                     onClick={() => setActiveCategory(cat)}
                     className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
                       isActive 
-                        ? 'bg-(--accent-blue)-black shadow-lg' 
+                        ? 'bg-(--accent-blue) text-black shadow-lg' 
                         : 'text-(--text-muted) hover:text-(--text-primary) hover:bg-white/5'
                     }`}
                   >
@@ -174,22 +174,6 @@ export default function Pricing({ onScheduleCall }) {
               })}
             </div>
 
-            {/* Currency Toggle */}
-            <div className="flex items-center gap-1 p-1.5 rounded-xl bg-black/10 border border-white/5 backdrop-blur-sm">
-              {['INR', 'USD'].map((curr) => (
-                <button
-                  key={curr}
-                  onClick={() => setCurrency(curr)}
-                  className={`px-5 py-2 rounded-lg text-sm font-black transition-all ${
-                    currency === curr 
-                      ? 'bg-fuchsia-500 text-white shadow-lg' 
-                      : 'text-(--text-muted) hover:text-(--text-primary)'
-                  }`}
-                >
-                  {curr}
-                </button>
-              ))}
-            </div>
           </div>
         </div>
 
@@ -274,7 +258,7 @@ export default function Pricing({ onScheduleCall }) {
           </motion.div>
         </AnimatePresence>
 
-        {/* Ala Carte Services Table */}
+        {/* Individual Services Table */}
         <AnimatePresence mode="wait">
           <motion.div
             key={`${activeCategory}-table`}
@@ -285,7 +269,7 @@ export default function Pricing({ onScheduleCall }) {
             className="max-w-4xl mx-auto"
           >
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-black tracking-tight" style={{ color: 'var(--text-primary)' }}>A La Carte / Services</h3>
+              <h3 className="text-2xl font-black tracking-tight" style={{ color: 'var(--text-primary)' }}>Individual Services</h3>
               <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>Need a specific service? Select individually.</p>
             </div>
             
