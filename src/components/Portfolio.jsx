@@ -155,7 +155,7 @@ export default function Portfolio() {
                   className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 border ${
                     activeTab === cat 
                       ? 'bg-cyan-400 border-cyan-400 text-black shadow-[0_0_20px_rgba(0,240,255,0.4)]' 
-                      : 'border-white/10 text-[var(--text-muted)] hover:border-white/30'
+                      : 'border-white/10 text-(--text-muted) hover:border-white/30'
                   }`}
                 >
                   {cat}
@@ -179,7 +179,7 @@ export default function Portfolio() {
                       className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${
                         activeSubTab === sub 
                           ? 'bg-white/10 text-cyan-400' 
-                          : 'text-[var(--text-muted)] hover:text-white'
+                          : 'text-(--text-muted) hover:text-white'
                       }`}
                     >
                       {sub}
@@ -206,7 +206,7 @@ export default function Portfolio() {
                 transition={{ duration: 0.4 }}
                 className="group cursor-pointer"
               >
-                <div className="relative aspect-[4/3] rounded-3xl overflow-hidden mb-8 border border-white/5 shadow-2xl">
+                <div className="relative aspect-4/3 rounded-3xl overflow-hidden mb-8 border border-white/5 shadow-2xl">
                   {project.video ? (
                     <video 
                       src={`${project.video}#t=0.1`}
