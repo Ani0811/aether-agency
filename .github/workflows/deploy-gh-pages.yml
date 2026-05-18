@@ -33,6 +33,7 @@ jobs:
         env:
           BASE: /${{ github.event.repository.name }}/
           VITE_API_BACKEND_URL: https://aether-agency.onrender.com
+          VITE_GA_MEASUREMENT_ID: G-SRHQVZHVB6
         run: npm run build
 
       - name: Setup Pages
