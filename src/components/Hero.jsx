@@ -15,7 +15,7 @@ export default function Hero({ onScheduleCall }) {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative lg:ml-auto max-w-xl w-full order-1 lg:order-2"
+            className="relative lg:ml-auto max-w-xl w-full order-1 lg:order-2 mt-8 sm:mt-12 lg:mt-0"
           >
             <div className="relative z-10 rounded-[48px] overflow-hidden shadow-2xl shadow-cyan-500/30 p-2" style={{ background: 'var(--bg-glass)', border: '1px solid var(--border-subtle)' }}>
               <div className="rounded-[40px] overflow-hidden aspect-4/3">
