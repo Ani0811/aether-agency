@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
 
@@ -113,9 +113,89 @@ const projects = [
   }
 ]
 
+function LazyMedia({ video, image, title }) {
+  const [inView, setInView] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true)
+          observer.unobserve(entry.target)
+        }
+      },
+      { rootMargin: '150px' }
+    )
+
+    if (ref.current) {
+      observer.observe(ref.current)
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current)
+      }
+    }
+  }, [])
+
+  return (
+    <div
+      ref={ref}
+      className="relative aspect-4/3 rounded-3xl overflow-hidden mb-8 border border-white/5 shadow-2xl bg-white/5"
+    >
+      {/* Sleek Skeleton pulse animation until asset loads */}
+      {!isLoaded && (
+        <div className="absolute inset-0 bg-white/5 flex items-center justify-center">
+          <div className="w-12 h-12 rounded-full border-2 border-cyan-400/20 border-t-cyan-400 animate-spin" />
+        </div>
+      )}
+
+      {inView && (
+        <>
+          {video ? (
+            <video
+              src={`${video}#t=0.1`}
+              preload="metadata"
+              className={`w-full h-full object-cover transition-opacity duration-500 group-hover:scale-110 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+              muted
+              loop
+              onLoadedData={() => setIsLoaded(true)}
+              onMouseEnter={(e) => {
+                e.target.play().catch(() => { });
+              }}
+              onMouseLeave={(e) => {
+                e.target.pause();
+                e.target.currentTime = 0.1;
+              }}
+              playsInline
+            />
+          ) : (
+            <img
+              src={image}
+              alt={title}
+              loading="lazy"
+              onLoad={() => setIsLoaded(true)}
+              className={`w-full h-full object-cover transition-opacity duration-500 group-hover:scale-110 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+            />
+          )}
+        </>
+      )}
+
+      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+        <div className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.4)]">
+          <ExternalLink size={20} />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function Portfolio() {
   const [activeTab, setActiveTab] = useState('All')
   const [activeSubTab, setActiveSubTab] = useState('All Videos')
+  const [visibleCount, setVisibleCount] = useState(6)
 
   const filteredProjects = projects.filter(p => {
     if (activeTab === 'All') return true
@@ -128,20 +208,22 @@ export default function Portfolio() {
     return p.type === activeTab
   })
 
+  const displayedProjects = filteredProjects.slice(0, visibleCount)
+
   return (
     <section id="portfolio" className="py-32" style={{ background: 'var(--bg-primary)' }}>
       <div className="container-custom">
         <div className="text-center mb-16">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl lg:text-5xl font-black mb-6 tracking-tightest" 
+            className="text-4xl lg:text-5xl font-black mb-6 tracking-tightest"
             style={{ color: 'var(--text-primary)' }}
           >
             Featured <span className="gradient-text">Work</span>
           </motion.h2>
-          
+
           {/* Filters */}
           <div className="flex flex-col items-center gap-6 mt-8">
             <div className="flex flex-wrap justify-center gap-2">
@@ -151,12 +233,12 @@ export default function Portfolio() {
                   onClick={() => {
                     setActiveTab(cat)
                     if (cat !== 'Videos') setActiveSubTab('All Videos')
+                    setVisibleCount(6)
                   }}
-                  className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 border ${
-                    activeTab === cat 
-                      ? 'bg-cyan-400 border-cyan-400 text-black shadow-[0_0_20px_rgba(0,240,255,0.4)]' 
+                  className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 border ${activeTab === cat
+                      ? 'bg-cyan-400 border-cyan-400 text-black shadow-[0_0_20px_rgba(0,240,255,0.4)]'
                       : 'border-white/10 text-(--text-muted) hover:border-white/30'
-                  }`}
+                    }`}
                 >
                   {cat}
                 </button>
@@ -166,7 +248,7 @@ export default function Portfolio() {
             {/* Sub-Filters for Videos */}
             <AnimatePresence>
               {activeTab === 'Videos' && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
@@ -175,12 +257,14 @@ export default function Portfolio() {
                   {videoSubCategories.map((sub) => (
                     <button
                       key={sub}
-                      onClick={() => setActiveSubTab(sub)}
-                      className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${
-                        activeSubTab === sub 
-                          ? 'bg-white/10 text-cyan-400' 
+                      onClick={() => {
+                        setActiveSubTab(sub)
+                        setVisibleCount(6)
+                      }}
+                      className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${activeSubTab === sub
+                          ? 'bg-white/10 text-cyan-400'
                           : 'text-(--text-muted) hover:text-white'
-                      }`}
+                        }`}
                     >
                       {sub}
                     </button>
@@ -191,12 +275,12 @@ export default function Portfolio() {
           </div>
         </div>
 
-        <motion.div 
+        <motion.div
           layout
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-10"
         >
           <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project, index) => (
+            {displayedProjects.map((project) => (
               <motion.div
                 key={project.title}
                 layout
@@ -206,37 +290,12 @@ export default function Portfolio() {
                 transition={{ duration: 0.4 }}
                 className="group cursor-pointer"
               >
-                <div className="relative aspect-4/3 rounded-3xl overflow-hidden mb-8 border border-white/5 shadow-2xl">
-                  {project.video ? (
-                    <video 
-                      src={`${project.video}#t=0.1`}
-                      preload="metadata"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      muted
-                      loop
-                      onMouseEnter={(e) => {
-                        e.target.play().catch(() => {}); // catch play interruptions
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.pause();
-                        e.target.currentTime = 0.1;
-                      }}
-                      playsInline
-                    />
-                  ) : (
-                    <img 
-                      src={project.image} 
-                      alt={project.title} 
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
-                    <div className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.4)]">
-                      <ExternalLink size={20} />
-                    </div>
-                  </div>
-                </div>
-                
+                <LazyMedia
+                  video={project.video}
+                  image={project.image}
+                  title={project.title}
+                />
+
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-400 mb-3 block opacity-80">
                   {project.category}
                 </span>
@@ -250,6 +309,33 @@ export default function Portfolio() {
             ))}
           </AnimatePresence>
         </motion.div>
+
+        {/* View More Button */}
+        {filteredProjects.length > visibleCount && (
+          <div className="flex justify-center mt-16">
+            <button
+              onClick={() => setVisibleCount(prev => prev + 6)}
+              className="group relative px-8 py-3.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 border border-cyan-400/30 text-cyan-400 hover:border-cyan-400 bg-cyan-400/5 hover:bg-cyan-400 hover:text-black shadow-[0_0_15px_rgba(0,240,255,0.1)] hover:shadow-[0_0_25px_rgba(0,240,255,0.4)] flex items-center gap-2 overflow-hidden cursor-pointer"
+            >
+              <span className="relative z-10">View More</span>
+              <motion.span
+                className="relative z-10 flex items-center justify-center"
+                animate={{ y: [0, 4, 0] }}
+                transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+              </motion.span>
+            </button>
+          </div>
+        )}
       </div>
     </section>
   )
