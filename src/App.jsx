@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import { ThemeProvider } from './context/ThemeContext'
+import { trackPageView } from './utils/analytics'
 import Navbar from './components/Navbar'
 import CustomCursor from './components/CustomCursor'
 import Hero from './components/Hero'
@@ -35,7 +36,14 @@ function HomePage({ onScheduleCall }) {
 export default function App() {
   const [loading, setLoading] = useState(true)
   const [isScheduleOpen, setIsScheduleOpen] = useState(false)
+  const location = useLocation()
   const handleComplete = useCallback(() => setLoading(false), [])
+
+  useEffect(() => {
+    if (!loading) {
+      trackPageView(location.pathname + location.search + location.hash)
+    }
+  }, [location, loading])
 
   if (loading) {
     return (
