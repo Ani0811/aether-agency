@@ -104,7 +104,7 @@ export default function CTA() {
                       initial={{ opacity: 0, y: -10, scale: 0.95 }}
                       animate={{ opacity: 1, y: -20, scale: 1 }}
                       exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                      className="absolute bottom-full left-0 mb-4 p-1 rounded-2xl z-50 min-w-75 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10"
+                      className="absolute bottom-full left-0 mb-4 p-1 rounded-2xl z-50 w-[280px] sm:min-w-75 max-w-[calc(100vw-3rem)] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10"
                       style={{ 
                         background: 'rgba(15, 15, 20, 0.8)', 
                         backdropFilter: 'blur(24px)',

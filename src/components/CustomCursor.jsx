@@ -3,6 +3,7 @@ import { motion, useSpring, useMotionValue } from 'framer-motion'
 
 export default function CustomCursor() {
   const [isHovered, setIsHovered] = useState(false)
+  const [isMobile, setIsMobile] = useState(true)
   
   const cursorX = useMotionValue(-100)
   const cursorY = useMotionValue(-100)
@@ -12,6 +13,20 @@ export default function CustomCursor() {
   const cursorYSpring = useSpring(cursorY, springConfig)
 
   useEffect(() => {
+    const checkMobile = () => {
+      const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+      const isSmallScreen = window.innerWidth < 768
+      setIsMobile(hasTouch || isSmallScreen)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  useEffect(() => {
+    if (isMobile) return
+
     const moveCursor = (e) => {
       cursorX.set(e.clientX)
       cursorY.set(e.clientY)
@@ -35,7 +50,9 @@ export default function CustomCursor() {
       window.removeEventListener('mousemove', moveCursor)
       window.removeEventListener('mouseover', handleHover)
     }
-  }, [cursorX, cursorY])
+  }, [cursorX, cursorY, isMobile])
+
+  if (isMobile) return null
 
   return (
     <>

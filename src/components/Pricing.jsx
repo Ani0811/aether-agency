@@ -280,7 +280,7 @@ export default function Pricing({ onScheduleCall }) {
                     key={index}
                     className="group flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-6 border-b border-white/5 last:border-0 hover:bg-white/5 transition-all"
                   >
-                    <div className="font-bold text-(--text-secondary) group-hover:text-(--text-primary) sm:mb-0 transition-colors">
+                    <div className="font-bold text-(--text-secondary) group-hover:text-(--text-primary) mb-2 sm:mb-0 transition-colors">
                       {service.name}
                     </div>
                     <div className="font-black text-(--text-primary) tracking-tight px-4 py-1.5 rounded-lg bg-black/20 group-hover:bg-(--accent-blue) group-hover:text-black transition-all">

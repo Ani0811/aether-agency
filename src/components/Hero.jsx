@@ -62,7 +62,7 @@ export default function Hero({ onScheduleCall }) {
               Aether Digital bridges the gap between sophisticated engineering and compelling visual narratives. We build digital ecosystems designed to capture attention and convert audiences.
             </p>
 
-            <div className="flex flex-wrap gap-4 items-center">
+            <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
               <a
                 href="#contact"
                 onClick={(e) => {
@@ -80,7 +80,7 @@ export default function Hero({ onScheduleCall }) {
                     })
                   }
                 }}
-                className="btn-primary flex items-center gap-3 group shadow-2xl shadow-cyan-500/40 px-7! py-3.5!"
+                className="btn-primary flex items-center justify-center gap-3 group shadow-2xl shadow-cyan-500/40 px-7! py-3.5!"
               >
                 Get Started
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />

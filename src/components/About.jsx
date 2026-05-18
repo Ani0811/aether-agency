@@ -142,7 +142,7 @@ export default function About() {
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <div className="w-6 h-6 rounded-full bg-fuchsia-400/10 flex items-center justify-center shrink-0er border-fuchsia-400/20">
+                  <div className="w-6 h-6 rounded-full bg-fuchsia-400/10 flex items-center justify-center shrink-0 mt-1 border border-fuchsia-400/20">
                     <div className="w-1.5 h-1.5 bg-fuchsia-400 rounded-full animate-pulse" />
                   </div>
                   <div>
