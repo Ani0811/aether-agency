@@ -28,7 +28,7 @@ const projects = [
     category: 'IG Reels • Fitness',
     description: 'High-energy short-form content for Instagram Reels, driving 1M+ views and engagement.',
     image: `${import.meta.env.BASE_URL}Agency_Videos/AiReel.jpg`.replace(/\/+/g, '/'),
-    link: DRIVE_LINK
+    link: 'https://drive.google.com/file/d/1DqnEGWk_w7-eVIBXfgyUv63yPtyZXM63/view'
   },
   {
     title: 'G-One Tech Review',
@@ -36,7 +36,7 @@ const projects = [
     category: 'YouTube • Tech',
     description: 'In-depth YouTube video production with custom graphics and cinematic B-roll.',
     image: `${import.meta.env.BASE_URL}Agency_Videos/Reel.jpg`.replace(/\/+/g, '/'),
-    link: DRIVE_LINK
+    link: 'https://drive.google.com/file/d/1aA4v-bCBV4IG4oqzgb4KiMZ7XgqyEtd-/view'
   },
   {
     title: 'Digital Nomad Life',
@@ -44,7 +44,7 @@ const projects = [
     category: 'Vlog • Travel',
     description: 'Long-format cinematic vlog series documenting a global journey of digital entrepreneurship.',
     image: `${import.meta.env.BASE_URL}Agency_Videos/0621_Reel.jpg`.replace(/\/+/g, '/'),
-    link: DRIVE_LINK
+    link: 'https://drive.google.com/file/d/1fNKd-6i0fEGVnkEev-TCN9b1P3VU7UZB/view'
   },
   {
     title: 'Luxe Portfolio',
@@ -66,7 +66,7 @@ const projects = [
     category: 'IG Reels • Client',
     description: 'Dynamic client showcase reel highlighting key achievements and project milestones.',
     image: `${import.meta.env.BASE_URL}Agency_Videos/ClientReel.jpg`.replace(/\/+/g, '/'),
-    link: DRIVE_LINK
+    link: 'https://drive.google.com/file/d/1LvITp9vG8ieDu7EGzzmxjdasWbQRFSjN/view'
   },
   {
     title: 'Aesthetic Cloth Reel',
@@ -74,7 +74,7 @@ const projects = [
     category: 'IG Reels • Fashion',
     description: 'Cinematic fashion showcase featuring high-end apparel with rapid-cut editing.',
     image: `${import.meta.env.BASE_URL}Agency_Videos/ClothReel.jpg`.replace(/\/+/g, '/'),
-    link: DRIVE_LINK
+    link: 'https://drive.google.com/file/d/1lFvPCKIzgt3gSTj1T35R2qxgjkjXAKlk/view'
   },
   {
     title: 'Aether Essence',
@@ -82,7 +82,7 @@ const projects = [
     category: 'YouTube • Cinematic',
     description: 'High-production value cinematic experience showcasing the essence of digital agency work.',
     image: `${import.meta.env.BASE_URL}Agency_Videos/Reel1.jpg`.replace(/\/+/g, '/'),
-    link: DRIVE_LINK
+    link: 'https://drive.google.com/file/d/1rmSSFv5UU8UipYjdZtOk0IXvYUwJiwdB/view'
   },
   {
     title: 'Production Highlights',
@@ -90,7 +90,7 @@ const projects = [
     category: 'YouTube • Production',
     description: 'Detailed breakdown of our production process and equipment setup for large-scale projects.',
     image: `${import.meta.env.BASE_URL}Agency_Videos/Reel2.jpg`.replace(/\/+/g, '/'),
-    link: DRIVE_LINK
+    link: 'https://drive.google.com/file/d/1vsfhyLj6X0i3s2cHkhQ-S7gszuqDZONB/view'
   },
   {
     title: 'Behind the Scenes',
@@ -98,7 +98,7 @@ const projects = [
     category: 'Vlog • BTS',
     description: 'Raw and authentic look at our team in action during a major brand campaign shoot.',
     image: `${import.meta.env.BASE_URL}Agency_Videos/0621_Reel.jpg`.replace(/\/+/g, '/'),
-    link: DRIVE_LINK
+    link: 'https://drive.google.com/file/d/1fNKd-6i0fEGVnkEev-TCN9b1P3VU7UZB/view'
   },
   {
     title: 'Agency Lifestyle',
@@ -106,7 +106,7 @@ const projects = [
     category: 'Vlog • Culture',
     description: 'Insight into the day-to-day culture and creative atmosphere at Aether Agency.',
     image: `${import.meta.env.BASE_URL}Agency_Videos/Reel3.jpg`.replace(/\/+/g, '/'),
-    link: DRIVE_LINK
+    link: 'https://drive.google.com/file/d/1CcIoHrBpPCU9ekpeT1CexDY6ULIBbKU9/view'
   },
   {
     title: 'Dynamic Reel',
@@ -114,7 +114,7 @@ const projects = [
     category: 'IG Reels • Movement',
     description: 'Fast-paced, high-transition reel demonstrating our creative editing capabilities.',
     image: `${import.meta.env.BASE_URL}Agency_Videos/Reel.jpg`.replace(/\/+/g, '/'),
-    link: DRIVE_LINK
+    link: 'https://drive.google.com/file/d/1aA4v-bCBV4IG4oqzgb4KiMZ7XgqyEtd-/view'
   }
 ]
 
