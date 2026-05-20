@@ -55,7 +55,6 @@ export default function App() {
   return (
     <ThemeProvider>
       <div className="min-h-screen">
-        <CustomCursor />
         <Navbar onScheduleCall={() => setIsScheduleOpen(true)} />
         <ScheduleModal isOpen={isScheduleOpen} onClose={() => setIsScheduleOpen(false)} />
         <Routes>
