@@ -19,15 +19,15 @@ export default function Hero({ onScheduleCall }) {
           >
             <div className="relative z-10 rounded-[48px] overflow-hidden shadow-2xl shadow-cyan-500/30 p-2" style={{ background: 'var(--bg-glass)', border: '1px solid var(--border-subtle)' }}>
               <div className="rounded-[40px] overflow-hidden aspect-4/3">
-                <img 
-                  src="pexels-mintworkspace-18304033.jpg" 
-                  alt="Aether Agency Work" 
+                <img
+                  src="pexels-mintworkspace-18304033.jpg"
+                  alt="G-One Media Work"
                   className="w-full h-full object-cover opacity-90 hover:scale-105 transition-transform duration-700"
                 />
               </div>
             </div>
             {/* Floating UI element */}
-            <motion.div 
+            <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               className="absolute -bottom-6 -left-6 z-20 glass-card p-4 rounded-2xl border-white/10 hidden md:block"
@@ -42,7 +42,7 @@ export default function Hero({ onScheduleCall }) {
                 </div>
               </div>
             </motion.div>
-            
+
             {/* Decorative elements */}
             <div className="absolute -inset-8 bg-fuchsia-500/20 blur-[100px] -z-10 opacity-50 animate-pulse" />
           </motion.div>
@@ -59,7 +59,7 @@ export default function Hero({ onScheduleCall }) {
             </h1>
 
             <p className="text-base md:text-lg mb-8 leading-relaxed max-w-130" style={{ color: 'var(--text-secondary)' }}>
-              Aether Digital bridges the gap between sophisticated engineering and compelling visual narratives. We build digital ecosystems designed to capture attention and convert audiences.
+              G-One Media bridges the gap between sophisticated engineering and compelling visual narratives. We build digital ecosystems designed to capture attention and convert audiences.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
