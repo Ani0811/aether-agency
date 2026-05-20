@@ -11,12 +11,7 @@ const app = express()
 const PORT = process.env.PORT || 3001
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'http://localhost:5173,http://localhost:4173,https://ani0811.github.io'
 
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}))
-app.options('*', cors())
+app.use(cors())
 app.use(express.json())
 
 const transporter = nodemailer.createTransport({
@@ -47,7 +42,7 @@ app.post('/api/contact', async (req, res) => {
       from: `"${name}" <${process.env.SMTP_USER}>`,
       to: process.env.SMTP_USER, // sends to yourself
       replyTo: email,
-      subject: isDiscoveryCall 
+      subject: isDiscoveryCall
         ? `✦ Discovery Call Request [${service}] from ${name} — Aether Digital`
         : `✦ New Message from ${name} — Aether Digital`,
       html: `
@@ -165,14 +160,17 @@ app.post('/api/contact', async (req, res) => {
 app.get('/', (req, res) => res.send('Aether Agency API'))
 
 // Razorpay Initialization
+const VITE_RAZORPAY_KEY_ID = process.env.VITE_RAZORPAY_KEY_ID
+const VITE_RAZORPAY_KEY_SECRET = process.env.VITE_RAZORPAY_KEY_SECRET
+
 let razorpay;
-if (process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET) {
+if (VITE_RAZORPAY_KEY_ID && VITE_RAZORPAY_KEY_SECRET) {
   razorpay = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID,
-    key_secret: process.env.RAZORPAY_KEY_SECRET,
+    key_id: RAZORPAY_KEY_ID,
+    key_secret: RAZORPAY_KEY_SECRET,
   })
 } else {
-  console.warn("⚠️ RAZORPAY KEYS MISSING: Please add RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET to your environment variables.")
+  console.warn("⚠️ RAZORPAY KEYS MISSING: Please add RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET (or VITE_ prefixed versions) to your environment variables.")
 }
 
 app.post('/api/create-order', async (req, res) => {
@@ -199,7 +197,7 @@ app.post('/api/verify-payment', (req, res) => {
 
   const body = razorpay_order_id + "|" + razorpay_payment_id
   const expectedSignature = crypto
-    .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+    .createHmac('sha256', RAZORPAY_KEY_SECRET)
     .update(body.toString())
     .digest('hex')
 
