@@ -1,8 +1,8 @@
-# Aether Agency — Digital Ecosystems Engineered for Growth
+# G-One Media — Digital Ecosystems Engineered for Growth
 
-Aether Agency bridges the gap between sophisticated engineering and compelling visual narratives. We build high-performance digital ecosystems designed to capture attention, build trust, and convert audiences.
+G-One Media bridges the gap between sophisticated engineering and compelling visual narratives. We build high-performance digital ecosystems designed to capture attention, build trust, and convert audiences.
 
-![Aether Agency Preview](public/G-OneMedia.png)
+![G-One Media Preview](public/G-OneMedia.png)
 
 ## 🚀 Our Mission
 In an era of digital noise, we focus on **Engineering Impact**. Our work is a fusion of data-driven strategy and premium aesthetics, tailored for businesses that demand excellence and results.
@@ -38,8 +38,8 @@ Bespoke digital consultation and specialized services tailored to your specific 
 ### Quickstart
 1. **Clone and Install**
    ```bash
-   git clone https://github.com/Ani0811/aether-agency.git
-   cd aether-agency
+   git clone https://github.com/Ani0811/G-OneMedia.git
+   cd G-OneMedia
    npm ci
    ```
 
@@ -72,5 +72,5 @@ The site includes a lightweight Express backend for handling email delivery via 
 
 ---
 
-Built with precision by **Aether Agency**. 
-[Schedule a Discovery Call](https://ani0811.github.io/aether-agency/)
+Built with precision by **G-One Media**. 
+[Schedule a Discovery Call](https://ani0811.github.io/G-OneMedia/)
