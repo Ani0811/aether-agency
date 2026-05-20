@@ -188,7 +188,7 @@ app.post('/api/create-order', async (req, res) => {
     res.json(order)
   } catch (error) {
     console.error('Razorpay Create Order Error:', error)
-    res.status(500).json({ error: 'Failed to create order' })
+    res.status(500).json({ error: error.message || 'Failed to create order' })
   }
 })
 

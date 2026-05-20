@@ -5,11 +5,13 @@ import { useState, useEffect } from 'react'
 export default function PaymentModal({ isOpen, onClose, defaultAmount, planName }) {
   const [status, setStatus] = useState('idle') // idle | loading | success | error
   const [amount, setAmount] = useState(defaultAmount || '')
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     if (isOpen) {
       setAmount(defaultAmount || '')
       setStatus('idle')
+      setErrorMessage('')
     }
   }, [isOpen, defaultAmount])
 
@@ -45,7 +47,10 @@ export default function PaymentModal({ isOpen, onClose, defaultAmount, planName 
         body: JSON.stringify({ amount: Number(amount), receipt: planName }),
       })
 
-      if (!res.ok) throw new Error('Failed to create order')
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}))
+        throw new Error(errData.error || 'Failed to create order')
+      }
       const order = await res.json()
 
       // 2. Open Razorpay Checkout Modal
@@ -77,10 +82,12 @@ export default function PaymentModal({ isOpen, onClose, defaultAmount, planName 
               }, 4000)
             } else {
               setStatus('error')
+              setErrorMessage(verifyData.message || 'Payment verification failed.')
             }
           } catch (error) {
             console.error(error)
             setStatus('error')
+            setErrorMessage('Failed to verify payment with backend.')
           }
         },
         theme: {
@@ -102,7 +109,8 @@ export default function PaymentModal({ isOpen, onClose, defaultAmount, planName 
     } catch (err) {
       console.error(err)
       setStatus('error')
-      setTimeout(() => setStatus('idle'), 4000)
+      setErrorMessage(err.message || 'Something went wrong. Please try again.')
+      setTimeout(() => setStatus('idle'), 5000)
     }
   }
 
@@ -191,7 +199,7 @@ export default function PaymentModal({ isOpen, onClose, defaultAmount, planName 
                         className="flex items-center gap-2 text-red-400 text-sm px-4 py-2 rounded-xl bg-red-400/10 border border-red-400/20"
                       >
                         <AlertCircle size={16} />
-                        Payment verification failed or was cancelled.
+                        {errorMessage || 'Payment verification failed or was cancelled.'}
                       </motion.div>
                     )}
 
