@@ -23,8 +23,8 @@ const pricingData = {
       },
       {
         name: 'Premium', icon: Building2,
-        price: { INR: '₹50,000+', USD: '$600+' },
-        period: '/ project +',
+        price: { INR: '₹50,000', USD: '$600' },
+        period: '/ project',
         description: 'Enterprise level solutions',
         features: ['Advanced Integrations', 'Custom Dashboards', 'Workflow Automations', 'AI Features']
       }
@@ -165,11 +165,10 @@ export default function Pricing({ onScheduleCall }) {
                   <button
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
-                      isActive 
-                        ? 'bg-(--accent-blue) text-black shadow-lg' 
-                        : 'text-(--text-muted) hover:text-(--text-primary) hover:bg-white/5'
-                    }`}
+                    className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${isActive
+                      ? 'bg-(--accent-blue) text-black shadow-lg'
+                      : 'text-(--text-muted) hover:text-(--text-primary) hover:bg-white/5'
+                      }`}
                   >
                     <IconName size={16} className={isActive ? 'text-black' : ''} />
                     {cat}
@@ -183,7 +182,7 @@ export default function Pricing({ onScheduleCall }) {
 
         {/* Packages Grid */}
         <AnimatePresence mode="wait">
-          <motion.div 
+          <motion.div
             key={`${activeCategory}-grid`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -192,9 +191,9 @@ export default function Pricing({ onScheduleCall }) {
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20"
           >
             {currentData.packages.map((plan, index) => (
-              <motion.div 
+              <motion.div
                 key={plan.name}
-                whileHover={{ 
+                whileHover={{
                   y: -10,
                   transition: { duration: 0.3, ease: "easeOut" }
                 }}
@@ -202,7 +201,7 @@ export default function Pricing({ onScheduleCall }) {
               >
                 {/* Hover background glow */}
                 <div className="absolute inset-0 bg-linear-to-br from-(--accent-blue)/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                
+
                 {/* Subtle background icon */}
                 <div className="absolute top-0 right-0 p-6 opacity-[0.03] transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:opacity-10">
                   <plan.icon size={80} className="text-cyan-500" />
@@ -212,7 +211,7 @@ export default function Pricing({ onScheduleCall }) {
                   <span className="inline-block px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-[10px] font-black text-cyan-400 uppercase tracking-widest mb-6 self-start">
                     {plan.name}
                   </span>
-                  
+
                   <div className="flex items-baseline gap-2 mb-2">
                     <span className="text-4xl font-black tracking-tighter text-(--text-primary) group-hover:text-cyan-400 transition-colors duration-300">
                       {plan.price[currency]}
@@ -221,7 +220,7 @@ export default function Pricing({ onScheduleCall }) {
                   <span className="text-xs font-semibold text-(--text-muted) group-hover:text-cyan-400/80 mb-6 tracking-wide">
                     {plan.period}
                   </span>
-                  
+
                   <p className="text-sm mb-8 font-medium text-(--text-secondary)">{plan.description}</p>
 
                   <div className="space-y-4 mb-10 grow">
@@ -235,19 +234,19 @@ export default function Pricing({ onScheduleCall }) {
                     ))}
                   </div>
 
-                  <a 
+                  <a
                     href="#checkout"
                     onClick={(e) => {
                       e.preventDefault()
                       let initialAmt = ''
                       const inrStr = plan.price.INR
                       if (inrStr.includes('K')) {
-                         const match = inrStr.match(/\d+/)
-                         if (match) initialAmt = String(Number(match[0]) * 1000)
+                        const match = inrStr.match(/\d+/)
+                        if (match) initialAmt = String(Number(match[0]) * 1000)
                       } else {
-                         initialAmt = inrStr.replace(/[^\d]/g, '') || '5000'
+                        initialAmt = inrStr.replace(/[^\d]/g, '') || '5000'
                       }
-                      
+
                       setSelectedPlanName(`${plan.name} (${activeCategory})`)
                       setDefaultAmount(initialAmt)
                       setIsPaymentOpen(true)
@@ -276,11 +275,11 @@ export default function Pricing({ onScheduleCall }) {
               <h3 className="text-2xl font-black tracking-tight" style={{ color: 'var(--text-primary)' }}>Individual Services</h3>
               <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>Need a specific service? Select individually.</p>
             </div>
-            
+
             <div className="glass-card overflow-hidden border-white/5 shadow-2xl">
               <div className="w-full">
                 {currentData.services.map((service, index) => (
-                  <div 
+                  <div
                     key={index}
                     className="group flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-6 border-b border-white/5 last:border-0 hover:bg-white/5 transition-all"
                   >
@@ -299,7 +298,7 @@ export default function Pricing({ onScheduleCall }) {
 
       </div>
 
-      <PaymentModal 
+      <PaymentModal
         isOpen={isPaymentOpen}
         onClose={() => setIsPaymentOpen(false)}
         defaultAmount={defaultAmount}
