@@ -27,7 +27,7 @@ export default function About() {
     <section id="about" className="relative py-32 overflow-hidden">
       {/* Immersive background elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(0,240,255,0.03)_0%,transparent_70%)] -z-10" />
-      
+
       <div className="container-custom">
         <div className="text-center mb-20">
           <motion.div
@@ -36,9 +36,9 @@ export default function About() {
             viewport={{ once: true }}
             className="inline-block px-4 py-1.5 mb-6 rounded-full border border-white/10 bg-white/5 text-xs font-bold uppercase tracking-[0.3em] text-cyan-400"
           >
-            The Duo Behind Aether
+            The Duo Behind G-One Media
           </motion.div>
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -60,7 +60,7 @@ export default function About() {
                 strokeDasharray="10 10"
                 initial={{ strokeDashoffset: 100, opacity: 0 }}
                 whileInView={{ strokeDashoffset: 0, opacity: 1 }}
-                transition={{ 
+                transition={{
                   strokeDashoffset: { duration: 10, repeat: Infinity, ease: "linear" },
                   opacity: { duration: 1 }
                 }}
