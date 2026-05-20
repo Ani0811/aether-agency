@@ -38,6 +38,7 @@ export default function PaymentModal({ isOpen, onClose, defaultAmount, planName 
 
     const API_BASE = import.meta.env.VITE_API_BACKEND_URL || ''
     const apiEndpoint = API_BASE ? `${API_BASE.replace(/\/$/, '')}` : ''
+    console.log('Payment checkout initiated. Target API endpoint:', `${apiEndpoint}/api/create-order`)
 
     try {
       // 1. Create order on backend

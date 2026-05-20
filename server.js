@@ -175,7 +175,10 @@ if (VITE_RAZORPAY_KEY_ID && VITE_RAZORPAY_KEY_SECRET) {
 
 app.post('/api/create-order', async (req, res) => {
   try {
+    console.log('--- Razorpay Order Creation Start ---')
+    console.log('Request body:', req.body)
     if (!razorpay) {
+      console.error('Razorpay client not initialized. Keys are missing in process.env.')
       return res.status(500).json({ error: 'Razorpay keys not configured on the server.' })
     }
     const { amount, receipt } = req.body
@@ -184,11 +187,15 @@ app.post('/api/create-order', async (req, res) => {
       currency: "INR",
       receipt: receipt || `rcpt_${Date.now()}`
     }
+    console.log('Creating order with options:', options)
     const order = await razorpay.orders.create(options)
+    console.log('Razorpay Order Response:', order)
     res.json(order)
   } catch (error) {
-    console.error('Razorpay Create Order Error:', error)
+    console.error('Razorpay Create Order Error details:', error)
     res.status(500).json({ error: error.message || 'Failed to create order' })
+  } finally {
+    console.log('--- Razorpay Order Creation End ---')
   }
 })
 
