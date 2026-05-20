@@ -9,7 +9,7 @@ dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 3001
-const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'http://localhost:5173'
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'http://localhost:5173,http://localhost:4173,https://ani0811.github.io'
 
 const corsOptions = FRONTEND_ORIGIN === '*'
   ? {}
