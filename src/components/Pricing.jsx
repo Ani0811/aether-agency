@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Check, Sparkles, Zap, Building2, Code, Video, Bot, TrendingUp } from 'lucide-react'
+import PaymentModal from './PaymentModal'
 
 const pricingData = {
   'Websites & Apps': {
@@ -139,6 +140,9 @@ const pricingData = {
 export default function Pricing({ onScheduleCall }) {
   const [currency, setCurrency] = useState('INR')
   const [activeCategory, setActiveCategory] = useState('Websites & Apps')
+  const [isPaymentOpen, setIsPaymentOpen] = useState(false)
+  const [selectedPlanName, setSelectedPlanName] = useState('')
+  const [defaultAmount, setDefaultAmount] = useState('')
 
   const currentData = pricingData[activeCategory]
 
@@ -232,25 +236,25 @@ export default function Pricing({ onScheduleCall }) {
                   </div>
 
                   <a 
-                    href="#contact"
+                    href="#checkout"
                     onClick={(e) => {
                       e.preventDefault()
-                      const element = document.getElementById('contact')
-                      if (element) {
-                        const offset = 80
-                        const bodyRect = document.body.getBoundingClientRect().top
-                        const elementRect = element.getBoundingClientRect().top
-                        const elementPosition = elementRect - bodyRect
-                        const offsetPosition = elementPosition - offset
-                        window.scrollTo({
-                          top: offsetPosition,
-                          behavior: 'smooth'
-                        })
+                      let initialAmt = ''
+                      const inrStr = plan.price.INR
+                      if (inrStr.includes('K')) {
+                         const match = inrStr.match(/\d+/)
+                         if (match) initialAmt = String(Number(match[0]) * 1000)
+                      } else {
+                         initialAmt = inrStr.replace(/[^\d]/g, '') || '5000'
                       }
+                      
+                      setSelectedPlanName(`${plan.name} (${activeCategory})`)
+                      setDefaultAmount(initialAmt)
+                      setIsPaymentOpen(true)
                     }}
                     className="w-full py-4 text-sm font-bold rounded-xl transition-all duration-300 bg-transparent border border-white/10 hover:border-cyan-500/50 hover:bg-cyan-500/10 text-(--text-primary) flex items-center justify-center"
                   >
-                    Get Started
+                    Pay Now
                   </a>
                 </div>
               </motion.div>
@@ -294,6 +298,13 @@ export default function Pricing({ onScheduleCall }) {
         </AnimatePresence>
 
       </div>
+
+      <PaymentModal 
+        isOpen={isPaymentOpen}
+        onClose={() => setIsPaymentOpen(false)}
+        defaultAmount={defaultAmount}
+        planName={selectedPlanName}
+      />
     </section>
   )
 }
