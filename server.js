@@ -166,8 +166,8 @@ const VITE_RAZORPAY_KEY_SECRET = process.env.VITE_RAZORPAY_KEY_SECRET
 let razorpay;
 if (VITE_RAZORPAY_KEY_ID && VITE_RAZORPAY_KEY_SECRET) {
   razorpay = new Razorpay({
-    key_id: RAZORPAY_KEY_ID,
-    key_secret: RAZORPAY_KEY_SECRET,
+    key_id: VITE_RAZORPAY_KEY_ID,
+    key_secret: VITE_RAZORPAY_KEY_SECRET,
   })
 } else {
   console.warn("⚠️ RAZORPAY KEYS MISSING: Please add RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET (or VITE_ prefixed versions) to your environment variables.")
