@@ -165,12 +165,14 @@ const VITE_RAZORPAY_KEY_SECRET = process.env.VITE_RAZORPAY_KEY_SECRET
 
 let razorpay;
 if (VITE_RAZORPAY_KEY_ID && VITE_RAZORPAY_KEY_SECRET) {
+  console.log('Razorpay Key ID loaded:', `${VITE_RAZORPAY_KEY_ID.substring(0, 9)}... (length: ${VITE_RAZORPAY_KEY_ID.trim().length})`)
+  console.log('Razorpay Key Secret loaded: (length:', VITE_RAZORPAY_KEY_SECRET.trim().length, ')')
   razorpay = new Razorpay({
-    key_id: VITE_RAZORPAY_KEY_ID,
-    key_secret: VITE_RAZORPAY_KEY_SECRET,
+    key_id: VITE_RAZORPAY_KEY_ID.trim(),
+    key_secret: VITE_RAZORPAY_KEY_SECRET.trim(),
   })
 } else {
-  console.warn("⚠️ RAZORPAY KEYS MISSING: Please add RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET (or VITE_ prefixed versions) to your environment variables.")
+  console.warn("⚠️ RAZORPAY KEYS MISSING: Please add VITE_RAZORPAY_KEY_ID and VITE_RAZORPAY_KEY_SECRET to your environment variables.")
 }
 
 app.post('/api/create-order', async (req, res) => {
