@@ -14,7 +14,9 @@ const inputClass = `
 `
 
 export default function CTA() {
-  const API_BASE = import.meta.env.VITE_API_BACKEND_URL || ''
+  const API_BASE = import.meta.env.DEV
+    ? 'http://localhost:3001'
+    : (import.meta.env.VITE_API_BACKEND_URL || '')
   const formRef = useRef()
   const [fields, setFields] = useState({ name: '', email: '', message: '' })
   const [status, setStatus] = useState('idle') // idle | loading | success | error

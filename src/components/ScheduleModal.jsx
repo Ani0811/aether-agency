@@ -18,7 +18,9 @@ export default function ScheduleModal({ isOpen, onClose }) {
     e.preventDefault()
     setStatus('loading')
     
-    const API_BASE = import.meta.env.VITE_API_BACKEND_URL || ''
+    const API_BASE = import.meta.env.DEV
+      ? 'http://localhost:3001'
+      : (import.meta.env.VITE_API_BACKEND_URL || '')
     const apiEndpoint = API_BASE ? `${API_BASE.replace(/\/$/, '')}/api/contact` : '/api/contact'
 
     try {
