@@ -11,11 +11,7 @@ const app = express()
 const PORT = process.env.PORT || 3001
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'http://localhost:5173,http://localhost:4173,https://ani0811.github.io'
 
-const corsOptions = FRONTEND_ORIGIN === '*'
-  ? {}
-  : { origin: FRONTEND_ORIGIN.split(',').map(s => s.trim()) }
-
-app.use(cors(corsOptions))
+app.use(cors({ origin: true }))
 app.use(express.json())
 
 const transporter = nodemailer.createTransport({
