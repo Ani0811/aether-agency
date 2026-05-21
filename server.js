@@ -4,6 +4,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import Razorpay from 'razorpay'
 import crypto from 'crypto'
+import { getContactEmailTemplate, getPaymentSuccessTemplate, getRefundInitiatedTemplate, getRefundSuccessTemplate } from './templates/emailTemplates.js';
 
 dotenv.config()
 
@@ -45,109 +46,7 @@ app.post('/api/contact', async (req, res) => {
       subject: isDiscoveryCall
         ? `✦ Discovery Call Request [${service}] from ${name} — Aether Digital`
         : `✦ New Message from ${name} — Aether Digital`,
-      html: `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-          <title>${isDiscoveryCall ? 'Discovery Call Request' : 'New Message'} — Aether Agency</title>
-        </head>
-        <body style="margin:0; padding:0; background-color:#f8fafc; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
-          <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8fafc; padding: 40px 16px;">
-            <tr>
-              <td align="center">
-                <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%; background:#ffffff; border-radius:8px; overflow:hidden; border:1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);">
-                  
-                  <!-- HEADER -->
-                  <tr>
-                    <td style="padding: 32px 40px; background-color: #0f172a; text-align: center;">
-                      <h1 style="margin:0; font-size:24px; font-weight:600; color:#ffffff; tracking:-0.5px;">Aether Agency</h1>
-                      <p style="margin:6px 0 0; font-size:14px; color:#94a3b8;">
-                        ${isDiscoveryCall ? '✦ New Discovery Booking Request' : '✦ New Contact Request'}
-                      </p>
-                    </td>
-                  </tr>
-
-                  <!-- CONTENT -->
-                  <tr>
-                    <td style="padding: 40px;">
-                      <!-- Contact Info -->
-                      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 32px;">
-                        <tr>
-                          <td style="padding-bottom: 8px;">
-                            <p style="margin:0; font-size:12px; text-transform:uppercase; letter-spacing:1px; color:#64748b; font-weight:600;">Client Details</p>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td style="background-color: #f1f5f9; padding: 20px; border-radius: 6px; border: 1px solid #e2e8f0;">
-                            <table width="100%" cellpadding="0" cellspacing="0">
-                              <tr>
-                                <td width="100" style="font-size:14px; color:#64748b; padding-bottom:12px;">Name:</td>
-                                <td style="font-size:14px; font-weight:600; color:#0f172a; padding-bottom:12px;">${name}</td>
-                              </tr>
-                              <tr>
-                                <td width="100" style="font-size:14px; color:#64748b; padding-bottom:${isDiscoveryCall ? '12px' : '0px'};">Email:</td>
-                                <td style="font-size:14px; font-weight:600; padding-bottom:${isDiscoveryCall ? '12px' : '0px'};">
-                                  <a href="mailto:${email}" style="color:#2563eb; text-decoration:none;">${email}</a>
-                                </td>
-                              </tr>
-                              ${isDiscoveryCall ? `
-                              <tr>
-                                <td width="100" style="font-size:14px; color:#64748b; padding-bottom:12px;">Service:</td>
-                                <td style="font-size:14px; font-weight:600; color:#06b6d4; padding-bottom:12px;">${service}</td>
-                              </tr>
-                              <tr>
-                                <td width="100" style="font-size:14px; color:#64748b;">Budget Focus:</td>
-                                <td style="font-size:14px; font-weight:600; color:#0f172a;">${budget}</td>
-                              </tr>
-                              ` : ''}
-                            </table>
-                          </td>
-                        </tr>
-                      </table>
-
-                      <!-- Message -->
-                      <table width="100%" cellpadding="0" cellspacing="0">
-                        <tr>
-                          <td style="padding-bottom: 8px;">
-                            <p style="margin:0; font-size:12px; text-transform:uppercase; letter-spacing:1px; color:#64748b; font-weight:600;">
-                              ${isDiscoveryCall ? 'Project Description' : 'Message'}
-                            </p>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td style="padding: 24px; border: 1px solid #e2e8f0; border-left: 4px solid #0f172a; border-radius: 4px; background-color: #ffffff;">
-                            <p style="margin:0; font-size:15px; color:#334155; line-height:1.6; white-space:pre-wrap;">${content.replace(/\n/g, '<br/>')}</p>
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-
-                  <!-- ACTION -->
-                  <tr>
-                    <td style="padding: 0 40px 40px;" align="center">
-                      <a href="mailto:${email}?subject=Re: Your inquiry with Aether Agency" style="display:inline-block; background-color:#2563eb; color:#ffffff; font-weight:500; font-size:14px; text-decoration:none; padding:12px 32px; border-radius:6px;">
-                        Reply to ${name}
-                      </a>
-                    </td>
-                  </tr>
-
-                  <!-- FOOTER -->
-                  <tr>
-                    <td style="background:#f8fafc; border-top:1px solid #e2e8f0; padding:24px 40px; text-align: center;">
-                      <p style="margin:0; font-size:13px; color:#64748b;">This email was sent from the Aether Agency website.</p>
-                    </td>
-                  </tr>
-
-                </table>
-              </td>
-            </tr>
-          </table>
-        </body>
-        </html>
-      `,
+      html: getContactEmailTemplate({ name, email, service, budget, content, isDiscoveryCall }),
     })
 
     res.json({ success: true })
@@ -201,7 +100,7 @@ app.post('/api/create-order', async (req, res) => {
   }
 })
 
-app.post('/api/verify-payment', (req, res) => {
+app.post('/api/verify-payment', async (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body
 
   const body = razorpay_order_id + "|" + razorpay_payment_id
@@ -211,10 +110,128 @@ app.post('/api/verify-payment', (req, res) => {
     .digest('hex')
 
   if (expectedSignature === razorpay_signature) {
-    res.json({ success: true, message: 'Payment verified successfully' })
+    try {
+      if (razorpay) {
+        const payment = await razorpay.payments.fetch(razorpay_payment_id)
+        const userEmail = payment.email
+        const userAmount = payment.amount / 100
+
+        if (userEmail) {
+          await transporter.sendMail({
+            from: `"Aether Agency" <${process.env.SMTP_USER}>`,
+            to: userEmail,
+            subject: 'Payment Received — Aether Agency',
+            html: getPaymentSuccessTemplate({ userAmount, razorpay_payment_id })
+          })
+        }
+      }
+      res.json({ success: true, message: 'Payment verified successfully' })
+    } catch (error) {
+      console.error('Error in post-verification (email):', error)
+      res.json({ success: true, message: 'Payment verified successfully, but failed to send receipt email.' })
+    }
   } else {
     res.status(400).json({ success: false, message: 'Invalid signature' })
   }
+})
+
+app.post('/api/refund', async (req, res) => {
+  const { payment_id, email } = req.body
+
+  if (!payment_id || !email) {
+    return res.status(400).json({ error: 'Payment ID and Email are required.' })
+  }
+
+  if (!razorpay) {
+    return res.status(500).json({ error: 'Razorpay keys not configured on the server.' })
+  }
+
+  try {
+    const payment = await razorpay.payments.fetch(payment_id)
+    if (!payment) {
+      return res.status(404).json({ error: 'Payment not found.' })
+    }
+
+    if (payment.email !== email) {
+      return res.status(403).json({ error: 'Email does not match the payment record.' })
+    }
+
+    if (payment.status === 'refunded') {
+      return res.status(400).json({ error: 'This payment has already been refunded.' })
+    }
+
+    const refund = await razorpay.payments.refund(payment_id)
+
+    // In Test Mode (or if Razorpay processed it instantly in Live Mode), status is 'processed'
+    if (refund.status === 'processed') {
+      await transporter.sendMail({
+        from: `"Aether Agency" <${process.env.SMTP_USER}>`,
+        to: email,
+        subject: 'Refund Successful — Aether Agency',
+        html: getRefundSuccessTemplate({ amount: payment.amount / 100, payment_id, refund_id: refund.id })
+      })
+    } else {
+      await transporter.sendMail({
+        from: `"Aether Agency" <${process.env.SMTP_USER}>`,
+        to: email,
+        subject: 'Refund Initiated — Aether Agency',
+        html: getRefundInitiatedTemplate({ amount: payment.amount / 100, payment_id })
+      })
+    }
+
+    res.json({ success: true, refund })
+  } catch (error) {
+    console.error('Refund Error:', error)
+    res.status(500).json({ error: error.message || 'Failed to process refund' })
+  }
+})
+
+app.post('/api/razorpay-webhook', async (req, res) => {
+  const signature = req.headers['x-razorpay-signature']
+  const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET
+
+  // Verify webhook signature if a secret is configured in the environment
+  if (webhookSecret && signature) {
+    const expectedSignature = crypto
+      .createHmac('sha256', webhookSecret)
+      .update(JSON.stringify(req.body))
+      .digest('hex')
+
+    if (expectedSignature !== signature) {
+      console.warn('⚠️ Webhook signature verification failed')
+      return res.status(400).json({ error: 'Invalid webhook signature' })
+    }
+  }
+
+  const { event, payload } = req.body
+
+  if (event === 'refund.processed') {
+    try {
+      const refundEntity = payload.refund.entity
+      const paymentId = refundEntity.payment_id
+      const amount = refundEntity.amount / 100
+
+      if (razorpay) {
+        // Fetch payment details to obtain the consumer's email address
+        const payment = await razorpay.payments.fetch(paymentId)
+        const email = payment.email
+
+        if (email) {
+          await transporter.sendMail({
+            from: `"G-One Media" <${process.env.SMTP_USER}>`,
+            to: email,
+            subject: 'Refund Successful — G-One Media',
+            html: getRefundSuccessTemplate({ amount, payment_id: paymentId, refund_id: refundEntity.id })
+          })
+          console.log(`✉️ Async refund successful email sent to ${email} for payment ${paymentId}`)
+        }
+      }
+    } catch (error) {
+      console.error('Error handling refund.processed webhook:', error)
+    }
+  }
+
+  res.json({ status: 'ok' })
 })
 
 app.listen(PORT, () => console.log(`✅ Aether API running on http://localhost:${PORT}`))

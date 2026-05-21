@@ -3,7 +3,7 @@ import { X, CreditCard, CheckCircle, Loader, AlertCircle, DollarSign, Wallet } f
 import { useState, useEffect } from 'react'
 
 export default function PaymentModal({ isOpen, onClose, defaultAmount, planName }) {
-  const [status, setStatus] = useState('idle') // idle | loading | success | error
+  const [status, setStatus] = useState('idle') // idle | loading | verifying | success | error
   const [amount, setAmount] = useState(defaultAmount || '')
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -65,6 +65,7 @@ export default function PaymentModal({ isOpen, onClose, defaultAmount, planName 
         description: `Payment for ${planName}`,
         order_id: order.id,
         handler: async function (response) {
+          setStatus('verifying')
           try {
             // 3. Verify payment on backend
             const verifyRes = await fetch(`${apiEndpoint}/api/verify-payment`, {
@@ -82,7 +83,7 @@ export default function PaymentModal({ isOpen, onClose, defaultAmount, planName 
               setStatus('success')
               setTimeout(() => {
                 onClose()
-              }, 4000)
+              }, 2500) // Auto-close after 2.5 seconds
             } else {
               setStatus('error')
               setErrorMessage(verifyData.message || 'Payment verification failed.')
@@ -173,6 +174,19 @@ export default function PaymentModal({ isOpen, onClose, defaultAmount, planName 
                     </div>
                     <h3 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Payment Successful!</h3>
                     <p style={{ color: 'var(--text-secondary)' }}>Thank you for your payment. We will be in touch shortly.</p>
+                  </motion.div>
+                ) : status === 'verifying' ? (
+                  <motion.div
+                    key="verifying"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="py-10 text-center"
+                  >
+                    <div className="w-20 h-20 rounded-full bg-cyan-400/10 flex items-center justify-center border border-cyan-400/20 mx-auto mb-6">
+                      <Loader size={40} className="text-cyan-400 animate-spin" />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Verifying Payment...</h3>
+                    <p style={{ color: 'var(--text-secondary)' }}>Please do not close this window or refresh the page.</p>
                   </motion.div>
                 ) : (
                   <form onSubmit={handlePayment} className="space-y-4">

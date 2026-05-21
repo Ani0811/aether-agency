@@ -11,6 +11,7 @@ import Process from './components/Process'
 import Pricing from './components/Pricing'
 import Testimonials from './components/Testimonials'
 import CTA from './components/CTA'
+import RefundSection from './components/RefundSection'
 import Footer from './components/Footer'
 import NotFound from './components/NotFound'
 
@@ -27,6 +28,7 @@ function HomePage({ onScheduleCall }) {
       <Pricing onScheduleCall={onScheduleCall} />
       <Testimonials />
       <About />
+      <RefundSection />
       <CTA />
     </>
   )

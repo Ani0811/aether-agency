@@ -286,8 +286,33 @@ export default function Pricing({ onScheduleCall }) {
                     <div className="font-bold text-(--text-secondary) group-hover:text-(--text-primary) mb-2 sm:mb-0 transition-colors">
                       {service.name}
                     </div>
-                    <div className="font-black text-(--text-primary) tracking-tight px-4 py-1.5 rounded-lg bg-black/20 group-hover:bg-(--accent-blue) group-hover:text-black transition-all">
-                      {currency === 'INR' ? '₹' + service.price.INR : service.price.USD}
+                    <div className="flex items-center gap-4">
+                      <div className="font-black text-(--text-primary) tracking-tight px-4 py-1.5 rounded-lg bg-black/20 group-hover:bg-(--accent-blue) group-hover:text-black transition-all">
+                        {currency === 'INR' ? '₹' + service.price.INR : service.price.USD}
+                      </div>
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault()
+                          let initialAmt = ''
+                          const inrStr = service.price.INR
+                          if (inrStr.includes('L') && !inrStr.split('L')[0].includes('K')) {
+                            const match = inrStr.match(/\d+/)
+                            if (match) initialAmt = String(Number(match[0]) * 100000)
+                          } else if (inrStr.includes('K')) {
+                            const match = inrStr.match(/\d+/)
+                            if (match) initialAmt = String(Number(match[0]) * 1000)
+                          } else {
+                            initialAmt = inrStr.replace(/[^\d]/g, '') || '5000'
+                          }
+
+                          setSelectedPlanName(`${service.name} (${activeCategory})`)
+                          setDefaultAmount(initialAmt)
+                          setIsPaymentOpen(true)
+                        }}
+                        className="px-4 py-1.5 text-xs font-bold rounded-lg transition-all duration-300 bg-transparent border border-white/10 hover:border-cyan-500/50 hover:bg-cyan-500/10 text-(--text-primary)"
+                      >
+                        Pay Now
+                      </button>
                     </div>
                   </div>
                 ))}

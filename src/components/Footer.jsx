@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Instagram, Twitter, Linkedin, Github, Mail, MessageCircle } from 'lucide-react'
+import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function Footer() {
@@ -118,6 +119,13 @@ export default function Footer() {
                 {item}
               </a>
             ))}
+            <a 
+              href="#refund"
+              onClick={(e) => scrollToSection(e, 'refund')}
+              className="mt-2 text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 inline-flex items-center justify-center w-fit px-4 py-2 rounded-lg border border-fuchsia-500/30 bg-fuchsia-500/10 text-fuchsia-400 hover:bg-fuchsia-500/20 hover:border-fuchsia-500/50" 
+            >
+              Request Refund
+            </a>
           </div>
 
           {/* Contact info */}
