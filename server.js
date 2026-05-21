@@ -206,7 +206,7 @@ app.post('/api/verify-payment', (req, res) => {
 
   const body = razorpay_order_id + "|" + razorpay_payment_id
   const expectedSignature = crypto
-    .createHmac('sha256', RAZORPAY_KEY_SECRET)
+    .createHmac('sha256', VITE_RAZORPAY_KEY_SECRET)
     .update(body.toString())
     .digest('hex')
 
