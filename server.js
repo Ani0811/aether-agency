@@ -41,7 +41,7 @@ app.post('/api/contact', async (req, res) => {
   try {
     await transporter.sendMail({
       from: `"${name}" <${process.env.SMTP_USER}>`,
-      to: process.env.SMTP_USER, // sends to yourself
+      to: process.env.AGENCY_EMAIL || 'gmedia774@gmail.com', // sends to agency
       replyTo: email,
       subject: isDiscoveryCall
         ? `✦ Discovery Call Request [${service}] from ${name} — Aether Digital`

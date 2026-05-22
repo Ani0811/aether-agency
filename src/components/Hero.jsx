@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ArrowRight, Twitter, Instagram, Linkedin, Github, Download, Calendar } from 'lucide-react'
+import { ArrowRight, Instagram, Linkedin, Youtube, Download, Calendar } from 'lucide-react'
 
 export default function Hero({ onScheduleCall }) {
   return (
@@ -101,22 +101,28 @@ export default function Hero({ onScheduleCall }) {
               transition={{ delay: 0.8 }}
               className="mt-8 flex flex-wrap items-center gap-6 border-t border-white/5 pt-6"
             >
-              <div className="flex items-center gap-4">
-                {[
-                  { icon: Twitter, href: "#", color: "hover:text-cyan-400" },
-                  { icon: Instagram, href: "#", color: "hover:text-fuchsia-400" },
-                  { icon: Linkedin, href: "#", color: "hover:text-cyan-400" },
-                  { icon: Github, href: "#", color: "hover:text-fuchsia-400" }
-                ].map((social, i) => (
-                  <a
-                    key={i}
-                    href={social.href}
-                    className={`transition-all duration-300 transform hover:scale-110 ${social.color}`}
-                    style={{ color: 'var(--text-muted)' }}
-                  >
-                    <social.icon size={18} />
-                  </a>
-                ))}
+              <div className="flex flex-wrap items-center gap-4">
+                <span className="text-[10px] font-bold uppercase tracking-[0.25em] opacity-50 text-[var(--text-secondary)]">
+                  Follow My Journey
+                </span>
+                <div className="flex items-center gap-3">
+                  {[
+                    { icon: Instagram, href: "https://www.instagram.com/g1mediaofficial", color: "hover:text-fuchsia-400" },
+                    { icon: Linkedin, href: "https://www.linkedin.com/company/g-one-media-agency", color: "hover:text-cyan-400" },
+                    { icon: Youtube, href: "https://www.youtube.com/@G-OneMedia", color: "hover:text-red-500" }
+                  ].map((social, i) => (
+                    <a
+                      key={i}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`transition-all duration-300 transform hover:scale-110 ${social.color}`}
+                      style={{ color: 'var(--text-muted)' }}
+                    >
+                      <social.icon size={18} />
+                    </a>
+                  ))}
+                </div>
               </div>
 
               <div className="h-4 w-px bg-white/10 hidden sm:block" />
@@ -142,12 +148,6 @@ export default function Hero({ onScheduleCall }) {
               >
                 <Download size={11} /> Brochure
               </a>
-
-              <div className="h-4 w-px bg-white/10 hidden lg:block" />
-
-              <p className="text-[9px] font-bold uppercase tracking-[0.4em] opacity-30 hidden lg:block">
-                Follow our journey
-              </p>
             </motion.div>
           </motion.div>
         </div>

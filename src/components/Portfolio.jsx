@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ExternalLink, Play } from 'lucide-react'
+import { ExternalLink, Play, ChevronLeft, ChevronRight } from 'lucide-react'
 
 const categories = ['All', 'Websites', 'AI Agents', 'Videos']
 const videoSubCategories = ['All Videos', 'Reels', 'YT Videos', 'Vlogs']
@@ -9,11 +9,11 @@ const DRIVE_LINK = 'https://drive.google.com/drive/folders/1jO4KAWED3Y005JOYMXiX
 
 const projects = [
   {
-    title: 'NovaTech SaaS',
+    title: 'FoodieFrenzy SaaS',
     type: 'Websites',
-    category: 'SaaS • Full Stack',
-    description: 'Full website redesign with high-performance engineering, boosting conversions by 85%.',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800'
+    category: 'Food SaaS • Full Stack',
+    description: 'High-performance food delivery platform and SaaS dashboard with real-time tracking.',
+    image: `${import.meta.env.BASE_URL}Agency_Websites/FoodieFrenzy.jpg`.replace(/\/+/g, '/')
   },
   {
     title: 'Aether Insight Bot',
@@ -47,11 +47,11 @@ const projects = [
     link: 'https://drive.google.com/file/d/1fNKd-6i0fEGVnkEev-TCN9b1P3VU7UZB/view'
   },
   {
-    title: 'Luxe Portfolio',
+    title: 'ABT Developer Portfolio',
     type: 'Websites',
-    category: 'Portfolio • High-End',
-    description: 'Premium portfolio site for an interior design studio with smooth scroll interactions.',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800'
+    category: 'Portfolio • Full Stack',
+    description: 'Premium developer portfolio featuring advanced system architectures and creative layouts.',
+    image: `${import.meta.env.BASE_URL}Agency_Websites/ABT_Portfolio.jpg`.replace(/\/+/g, '/')
   },
   {
     title: 'Nexus Data Agent',
@@ -192,7 +192,8 @@ function LazyMedia({ image, title, isVideo }) {
 export default function Portfolio() {
   const [activeTab, setActiveTab] = useState('All')
   const [activeSubTab, setActiveSubTab] = useState('All Videos')
-  const [visibleCount, setVisibleCount] = useState(6)
+  const [currentPage, setCurrentPage] = useState(1)
+  const ITEMS_PER_PAGE = 6
 
   const filteredProjects = projects.filter(p => {
     if (activeTab === 'All') return true
@@ -205,7 +206,26 @@ export default function Portfolio() {
     return p.type === activeTab
   })
 
-  const displayedProjects = filteredProjects.slice(0, visibleCount)
+  const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE)
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
+  const displayedProjects = filteredProjects.slice(startIndex, startIndex + ITEMS_PER_PAGE)
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber)
+    const element = document.getElementById('portfolio')
+    if (element) {
+      const offset = 85
+      const bodyRect = document.body.getBoundingClientRect().top
+      const elementRect = element.getBoundingClientRect().top
+      const elementPosition = elementRect - bodyRect
+      const offsetPosition = elementPosition - offset
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      })
+    }
+  }
 
   return (
     <section id="portfolio" className="py-32" style={{ background: 'var(--bg-primary)' }}>
@@ -222,24 +242,30 @@ export default function Portfolio() {
           </motion.h2>
 
           {/* Filters */}
-          <div className="flex flex-col items-center gap-6 mt-8">
-            <div className="flex flex-wrap justify-center gap-2">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => {
-                    setActiveTab(cat)
-                    if (cat !== 'Videos') setActiveSubTab('All Videos')
-                    setVisibleCount(6)
-                  }}
-                  className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 border ${activeTab === cat
-                      ? 'bg-cyan-400 border-cyan-400 text-black shadow-[0_0_20px_rgba(0,240,255,0.4)]'
-                      : 'border-white/10 text-(--text-muted) hover:border-white/30'
-                    }`}
-                >
-                  {cat}
-                </button>
-              ))}
+          <div className="flex flex-col items-center gap-6 mt-8 w-full max-w-3xl mx-auto">
+            <div className="relative w-full flex justify-center">
+              {/* Fade masks for mobile scroll indication */}
+              <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--bg-primary)] to-transparent pointer-events-none z-10 md:hidden" />
+              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[var(--bg-primary)] to-transparent pointer-events-none z-10 md:hidden" />
+              
+              <div className="w-full overflow-x-auto scrollbar-none flex flex-nowrap md:flex-wrap md:justify-center gap-2 px-8 pb-3 select-none">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => {
+                      setActiveTab(cat)
+                      if (cat !== 'Videos') setActiveSubTab('All Videos')
+                      setCurrentPage(1)
+                    }}
+                    className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 border shrink-0 cursor-pointer ${activeTab === cat
+                        ? 'bg-cyan-400 border-cyan-400 text-black shadow-[0_0_20px_rgba(0,240,255,0.4)]'
+                        : 'border-white/10 text-[var(--text-muted)] hover:border-white/30 hover:text-white'
+                      }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* Sub-Filters for Videos */}
@@ -249,23 +275,28 @@ export default function Portfolio() {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="flex flex-wrap justify-center gap-2 p-2 rounded-2xl bg-white/5 border border-white/10"
+                  className="relative w-full max-w-md flex justify-center"
                 >
-                  {videoSubCategories.map((sub) => (
-                    <button
-                      key={sub}
-                      onClick={() => {
-                        setActiveSubTab(sub)
-                        setVisibleCount(6)
-                      }}
-                      className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${activeSubTab === sub
-                          ? 'bg-white/10 text-cyan-400'
-                          : 'text-(--text-muted) hover:text-white'
-                        }`}
-                    >
-                      {sub}
-                    </button>
-                  ))}
+                  <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--bg-primary)] to-transparent pointer-events-none z-10 md:hidden" />
+                  <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[var(--bg-primary)] to-transparent pointer-events-none z-10 md:hidden" />
+                  
+                  <div className="w-full overflow-x-auto scrollbar-none flex flex-nowrap md:flex-wrap justify-start md:justify-center gap-2 p-2 rounded-2xl bg-white/5 border border-white/10 mx-4">
+                    {videoSubCategories.map((sub) => (
+                      <button
+                        key={sub}
+                        onClick={() => {
+                          setActiveSubTab(sub)
+                          setCurrentPage(1)
+                        }}
+                        className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 shrink-0 cursor-pointer ${activeSubTab === sub
+                            ? 'bg-white/10 text-cyan-400'
+                            : 'text-[var(--text-muted)] hover:text-white'
+                          }`}
+                      >
+                        {sub}
+                      </button>
+                    ))}
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -315,29 +346,49 @@ export default function Portfolio() {
           </AnimatePresence>
         </motion.div>
 
-        {/* View More Button */}
-        {filteredProjects.length > visibleCount && (
-          <div className="flex justify-center mt-16">
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-3 mt-16">
             <button
-              onClick={() => setVisibleCount(prev => prev + 6)}
-              className="group relative px-8 py-3.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 border border-cyan-400/30 text-cyan-400 hover:border-cyan-400 bg-cyan-400/5 hover:bg-cyan-400 hover:text-black shadow-[0_0_15px_rgba(0,240,255,0.1)] hover:shadow-[0_0_25px_rgba(0,240,255,0.4)] flex items-center gap-2 overflow-hidden cursor-pointer"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`w-11 h-11 rounded-xl border border-white/10 flex items-center justify-center transition-all duration-300 cursor-pointer ${
+                currentPage === 1
+                  ? 'opacity-30 cursor-not-allowed'
+                  : 'hover:border-cyan-400 hover:text-cyan-400 hover:scale-105 hover:bg-cyan-400/5 active:scale-95'
+              }`}
+              style={{ color: 'var(--text-muted)' }}
+              aria-label="Previous Page"
             >
-              <span className="relative z-10">View More</span>
-              <motion.span
-                className="relative z-10 flex items-center justify-center"
-                animate={{ y: [0, 4, 0] }}
-                transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+              <ChevronLeft size={18} />
+            </button>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                className={`w-11 h-11 rounded-xl text-xs font-black transition-all duration-300 border cursor-pointer ${
+                  currentPage === page
+                    ? 'bg-cyan-400 border-cyan-400 text-black shadow-[0_0_20px_rgba(0,240,255,0.4)]'
+                    : 'border-white/10 text-[var(--text-muted)] hover:border-white/30 hover:text-white hover:scale-105 hover:bg-white/5 active:scale-95'
+                }`}
               >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                </svg>
-              </motion.span>
+                {page}
+              </button>
+            ))}
+
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className={`w-11 h-11 rounded-xl border border-white/10 flex items-center justify-center transition-all duration-300 cursor-pointer ${
+                currentPage === totalPages
+                  ? 'opacity-30 cursor-not-allowed'
+                  : 'hover:border-cyan-400 hover:text-cyan-400 hover:scale-105 hover:bg-cyan-400/5 active:scale-95'
+              }`}
+              style={{ color: 'var(--text-muted)' }}
+              aria-label="Next Page"
+            >
+              <ChevronRight size={18} />
             </button>
           </div>
         )}

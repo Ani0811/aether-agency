@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Instagram, Twitter, Linkedin, Github, Mail, MessageCircle } from 'lucide-react'
+import { Instagram, Linkedin, Youtube, Mail, MessageCircle } from 'lucide-react'
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -75,17 +75,32 @@ export default function Footer() {
               Engineering digital ecosystems that captivate and convert. We blend cinematic visuals with high-performance code.
             </p>
             <div className="flex items-center gap-4 mt-2">
-              <a href="#" className="w-11 h-11 rounded-full border border-[var(--border-subtle)] flex items-center justify-center hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 hover:scale-110 active:scale-95 transition-all duration-300" style={{ color: 'var(--text-muted)' }}>
-                <Twitter size={20} />
-              </a>
-              <a href="#" className="w-11 h-11 rounded-full border border-[var(--border-subtle)] flex items-center justify-center hover:text-fuchsia-400 hover:border-fuchsia-400/50 hover:bg-fuchsia-400/10 hover:scale-110 active:scale-95 transition-all duration-300" style={{ color: 'var(--text-muted)' }}>
+              <a 
+                href="https://www.instagram.com/g1mediaofficial" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-11 h-11 rounded-full border border-[var(--border-subtle)] flex items-center justify-center hover:text-fuchsia-400 hover:border-fuchsia-400/50 hover:bg-fuchsia-400/10 hover:scale-110 active:scale-95 transition-all duration-300" 
+                style={{ color: 'var(--text-muted)' }}
+              >
                 <Instagram size={20} />
               </a>
-              <a href="#" className="w-11 h-11 rounded-full border border-[var(--border-subtle)] flex items-center justify-center hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 hover:scale-110 active:scale-95 transition-all duration-300" style={{ color: 'var(--text-muted)' }}>
+              <a 
+                href="https://www.linkedin.com/company/g-one-media-agency" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-11 h-11 rounded-full border border-[var(--border-subtle)] flex items-center justify-center hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 hover:scale-110 active:scale-95 transition-all duration-300" 
+                style={{ color: 'var(--text-muted)' }}
+              >
                 <Linkedin size={20} />
               </a>
-              <a href="#" className="w-11 h-11 rounded-full border border-[var(--border-subtle)] flex items-center justify-center hover:text-fuchsia-400 hover:border-fuchsia-400/50 hover:bg-fuchsia-400/10 hover:scale-110 active:scale-95 transition-all duration-300" style={{ color: 'var(--text-muted)' }}>
-                <Github size={20} />
+              <a 
+                href="https://www.youtube.com/@G-OneMedia" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-11 h-11 rounded-full border border-[var(--border-subtle)] flex items-center justify-center hover:text-red-500 hover:border-red-500/50 hover:bg-red-500/10 hover:scale-110 active:scale-95 transition-all duration-300" 
+                style={{ color: 'var(--text-muted)' }}
+              >
+                <Youtube size={20} />
               </a>
             </div>
           </div>
@@ -164,7 +179,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
           <p className="text-sm font-medium tracking-wide text-left" style={{ color: 'var(--text-muted)' }}>
-            &copy; {currentYear} Aether Digital Agency. All rights reserved.
+            &copy; {currentYear} G-One Media Agency. All rights reserved.
           </p>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
