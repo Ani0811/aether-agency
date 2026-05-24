@@ -85,7 +85,7 @@ export default function Footer() {
                 <Instagram size={20} />
               </a>
               <a 
-                href="https://www.linkedin.com/company/g-one-media-agency" 
+                href="https://www.linkedin.com/in/g-one-media-agency-93581040b/" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="w-11 h-11 rounded-full border border-[var(--border-subtle)] flex items-center justify-center hover:text-cyan-400 hover:border-cyan-400/50 hover:bg-cyan-400/10 hover:scale-110 active:scale-95 transition-all duration-300" 
@@ -134,13 +134,6 @@ export default function Footer() {
                 {item}
               </a>
             ))}
-            <a 
-              href="#refund"
-              onClick={(e) => scrollToSection(e, 'refund')}
-              className="mt-2 text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 inline-flex items-center justify-center w-fit px-4 py-2 rounded-lg border border-fuchsia-500/30 bg-fuchsia-500/10 text-fuchsia-400 hover:bg-fuchsia-500/20 hover:border-fuchsia-500/50" 
-            >
-              Request Refund
-            </a>
           </div>
 
           {/* Contact info */}

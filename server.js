@@ -4,10 +4,16 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import Razorpay from 'razorpay'
 import crypto from 'crypto'
+import { createClient } from '@supabase/supabase-js'
 import { getContactEmailTemplate, getPaymentSuccessTemplate, getRefundInitiatedTemplate, getRefundSuccessTemplate } from './templates/emailTemplates.js';
 
-
 dotenv.config()
+
+// Supabase admin client (server-side — uses service key or anon key)
+const supabase = createClient(
+  process.env.SUPABASE_PROJECT_URL || '',
+  process.env.SUPABASE_PUBLISHABLE_KEY || ''
+)
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -112,24 +118,40 @@ app.post('/api/verify-payment', async (req, res) => {
 
   if (expectedSignature === razorpay_signature) {
     try {
+      let userEmail = null
+      let userAmount = 0
+
       if (razorpay) {
         const payment = await razorpay.payments.fetch(razorpay_payment_id)
-        const userEmail = payment.email
-        const userAmount = payment.amount / 100
+        userEmail = payment.email
+        userAmount = payment.amount / 100
+
+        // Log payment to Supabase (fire-and-forget)
+        supabase.from('payments').insert([{
+          razorpay_order_id,
+          razorpay_payment_id,
+          amount: userAmount,
+          email: userEmail || null,
+          status: 'captured',
+        }]).then(({ error }) => {
+          if (error) console.warn('⚠️ Supabase payment log failed:', error)
+          else console.log('✅ Payment logged to Supabase:', razorpay_payment_id)
+        })
 
         if (userEmail) {
-          await transporter.sendMail({
-            from: `"Aether Agency" <${process.env.SMTP_USER}>`,
+          // Send receipt email (fire-and-forget — don't block the response)
+          transporter.sendMail({
+            from: `"G-One Media" <${process.env.SMTP_USER}>`,
             to: userEmail,
-            subject: 'Payment Received — Aether Agency',
+            subject: 'Payment Received — G-One Media',
             html: getPaymentSuccessTemplate({ userAmount, razorpay_payment_id })
-          })
+          }).catch(err => console.warn('Payment email failed:', err))
         }
       }
       res.json({ success: true, message: 'Payment verified successfully' })
     } catch (error) {
-      console.error('Error in post-verification (email):', error)
-      res.json({ success: true, message: 'Payment verified successfully, but failed to send receipt email.' })
+      console.error('Error in post-verification:', error)
+      res.json({ success: true, message: 'Payment verified successfully, but post-processing failed.' })
     }
   } else {
     res.status(400).json({ success: false, message: 'Invalid signature' })
@@ -232,6 +254,90 @@ app.post('/api/razorpay-webhook', async (req, res) => {
     }
   }
   res.json({ status: 'ok' })
+})
+// ─────────────────────────────────────────────────────────────────────────────
+// AI CHAT WIDGET ENDPOINT
+// ─────────────────────────────────────────────────────────────────────────────
+
+const chatSessions = new Map()
+
+const CHAT_SYSTEM_PROMPT = `
+You are an AI assistant for Aether Digital (G-One Media), a modern digital agency based in India.
+
+WHAT WE DO:
+- Custom Website Design & Development (React, Next.js, full-stack)
+- E-commerce solutions with Razorpay payment integrations
+- Digital marketing (SEO, social media, email campaigns)
+- AI chatbot creation & automation
+- Video production (Reels, YouTube, cinematic content)
+- Brand identity & logo design
+
+HOW TO RESPOND:
+- Be friendly, professional, and concise (2-4 sentences max per reply)
+- If asked for pricing, say packages start from ₹10,000 and vary by scope
+- If someone wants to book a call or discuss a project, ask for their name and email and say our team will reach out within 24 hours
+- If asked something you are not sure about, say "Let me connect you with our team for that!" and ask for their email
+- Never make up specific details you are not sure about
+- Use short paragraphs and emojis sparingly for a modern feel
+`.trim()
+
+app.post('/api/chat', async (req, res) => {
+  const { message, sessionId } = req.body
+  if (!message) {
+    return res.status(400).json({ error: 'Message is required.' })
+  }
+
+  const apiKey = process.env.GEMINI_API_KEY
+  if (!apiKey) {
+    return res.status(500).json({ error: 'AI service not configured.' })
+  }
+
+  const sid = sessionId || `session_${Date.now()}`
+
+  if (!chatSessions.has(sid)) {
+    chatSessions.set(sid, [
+      { role: 'user', parts: [{ text: CHAT_SYSTEM_PROMPT }] },
+      { role: 'model', parts: [{ text: "Hi! I'm the Aether Digital assistant. How can I help you today? 🚀" }] }
+    ])
+  }
+
+  const history = chatSessions.get(sid)
+  history.push({ role: 'user', parts: [{ text: message }] })
+
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: history,
+          generationConfig: { temperature: 0.7, maxOutputTokens: 300 }
+        })
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error(`Gemini API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim()
+      || "I'm having a moment! Could you rephrase that?"
+
+    history.push({ role: 'model', parts: [{ text: reply }] })
+
+    // Trim history to prevent token overflow
+    if (history.length > 22) {
+      const trimmed = [history[0], history[1], ...history.slice(-18)]
+      chatSessions.set(sid, trimmed)
+    }
+
+    res.json({ reply, sessionId: sid })
+  } catch (error) {
+    console.error('Chat API error:', error)
+    res.status(500).json({ error: 'Failed to get AI response.' })
+  }
 })
 
 app.listen(PORT, () => console.log(`✅ Aether API running on http://localhost:${PORT}`))

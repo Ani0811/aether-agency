@@ -14,6 +14,13 @@ import CTA from './components/CTA'
 import RefundSection from './components/RefundSection'
 import Footer from './components/Footer'
 import NotFound from './components/NotFound'
+import BudgetCalculator from './components/BudgetCalculator'
+import AIChatWidget from './components/AIChatWidget'
+import CaseStudyDetail from './components/CaseStudyDetail'
+import ClientLogin from './components/ClientLogin'
+import ClientDashboard from './components/ClientDashboard'
+import ServiceDetail from './components/ServiceDetail'
+import GetStarted from './components/GetStarted'
 
 import ScheduleModal from './components/ScheduleModal'
 import Loader from './components/Loader'
@@ -25,6 +32,7 @@ function HomePage({ onScheduleCall }) {
       <Services />
       <Portfolio />
       <Process />
+      <BudgetCalculator />
       <Pricing onScheduleCall={onScheduleCall} />
       <Testimonials />
       <About />
@@ -46,6 +54,26 @@ export default function App() {
     }
   }, [location, loading])
 
+  useEffect(() => {
+    if (!loading && location.pathname === '/' && location.hash) {
+      const id = location.hash.replace('#', '')
+      const el = document.getElementById(id)
+      if (el) {
+        const timer = setTimeout(() => {
+          const offset = 85
+          const bodyRect = document.body.getBoundingClientRect().top
+          const elementRect = el.getBoundingClientRect().top
+          const elementPosition = elementRect - bodyRect
+          window.scrollTo({
+            top: elementPosition - offset,
+            behavior: 'smooth'
+          })
+        }, 150)
+        return () => clearTimeout(timer)
+      }
+    }
+  }, [location, loading])
+
   if (loading) {
     return (
       <ThemeProvider>
@@ -62,9 +90,17 @@ export default function App() {
 
         <Routes>
           <Route path="/" element={<HomePage onScheduleCall={() => setIsScheduleOpen(true)} />} />
+          <Route path="/get-started" element={<GetStarted />} />
+          <Route path="/services/:slug" element={<ServiceDetail onScheduleCall={() => setIsScheduleOpen(true)} />} />
+          <Route path="/portfolio/:id" element={<CaseStudyDetail />} />
+          <Route path="/portal" element={<ClientLogin />} />
+          <Route path="/portal/dashboard" element={<ClientDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
+
+        {/* Global AI Chat Widget */}
+        <AIChatWidget />
       </div>
     </ThemeProvider>
   )

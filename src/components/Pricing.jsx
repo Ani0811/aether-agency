@@ -261,35 +261,45 @@ export default function Pricing({ onScheduleCall }) {
           </motion.div>
         </AnimatePresence>
 
-        {/* Individual Services Table */}
+        {/* Individual Services Grid */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={`${activeCategory}-table`}
+            key={`${activeCategory}-grid`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4, delay: 0.1 }}
-            className="max-w-4xl mx-auto"
+            className="w-full"
           >
-            <div className="text-center mb-8">
-              <h3 className="text-2xl font-black tracking-tight" style={{ color: 'var(--text-primary)' }}>Individual Services</h3>
-              <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>Need a specific service? Select individually.</p>
+            <div className="text-center mb-12">
+              <h3 className="text-3xl font-black tracking-tight" style={{ color: 'var(--text-primary)' }}>Individual Services</h3>
+              <p className="text-base mt-3" style={{ color: 'var(--text-muted)' }}>Need a specific service? Select individually.</p>
             </div>
 
-            <div className="glass-card overflow-hidden border-white/5 shadow-2xl">
-              <div className="w-full">
-                {currentData.services.map((service, index) => (
-                  <div
-                    key={index}
-                    className="group flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-6 border-b border-white/5 last:border-0 hover:bg-white/5 transition-all"
-                  >
-                    <div className="font-bold text-(--text-secondary) group-hover:text-(--text-primary) mb-2 sm:mb-0 transition-colors">
-                      {service.name}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {currentData.services.map((service, index) => (
+                <motion.div
+                  key={index}
+                  whileHover={{ y: -5 }}
+                  className="group relative p-8 rounded-3xl glass-card transition-all duration-300 border border-white/10 hover:border-cyan-500/50 overflow-hidden flex flex-col justify-between shadow-lg hover:shadow-[0_8px_30px_rgb(0,240,255,0.15)]"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-transparent to-cyan-500/0 group-hover:from-cyan-500/5 transition-all duration-500" />
+                  
+                  <div className="relative z-10 flex flex-col h-full gap-8">
+                    <div className="flex justify-between items-start gap-4">
+                      <h4 className="font-bold text-xl leading-tight" style={{ color: 'var(--text-primary)' }}>
+                        {service.name}
+                      </h4>
+                      <div className="w-10 h-10 rounded-full bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover:scale-110 group-hover:bg-cyan-400 group-hover:text-black transition-all shrink-0">
+                        <Sparkles size={16} />
+                      </div>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <div className="font-black text-(--text-primary) tracking-tight px-4 py-1.5 rounded-lg bg-black/20 group-hover:bg-(--accent-blue) group-hover:text-black transition-all">
+                    
+                    <div className="mt-auto flex flex-col gap-5">
+                      <div className="font-black text-2xl tracking-tight" style={{ color: 'var(--text-primary)' }}>
                         {currency === 'INR' ? '₹' + service.price.INR : service.price.USD}
                       </div>
+                      
                       <button
                         onClick={(e) => {
                           e.preventDefault()
@@ -309,14 +319,14 @@ export default function Pricing({ onScheduleCall }) {
                           setDefaultAmount(initialAmt)
                           setIsPaymentOpen(true)
                         }}
-                        className="px-4 py-1.5 text-xs font-bold rounded-lg transition-all duration-300 bg-transparent border border-white/10 hover:border-cyan-500/50 hover:bg-cyan-500/10 text-(--text-primary)"
+                        className="w-full py-3 px-6 text-sm font-bold rounded-xl transition-all duration-300 border border-white/10 hover:border-cyan-400/50 bg-white/5 hover:bg-cyan-400 text-[var(--text-primary)] hover:text-black hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] flex justify-center items-center gap-2 group-hover:border-cyan-400/30"
                       >
-                        Pay Now
+                        Select Service
                       </button>
                     </div>
                   </div>
-                ))}
-              </div>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
         </AnimatePresence>

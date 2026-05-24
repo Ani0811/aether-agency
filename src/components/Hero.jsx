@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import { ArrowRight, Instagram, Linkedin, Youtube, Download, Calendar } from 'lucide-react'
 
 export default function Hero({ onScheduleCall }) {
@@ -63,28 +64,13 @@ export default function Hero({ onScheduleCall }) {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
-              <a
-                href="#contact"
-                onClick={(e) => {
-                  e.preventDefault()
-                  const element = document.getElementById('contact')
-                  if (element) {
-                    const offset = 80
-                    const bodyRect = document.body.getBoundingClientRect().top
-                    const elementRect = element.getBoundingClientRect().top
-                    const elementPosition = elementRect - bodyRect
-                    const offsetPosition = elementPosition - offset
-                    window.scrollTo({
-                      top: offsetPosition,
-                      behavior: 'smooth'
-                    })
-                  }
-                }}
+              <Link
+                to="/get-started"
                 className="btn-primary flex items-center justify-center gap-3 group shadow-2xl shadow-cyan-500/40 px-7! py-3.5!"
               >
                 Get Started
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-              </a>
+              </Link>
               <button
                 onClick={onScheduleCall}
                 className="btn-secondary px-7! py-3.5! inline-flex items-center justify-center gap-2 hover:bg-cyan-400/5"
@@ -108,7 +94,7 @@ export default function Hero({ onScheduleCall }) {
                 <div className="flex items-center gap-3">
                   {[
                     { icon: Instagram, href: "https://www.instagram.com/g1mediaofficial", color: "hover:text-fuchsia-400" },
-                    { icon: Linkedin, href: "https://www.linkedin.com/company/g-one-media-agency", color: "hover:text-cyan-400" },
+                    { icon: Linkedin, href: "https://www.linkedin.com/in/g-one-media-agency-93581040b/", color: "hover:text-cyan-400" },
                     { icon: Youtube, href: "https://www.youtube.com/@G-OneMedia", color: "hover:text-red-500" }
                   ].map((social, i) => (
                     <a

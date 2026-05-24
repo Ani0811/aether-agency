@@ -1,30 +1,37 @@
 import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import { Code2, Video, Rocket, Bot } from 'lucide-react'
 
 const services = [
   {
     icon: Code2,
     title: 'Web Engineering',
+    slug: 'web-engineering',
     description: 'High-performance, scalable web solutions built with cutting-edge tech stacks for maximum speed and security.'
   },
   {
     icon: Bot,
     title: 'AI Agents',
+    slug: 'ai-agents',
     description: 'Custom AI solutions and intelligent agents designed to automate workflows and enhance user interaction through natural language processing.'
   },
   {
     icon: Video,
     title: 'Content Creation',
+    slug: 'content-creation',
     description: 'Cinematic storytelling and professional video production that captures your brand essence and engages audiences.'
   },
   {
     icon: Rocket,
     title: 'Digital Consultation',
+    slug: 'digital-consultation',
     description: 'Data-driven growth strategies and marketing automation to scale your reach and maximize conversion rates.'
   }
 ]
 
 export default function Services() {
+  const navigate = useNavigate()
+
   return (
     <section id="services">
       <div className="container-custom">
@@ -39,17 +46,18 @@ export default function Services() {
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              whileHover={{ 
+              whileHover={{
                 y: -10,
                 transition: { duration: 0.3, ease: "easeOut" }
               }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
+              onClick={() => navigate(`/services/${service.slug}`)}
               className="glass-card p-10 relative overflow-hidden group cursor-pointer hover:ring-1 hover:ring-cyan-400/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.2)] transition-all duration-300"
             >
               {/* Hover highlight background */}
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
+
               <div className="relative z-10">
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-8 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3" style={{ background: 'rgba(0, 240, 255, 0.1)', border: '1px solid var(--border-subtle)', boxShadow: '0 0 15px rgba(0,240,255,0.2)' }}>
                   <service.icon size={24} className="text-cyan-400 group-hover:text-cyan-300 transition-colors drop-shadow-[0_0_8px_rgba(0,240,255,0.8)]" />

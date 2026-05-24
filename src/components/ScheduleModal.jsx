@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Calendar, User, Mail, Briefcase, DollarSign, Send, CheckCircle, Loader, AlertCircle } from 'lucide-react'
 import { useState } from 'react'
+import { supabase } from '../lib/supabaseClient'
 
 export default function ScheduleModal({ isOpen, onClose }) {
   const [status, setStatus] = useState('idle') // idle | loading | success
@@ -17,30 +18,45 @@ export default function ScheduleModal({ isOpen, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setStatus('loading')
-    
+
     const API_BASE = import.meta.env.DEV
       ? 'http://localhost:3001'
       : (import.meta.env.VITE_API_BACKEND_URL || '')
     const apiEndpoint = API_BASE ? `${API_BASE.replace(/\/$/, '')}/api/contact` : '/api/contact'
 
     try {
-      const res = await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...fields,
-          subject: `Discovery Call Request: ${fields.service}`
-        }),
-      })
+      // 1. Save booking to Supabase immediately (fast path)
+      const { error: dbError } = await supabase.from('bookings').insert([{
+        name: fields.name,
+        email: fields.email,
+        service: fields.service,
+        budget: fields.budget,
+        details: fields.details || null,
+      }])
 
-      if (!res.ok) throw new Error('Failed to send')
-      
+      if (dbError) {
+        // DB failed — fall back to email-only path, don't block
+        console.warn('[Schedule] Supabase insert failed, falling back to email only:', dbError)
+      }
+
+      // 2. Show success immediately (don't wait for email)
       setStatus('success')
       setTimeout(() => {
         onClose()
         setStatus('idle')
         setFields({ name: '', email: '', service: 'Websites', budget: 'Package', details: '' })
       }, 3000)
+
+      // 3. Fire email in background (no await — user doesn't wait for SMTP)
+      fetch(apiEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...fields,
+          subject: `Discovery Call Request: ${fields.service}`
+        }),
+      }).catch(err => console.warn('[Schedule] Background email failed:', err))
+
     } catch (err) {
       console.error(err)
       setStatus('error')
@@ -130,7 +146,7 @@ export default function ScheduleModal({ isOpen, onClose }) {
                         <input 
                           required
                           type="email"
-                          placeholder="contact@aether.com"
+                          placeholder="gmedia774@gmail.com"
                           className="w-full bg-black/5 dark:bg-white/5 border rounded-xl px-4 py-2.5 outline-none transition-all"
                           style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
                           value={fields.email}
@@ -177,10 +193,9 @@ export default function ScheduleModal({ isOpen, onClose }) {
 
                     <div className="space-y-2">
                       <label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
-                        Project Description
+                        Project Description <span className="opacity-50">(optional)</span>
                       </label>
                       <textarea 
-                        required
                         rows="3"
                         placeholder="Tell us about your project goals..."
                         className="w-full bg-black/5 dark:bg-white/5 border rounded-xl px-4 py-2.5 outline-none transition-all resize-none h-24"
