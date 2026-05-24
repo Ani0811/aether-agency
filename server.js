@@ -11,8 +11,8 @@ dotenv.config()
 
 // Supabase admin client (server-side — uses service key or anon key)
 const supabase = createClient(
-  process.env.SUPABASE_PROJECT_URL || process.env.VITE_SUPABASE_URL || '',
-  process.env.SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_ANON_KEY || ''
+  process.env.SUPABASE_PROJECT_URL || process.env.VITE_SUPABASE_URL || 'https://placeholder.supabase.co',
+  process.env.SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_ANON_KEY || 'placeholder'
 )
 
 const app = express()
