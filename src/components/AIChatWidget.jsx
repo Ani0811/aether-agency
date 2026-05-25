@@ -100,7 +100,8 @@ export default function AIChatWidget() {
         audioRef.current = audio
         audio.play()
       } else {
-        console.error('TTS API error')
+        const errJson = await res.json().catch(() => ({}));
+        console.error('TTS API error:', errJson.error || res.statusText || res.status)
       }
     } catch (err) {
       console.error('Failed to play audio:', err)

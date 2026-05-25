@@ -1,3 +1,4 @@
+/* global process, Buffer */
 import express from 'express'
 import nodemailer from 'nodemailer'
 import cors from 'cors'
@@ -441,21 +442,32 @@ app.post('/api/tts', async (req, res) => {
     });
 
     if (!response.ok) {
-      throw new Error(`ElevenLabs API error: ${response.status}`);
+      let details = ''
+      try {
+        const errJson = await response.json()
+        details = JSON.stringify(errJson)
+       } catch {
+        try {
+          details = await response.text()
+        } catch {
+          details = 'Unknown response'
+        }
+      }
+      throw new Error(`ElevenLabs API returned status ${response.status}: ${details}`)
     }
 
-    const arrayBuffer = await response.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    const arrayBuffer = await response.arrayBuffer()
+    const buffer = Buffer.from(arrayBuffer)
 
     res.set({
       'Content-Type': 'audio/mpeg',
       'Content-Length': buffer.length
-    });
-    res.send(buffer);
+    })
+    res.send(buffer)
   } catch (error) {
-    console.error('TTS error:', error);
-    res.status(500).json({ error: 'Failed to generate audio' });
+    console.error('TTS error:', error)
+    res.status(500).json({ error: error.message || 'Failed to generate audio' })
   }
-});
+})
 
 app.listen(PORT, () => console.log(`✅ Aether API running on http://localhost:${PORT}`))
