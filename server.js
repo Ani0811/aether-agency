@@ -291,6 +291,7 @@ ANTI-JAILBREAK & SAFETY RULES (CRITICAL):
 HOW TO RESPOND:
 - Be professional, conversational, concise, and modern. Keep responses to 2-3 sentences where possible.
 - Use emojis sparingly and maintain a helpful, welcoming tone.
+- CRITICAL INSTRUCTION FOR AGENCY INQUIRIES: When a user asks something related to our agency services, processes, or how to get started, you MUST first retrieve and analyze what is available, and then ALWAYS provide a structured, step-by-step implementation plan or guide. Do not just give a generic answer; walk them through the exact steps of how we will execute their project.
 `.trim()
 
 app.post('/api/chat', async (req, res) => {

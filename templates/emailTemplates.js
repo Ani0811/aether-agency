@@ -138,9 +138,15 @@ export const getPaymentSuccessTemplate = ({ userAmount, razorpay_payment_id }) =
                     <td style="font-size:14px; font-weight:600; color:#0f172a;">${razorpay_payment_id}</td>
                   </tr>
                 </table>
-                <p style="margin:0; font-size:15px; color:#334155; line-height:1.6;">
+                <p style="margin:0; font-size:15px; color:#334155; line-height:1.6; margin-bottom:20px;">
                   Please keep this Payment ID for your records. If you are dissatisfied with our service, you can use this ID to request an instant refund on our website within the guarantee period.
                 </p>
+                <div style="text-align: center; margin-top: 24px;">
+                  <a href="${process.env.FRONTEND_ORIGIN || 'https://g-onemedia.com'}/refund?payment_id=${razorpay_payment_id}" 
+                     style="display:inline-block; background-color:#d946ef; color:#ffffff; font-weight:600; font-size:14px; text-decoration:none; padding:12px 24px; border-radius:6px;">
+                    Request a Refund
+                  </a>
+                </div>
               </td>
             </tr>
             <!-- FOOTER -->

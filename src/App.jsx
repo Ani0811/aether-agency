@@ -12,6 +12,7 @@ import Pricing from './components/Pricing'
 import Testimonials from './components/Testimonials'
 import CTA from './components/CTA'
 import RefundSection from './components/RefundSection'
+import RefundRequest from './components/RefundRequest'
 import Footer from './components/Footer'
 import NotFound from './components/NotFound'
 import BudgetCalculator from './components/BudgetCalculator'
@@ -95,6 +96,7 @@ export default function App() {
           <Route path="/portfolio/:id" element={<CaseStudyDetail />} />
           <Route path="/portal" element={<ClientLogin />} />
           <Route path="/portal/dashboard" element={<ClientDashboard />} />
+          <Route path="/refund" element={<RefundRequest />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />

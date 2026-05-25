@@ -142,6 +142,18 @@ export default function CaseStudyDetail() {
         return
       }
 
+      // Also fetch link and type from portfolio_projects
+      const { data: projectData } = await supabase
+        .from('portfolio_projects')
+        .select('link, type')
+        .eq('case_study_slug', id)
+        .single()
+        
+      if (projectData) {
+        data.link = projectData.link
+        data.project_type = projectData.type
+      }
+
       setStudy(data)
       setLoadState('success')
     } catch (err) {
@@ -293,12 +305,34 @@ export default function CaseStudyDetail() {
               ))}
             </div>
 
-            <div className="mt-8 pt-6 border-t border-white/10">
+            <div className="mt-8 pt-6 border-t border-white/10 flex flex-col gap-3">
+              {study.link && study.project_type === 'Websites' && (
+                <a
+                  href={study.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2 py-3 px-5 rounded-xl text-sm font-bold bg-cyan-400 text-black hover:shadow-[0_0_25px_rgba(0,240,255,0.4)] transition-all"
+                >
+                  <ExternalLink size={14} />
+                  Visit Live Website
+                </a>
+              )}
+              {study.link && ['Reels', 'YT Videos', 'Vlogs'].includes(study.project_type) && (
+                <div className="w-full aspect-video rounded-xl overflow-hidden border border-white/10">
+                  <iframe 
+                    src={study.link.replace(/\/view.*$/, '/preview')} 
+                    width="100%" 
+                    height="100%" 
+                    allow="autoplay" 
+                    title={study.title}
+                    style={{ border: 'none' }}
+                  ></iframe>
+                </div>
+              )}
               <Link
                 to="/get-started"
-                className="w-full flex items-center justify-center gap-2 py-3 px-5 rounded-xl text-sm font-bold bg-cyan-400 text-black hover:shadow-[0_0_25px_rgba(0,240,255,0.4)] transition-all"
+                className="w-full flex items-center justify-center gap-2 py-3 px-5 rounded-xl text-sm font-bold border border-white/10 hover:border-cyan-400 hover:text-cyan-400 transition-all text-white hover:bg-cyan-400/5 mt-2"
               >
-                <ExternalLink size={14} />
                 Start a Similar Project
               </Link>
             </div>

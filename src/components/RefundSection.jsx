@@ -1,61 +1,6 @@
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { RefreshCcw, CheckCircle, Loader, AlertCircle, Mail, Hash, ShieldCheck, HeartHandshake } from 'lucide-react'
+import { RefreshCcw, ShieldCheck, HeartHandshake, ArrowRight } from 'lucide-react'
 
 export default function RefundSection() {
-  const [status, setStatus] = useState('idle') // idle | loading | success | error
-  const [email, setEmail] = useState('')
-  const [paymentId, setPaymentId] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
-
-  const handleRefund = async (e) => {
-    e.preventDefault()
-
-    if (!email || !paymentId) {
-      setErrorMessage('Please provide both Email and Payment ID')
-      setStatus('error')
-      return
-    }
-
-    setStatus('loading')
-
-    const API_BASE = import.meta.env.DEV
-      ? 'http://localhost:3001'
-      : (import.meta.env.VITE_API_BACKEND_URL || '')
-    const apiEndpoint = API_BASE ? `${API_BASE.replace(/\/$/, '')}` : ''
-
-    try {
-      const res = await fetch(`${apiEndpoint}/api/refund`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, payment_id: paymentId }),
-      })
-
-      if (!res.ok) {
-        const errData = await res.json().catch(() => ({}))
-        throw new Error(errData.error || 'Failed to process refund')
-      }
-      
-      const data = await res.json()
-      if (data.success) {
-        setStatus('success')
-        setTimeout(() => {
-          setStatus('idle')
-          setEmail('')
-          setPaymentId('')
-        }, 5000)
-      } else {
-        throw new Error(data.message || 'Refund failed.')
-      }
-
-    } catch (err) {
-      console.error(err)
-      setStatus('error')
-      setErrorMessage(err.message || 'Something went wrong. Please try again.')
-      setTimeout(() => setStatus('idle'), 5000)
-    }
-  }
-
   return (
     <section id="refund" className="relative py-24 md:py-32 overflow-hidden border-t" style={{ borderColor: 'var(--border-subtle)', background: 'var(--bg-primary)' }}>
       {/* Background Gradients */}
@@ -76,7 +21,7 @@ export default function RefundSection() {
             </h2>
             
             <p className="text-base md:text-lg leading-relaxed max-w-xl" style={{ color: 'var(--text-secondary)' }}>
-              We believe in the quality of our work. If you're not completely satisfied with our services within 14 days of purchase, request an instant refund. No complex forms, no awkward calls, no questions asked.
+              We believe in the quality of our work. If you're not completely satisfied with our services within 14 days of purchase, you can request an instant refund. No complex forms, no awkward calls, no questions asked.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-6 pt-4">
@@ -102,108 +47,35 @@ export default function RefundSection() {
             </div>
           </div>
 
-          {/* Form Side */}
+          {/* Policy Detail Side */}
           <div className="lg:col-span-5">
             <div 
-              className="glass-card p-8 md:p-10 border shadow-2xl relative"
+              className="glass-card p-8 md:p-10 border shadow-2xl relative flex flex-col items-center text-center"
               style={{
                 background: 'var(--bg-card)',
                 borderColor: 'var(--border-subtle)'
               }}
             >
+              <div className="w-16 h-16 rounded-full bg-fuchsia-400/10 flex items-center justify-center border border-fuchsia-400/20 mb-6">
+                <ShieldCheck size={32} className="text-fuchsia-400" />
+              </div>
               <h3 className="text-2xl font-black mb-4 tracking-tight" style={{ color: 'var(--text-primary)' }}>
-                Request Refund
+                How to Request a Refund
               </h3>
-              <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>
-                Enter your details to initiate an instant refund.
+              <p className="text-sm leading-relaxed mb-6" style={{ color: 'var(--text-secondary)' }}>
+                To ensure a secure process, all refund requests are handled directly through your payment receipt.
               </p>
-
-              <AnimatePresence mode="wait">
-                {status === 'success' ? (
-                  <motion.div
-                    key="success"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="py-8 text-center"
-                  >
-                    <div className="w-16 h-16 rounded-full bg-fuchsia-400/10 flex items-center justify-center border border-fuchsia-400/20 mx-auto mb-4">
-                      <CheckCircle size={32} className="text-fuchsia-400" />
-                    </div>
-                    <h4 className="text-xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Refund Initiated</h4>
-                    <p className="text-sm px-4" style={{ color: 'var(--text-muted)' }}>
-                      Your refund request has been successfully submitted and processed. An email confirmation has been sent.
-                    </p>
-                  </motion.div>
-                ) : (
-                  <form onSubmit={handleRefund} className="space-y-4">
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
-                        <Mail size={12} /> Email Address
-                      </label>
-                      <input
-                        required
-                        type="email"
-                        placeholder="you@example.com"
-                        className="w-full bg-black/10 dark:bg-white/5 border rounded-xl px-4 py-3 outline-none focus:border-fuchsia-500 transition-all text-sm font-bold"
-                        style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                      />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
-                        <Hash size={12} /> Payment ID
-                      </label>
-                      <input
-                        required
-                        type="text"
-                        placeholder="pay_xxxxxxxxxxxxxx"
-                        className="w-full bg-black/10 dark:bg-white/5 border rounded-xl px-4 py-3 outline-none focus:border-fuchsia-500 transition-all text-sm font-bold"
-                        style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
-                        value={paymentId}
-                        onChange={e => setPaymentId(e.target.value)}
-                      />
-                      <p className="text-[10px] opacity-70 mt-1" style={{ color: 'var(--text-muted)' }}>
-                        Find this in your transaction confirmation email.
-                      </p>
-                    </div>
-
-                    {status === 'error' && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -4 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="flex items-center gap-2 text-red-400 text-sm px-4 py-2.5 rounded-xl bg-red-400/10 border border-red-400/20"
-                      >
-                        <AlertCircle size={16} className="shrink-0" />
-                        <span className="text-xs">{errorMessage || 'Refund failed to process.'}</span>
-                      </motion.div>
-                    )}
-
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      type="submit"
-                      disabled={status === 'loading'}
-                      className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl shadow-xl mt-6 transition-all font-bold text-white text-sm"
-                      style={{ background: 'linear-gradient(45deg, #d946ef, #a855f7)' }}
-                    >
-                      {status === 'loading' ? (
-                        <>
-                          <Loader size={18} className="animate-spin" />
-                          Processing...
-                        </>
-                      ) : (
-                        <>
-                          Request Refund
-                          <RefreshCcw size={16} />
-                        </>
-                      )}
-                    </motion.button>
-                  </form>
-                )}
-              </AnimatePresence>
+              
+              <div className="w-full bg-black/20 rounded-xl p-4 text-left border border-white/10 mb-6">
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="w-6 h-6 rounded-full bg-cyan-400/20 text-cyan-400 flex items-center justify-center text-xs font-bold shrink-0">1</div>
+                  <p className="text-sm" style={{ color: 'var(--text-primary)' }}>Open your Payment Success email.</p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-fuchsia-400/20 text-fuchsia-400 flex items-center justify-center text-xs font-bold shrink-0">2</div>
+                  <p className="text-sm" style={{ color: 'var(--text-primary)' }}>Click the <strong>"Request Refund"</strong> button to be redirected to our secure refund portal.</p>
+                </div>
+              </div>
             </div>
           </div>
 
