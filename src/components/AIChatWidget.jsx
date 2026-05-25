@@ -17,6 +17,7 @@ export default function AIChatWidget() {
   const inputRef = useRef(null)
   const recognitionRef = useRef(null)
   const audioRef = useRef(null)
+  const abortControllerRef = useRef(null)
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -57,6 +58,9 @@ export default function AIChatWidget() {
   // Optional: pre-load audio or clean up object URLs
   useEffect(() => {
     return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort()
+      }
       if (audioRef.current) {
         audioRef.current.pause()
         audioRef.current = null
@@ -77,9 +81,17 @@ export default function AIChatWidget() {
   const speak = async (text, force = false) => {
     if (!ttsEnabled && !force) return
     
+    // Abort any ongoing fetch request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+    }
+    abortControllerRef.current = new AbortController()
+    const { signal } = abortControllerRef.current
+
     if (audioRef.current) {
       audioRef.current.pause()
       audioRef.current.currentTime = 0
+      audioRef.current = null
     }
 
     try {
@@ -90,13 +102,19 @@ export default function AIChatWidget() {
       const res = await fetch(`${API_BASE.replace(/\/$/, '')}/api/tts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text })
+        body: JSON.stringify({ text }),
+        signal
       })
 
       if (res.ok) {
+        if (signal.aborted) return
+
         const blob = await res.blob()
         const url = URL.createObjectURL(blob)
         const audio = new Audio(url)
+        
+        if (signal.aborted) return
+
         audioRef.current = audio
         audio.play()
       } else {
@@ -104,7 +122,11 @@ export default function AIChatWidget() {
         console.error('TTS API error:', errJson.error || res.statusText || res.status)
       }
     } catch (err) {
-      console.error('Failed to play audio:', err)
+      if (err.name === 'AbortError') {
+        console.log('TTS fetch request aborted.')
+      } else {
+        console.error('Failed to play audio:', err)
+      }
     }
   }
 
@@ -209,9 +231,16 @@ export default function AIChatWidget() {
               </div>
               <button 
                 onClick={() => {
-                  setTtsEnabled(!ttsEnabled);
-                  if (ttsEnabled && audioRef.current) {
-                    audioRef.current.pause();
+                  const targetTts = !ttsEnabled
+                  setTtsEnabled(targetTts)
+                  if (!targetTts) {
+                    if (abortControllerRef.current) {
+                      abortControllerRef.current.abort()
+                    }
+                    if (audioRef.current) {
+                      audioRef.current.pause()
+                      audioRef.current = null
+                    }
                   }
                 }}
                 className="text-[var(--text-muted)] hover:text-white transition-colors p-2 cursor-pointer"
@@ -245,12 +274,12 @@ export default function AIChatWidget() {
                       <div className="markdown-chat">
                         <ReactMarkdown
                           components={{
-                            p: ({node, ...props}) => <p className="mb-3 last:mb-0 leading-relaxed" {...props} />,
-                            ul: ({node, ...props}) => <ul className="list-disc ml-5 mb-3 space-y-1" {...props} />,
-                            ol: ({node, ...props}) => <ol className="list-decimal ml-5 mb-3 space-y-1" {...props} />,
-                            li: ({node, ...props}) => <li className="pl-1" {...props} />,
-                            strong: ({node, ...props}) => <strong className="font-bold text-cyan-300" {...props} />,
-                            a: ({node, ...props}) => <a className="text-cyan-400 hover:underline" target="_blank" rel="noopener noreferrer" {...props} />
+                            p: ({...props}) => <p className="mb-3 last:mb-0 leading-relaxed" {...props} />,
+                            ul: ({...props}) => <ul className="list-disc ml-5 mb-3 space-y-1" {...props} />,
+                            ol: ({...props}) => <ol className="list-decimal ml-5 mb-3 space-y-1" {...props} />,
+                            li: ({...props}) => <li className="pl-1" {...props} />,
+                            strong: ({...props}) => <strong className="font-bold text-cyan-300" {...props} />,
+                            a: ({...props}) => <a className="text-cyan-400 hover:underline" target="_blank" rel="noopener noreferrer" {...props} />
                           }}
                         >
                           {msg.text}

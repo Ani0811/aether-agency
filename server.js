@@ -330,7 +330,7 @@ app.post('/api/chat', async (req, res) => {
         })
       }
     )
-    
+
     let contextText = ""
     if (embedResponse.ok) {
       const embedData = await embedResponse.json()
@@ -361,7 +361,7 @@ app.post('/api/chat', async (req, res) => {
     let response;
     let retries = 3;
     let delay = 1000;
-    
+
     while (retries > 0) {
       response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
@@ -405,9 +405,9 @@ app.post('/api/chat', async (req, res) => {
   } catch (error) {
     console.error('Chat API error:', error)
     if (error.message.includes('429')) {
-      res.json({ 
-        reply: "I'm currently receiving too many requests. Please wait about 30-40 seconds and try again! ⏳", 
-        sessionId: sid 
+      res.json({
+        reply: "I'm currently receiving too many requests. Please wait about 30-40 seconds and try again! ⏳",
+        sessionId: sid
       })
     } else {
       res.status(500).json({ error: 'Failed to get AI response.' })
@@ -417,10 +417,11 @@ app.post('/api/chat', async (req, res) => {
 
 // Text-to-Speech Endpoint (ElevenLabs)
 app.post('/api/tts', async (req, res) => {
-  const { text, voiceId = '21m00Tcm4TlvDq8ikWAM' } = req.body; // Default to Rachel voice
+  const defaultVoice = process.env.ELEVENLABS_VOICE_ID || process.env.VITE_ELEVENLABS_VOICE_ID || 'Xb7hH8MSUJpSbSDYk0k2'; // Default to Alice voice (free-tier friendly)
+  const { text, voiceId = defaultVoice } = req.body;
   if (!text) return res.status(400).json({ error: 'Text is required' });
 
-  const apiKey = process.env.ELEVENLABS_API_KEY;
+  const apiKey = process.env.ELEVENLABS_API_KEY || process.env.VITE_ELEVENLABS_API_KEY
   if (!apiKey) return res.status(500).json({ error: 'ElevenLabs API key not configured' });
 
   try {
@@ -446,7 +447,7 @@ app.post('/api/tts', async (req, res) => {
       try {
         const errJson = await response.json()
         details = JSON.stringify(errJson)
-       } catch {
+      } catch {
         try {
           details = await response.text()
         } catch {
