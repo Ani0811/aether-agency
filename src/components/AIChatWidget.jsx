@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MessageCircle, X, Send, Bot, User, Sparkles } from 'lucide-react'
+import { MessageCircle, X, Send, Bot, User, Sparkles, Mic, MicOff, Volume2, VolumeX } from 'lucide-react'
 
 export default function AIChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
@@ -10,8 +10,11 @@ export default function AIChatWidget() {
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [sessionId, setSessionId] = useState(null)
+  const [isListening, setIsListening] = useState(false)
+  const [ttsEnabled, setTtsEnabled] = useState(true)
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
+  const recognitionRef = useRef(null)
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -26,6 +29,48 @@ export default function AIChatWidget() {
       inputRef.current.focus()
     }
   }, [isOpen])
+
+  // Initialize Speech Recognition
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+      if (SpeechRecognition) {
+        recognitionRef.current = new SpeechRecognition()
+        recognitionRef.current.continuous = false
+        recognitionRef.current.interimResults = false
+        recognitionRef.current.lang = 'en-US'
+
+        recognitionRef.current.onresult = (event) => {
+          const transcript = event.results[0][0].transcript
+          setInput(prev => (prev ? prev + ' ' : '') + transcript)
+          setIsListening(false)
+        }
+
+        recognitionRef.current.onerror = () => setIsListening(false)
+        recognitionRef.current.onend = () => setIsListening(false)
+      }
+    }
+  }, [])
+
+  const toggleListening = () => {
+    if (isListening) {
+      recognitionRef.current?.stop()
+      setIsListening(false)
+    } else {
+      recognitionRef.current?.start()
+      setIsListening(true)
+    }
+  }
+
+  const speak = (text) => {
+    if (!ttsEnabled || !window.speechSynthesis) return
+    window.speechSynthesis.cancel() // stop current speech
+    const utterance = new SpeechSynthesisUtterance(text)
+    utterance.lang = 'en-US'
+    utterance.rate = 1.0
+    utterance.pitch = 1.0
+    window.speechSynthesis.speak(utterance)
+  }
 
   const sendMessage = async () => {
     const trimmed = input.trim()
@@ -50,6 +95,7 @@ export default function AIChatWidget() {
         const data = await res.json()
         if (data.sessionId) setSessionId(data.sessionId)
         setMessages(prev => [...prev, { role: 'assistant', text: data.reply }])
+        speak(data.reply)
       } else {
         setMessages(prev => [...prev, { role: 'assistant', text: "Sorry, I couldn't connect. Please try again!" }])
       }
@@ -112,17 +158,29 @@ export default function AIChatWidget() {
             style={{ background: 'var(--bg-glass)', backdropFilter: 'blur(24px)' }}
           >
             {/* Header */}
-            <div className="px-5 py-4 border-b border-white/10 flex items-center gap-3" style={{ background: 'rgba(0,0,0,0.3)' }}>
-              <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #00f0ff 0%, #ff00e5 100%)' }}>
-                <Sparkles size={18} className="text-black" />
-              </div>
-              <div>
-                <div className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>G-ONE AI</div>
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#10b981]" />
-                  <span className="text-[10px] font-semibold text-emerald-400">Online</span>
+            <div className="px-5 py-4 border-b border-white/10 flex items-center justify-between" style={{ background: 'rgba(0,0,0,0.3)' }}>
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #00f0ff 0%, #ff00e5 100%)' }}>
+                  <Sparkles size={18} className="text-black" />
+                </div>
+                <div>
+                  <div className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>G-ONE AI</div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#10b981]" />
+                    <span className="text-[10px] font-semibold text-emerald-400">Online</span>
+                  </div>
                 </div>
               </div>
+              <button 
+                onClick={() => {
+                  setTtsEnabled(!ttsEnabled);
+                  if (ttsEnabled) window.speechSynthesis?.cancel();
+                }}
+                className="text-[var(--text-muted)] hover:text-white transition-colors p-2 cursor-pointer"
+                title={ttsEnabled ? "Mute Voice" : "Enable Voice"}
+              >
+                {ttsEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
+              </button>
             </div>
 
             {/* Messages */}
@@ -171,6 +229,15 @@ export default function AIChatWidget() {
             {/* Input Area */}
             <div className="p-3 border-t border-white/10" style={{ background: 'rgba(0,0,0,0.2)' }}>
               <div className="flex items-center gap-2">
+                <button
+                  onClick={toggleListening}
+                  className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all cursor-pointer shrink-0 ${
+                    isListening ? 'bg-fuchsia-500 text-white animate-pulse' : 'bg-white/5 text-[var(--text-muted)] hover:bg-white/10 hover:text-white'
+                  }`}
+                  title={isListening ? "Stop Listening" : "Start Speaking"}
+                >
+                  {isListening ? <MicOff size={16} /> : <Mic size={16} />}
+                </button>
                 <input
                   ref={inputRef}
                   type="text"
@@ -178,7 +245,7 @@ export default function AIChatWidget() {
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Ask me anything..."
-                  className="flex-1 px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:border-cyan-500/40 transition-all"
+                  className="flex-1 min-w-0 px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none focus:border-cyan-500/40 transition-all"
                 />
                 <button
                   onClick={sendMessage}

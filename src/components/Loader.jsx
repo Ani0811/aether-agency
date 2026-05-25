@@ -44,7 +44,7 @@ export default function Loader({ onComplete }) {
           transition={{ delay: 0.2 }}
         >
           <h2 className="text-white font-black text-2xl tracking-[0.3em] uppercase">
-            Aether
+            G-One Media
           </h2>
           <div className="flex items-center gap-2">
             <motion.span 
