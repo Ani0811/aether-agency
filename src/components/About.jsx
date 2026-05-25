@@ -89,7 +89,7 @@ export default function About() {
                   <div className={`absolute inset-0 bg-linear-to-br ${founder.color === 'cyan' ? 'from-cyan-500/30' : 'from-fuchsia-500/30'} to-transparent rounded-[40px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                   <div className="relative h-full w-full rounded-[40px] overflow-hidden glass-card border-white/10 shadow-2xl">
                     <img
-                      src={founder.image}
+                      src={`${import.meta.env.BASE_URL}${founder.image}`.replace(/\/+/g, '/')}
                       alt={founder.name}
                       className="w-full h-full object-cover profile-crop group-hover:scale-110 transition-all duration-1000 opacity-90 group-hover:opacity-100 grayscale-30 group-hover:grayscale-0"
                     />
