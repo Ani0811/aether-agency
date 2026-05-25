@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { ThemeProvider } from './context/ThemeContext'
 import { trackPageView } from './utils/analytics'
@@ -12,19 +12,26 @@ import Pricing from './components/Pricing'
 import Testimonials from './components/Testimonials'
 import CTA from './components/CTA'
 import RefundSection from './components/RefundSection'
-import RefundRequest from './components/RefundRequest'
 import Footer from './components/Footer'
 import NotFound from './components/NotFound'
 import BudgetCalculator from './components/BudgetCalculator'
 import AIChatWidget from './components/AIChatWidget'
-import CaseStudyDetail from './components/CaseStudyDetail'
-import ClientLogin from './components/ClientLogin'
-import ClientDashboard from './components/ClientDashboard'
-import ServiceDetail from './components/ServiceDetail'
-import GetStarted from './components/GetStarted'
-
 import ScheduleModal from './components/ScheduleModal'
 import Loader from './components/Loader'
+
+// Lazy loaded page components
+const GetStarted = lazy(() => import('./components/GetStarted'))
+const ServiceDetail = lazy(() => import('./components/ServiceDetail'))
+const CaseStudyDetail = lazy(() => import('./components/CaseStudyDetail'))
+const ClientLogin = lazy(() => import('./components/ClientLogin'))
+const ClientDashboard = lazy(() => import('./components/ClientDashboard'))
+const RefundRequest = lazy(() => import('./components/RefundRequest'))
+
+const PageLoader = () => (
+  <div className="min-h-screen bg-[#050508] flex items-center justify-center">
+    <div className="w-12 h-12 rounded-full border-2 border-cyan-400/20 border-t-cyan-400 animate-spin" />
+  </div>
+)
 
 function HomePage({ onScheduleCall }) {
   return (
@@ -89,16 +96,18 @@ export default function App() {
         <Navbar onScheduleCall={() => setIsScheduleOpen(true)} />
         <ScheduleModal isOpen={isScheduleOpen} onClose={() => setIsScheduleOpen(false)} />
 
-        <Routes>
-          <Route path="/" element={<HomePage onScheduleCall={() => setIsScheduleOpen(true)} />} />
-          <Route path="/get-started" element={<GetStarted />} />
-          <Route path="/services/:slug" element={<ServiceDetail onScheduleCall={() => setIsScheduleOpen(true)} />} />
-          <Route path="/portfolio/:id" element={<CaseStudyDetail />} />
-          <Route path="/portal" element={<ClientLogin />} />
-          <Route path="/portal/dashboard" element={<ClientDashboard />} />
-          <Route path="/refund" element={<RefundRequest />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<HomePage onScheduleCall={() => setIsScheduleOpen(true)} />} />
+            <Route path="/get-started" element={<GetStarted />} />
+            <Route path="/services/:slug" element={<ServiceDetail onScheduleCall={() => setIsScheduleOpen(true)} />} />
+            <Route path="/portfolio/:id" element={<CaseStudyDetail />} />
+            <Route path="/portal" element={<ClientLogin />} />
+            <Route path="/portal/dashboard" element={<ClientDashboard />} />
+            <Route path="/refund" element={<RefundRequest />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
         <Footer />
 
         {/* Global AI Chat Widget */}
