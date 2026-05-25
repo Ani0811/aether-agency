@@ -306,17 +306,37 @@ export default function CaseStudyDetail() {
             </div>
 
             <div className="mt-8 pt-6 border-t border-white/10 flex flex-col gap-3">
-              {study.link && study.project_type === 'Websites' && (
+              {study.project_type === 'Websites' && study.link ? (
+                <div className="flex flex-col gap-3">
+                  <div className="w-full aspect-video rounded-xl overflow-hidden border border-white/10 bg-white/5 relative group">
+                    <iframe 
+                      src={study.link} 
+                      width="100%" 
+                      height="100%" 
+                      title={study.title}
+                      style={{ border: 'none' }}
+                    ></iframe>
+                  </div>
+                  <a
+                    href={study.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full flex items-center justify-center gap-2 py-3 px-5 rounded-xl text-sm font-bold bg-cyan-400 text-black hover:shadow-[0_0_25px_rgba(0,240,255,0.4)] transition-all"
+                  >
+                    <ExternalLink size={14} />
+                    Open Website in New Tab
+                  </a>
+                </div>
+              ) : study.project_type === 'Websites' ? (
                 <a
-                  href={study.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 py-3 px-5 rounded-xl text-sm font-bold bg-cyan-400 text-black hover:shadow-[0_0_25px_rgba(0,240,255,0.4)] transition-all"
+                  href="#"
+                  onClick={(e) => e.preventDefault()}
+                  className="w-full flex items-center justify-center gap-2 py-3 px-5 rounded-xl text-sm font-bold transition-all bg-white/5 border border-white/10 text-gray-500 cursor-not-allowed"
                 >
                   <ExternalLink size={14} />
-                  Visit Live Website
+                  Website Not Available
                 </a>
-              )}
+              ) : null}
               {study.link && ['Reels', 'YT Videos', 'Vlogs'].includes(study.project_type) && (
                 <div className="w-full aspect-video rounded-xl overflow-hidden border border-white/10">
                   <iframe 
