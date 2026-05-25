@@ -1,5 +1,12 @@
+import fs from 'fs'
+import path from 'path'
 import { createClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
+import { createRequire } from 'module'
+
+const require = createRequire(import.meta.url)
+const pdfParse = require('pdf-parse')
+const officeParser = require('officeparser')
 
 dotenv.config()
 
@@ -30,28 +37,68 @@ async function generateEmbedding(text) {
   return data.embedding.values
 }
 
-// Sample Knowledge Base to start with
-const knowledgeBase = [
-  "G-One Media is our unique collaborative process. It merges high-end web engineering with cinematic storytelling to maximize business conversions and audience retention.",
-  "Anirudha Basu Thakur is our Technical Visionary and Full-Stack Architect. He builds scalable digital ecosystems, SaaS platforms, and high-converting landing pages using React, Next.js, and Node.js.",
-  "Vasudev Sharma is our Creative Director and Cinematic Editor. He specializes in professional-grade video production, cinematic editing, and high-energy social media content.",
-  "Project pricing at G-One Media starts from ₹10,000 ($120 USD) depending on the scope of work. Custom quotes are tailored for each client.",
-  "We provide Custom Website Design, E-commerce solutions with Razorpay, AI chatbot creation, and Video production (Reels, YouTube, cinematic content)."
-]
-
 async function processKnowledgeBase() {
-  console.log('Starting embedding generation...')
+  const kbDir = path.join(process.cwd(), 'knowledge_base')
+  console.log(`Scanning directory: ${kbDir}`)
+  
+  if (!fs.existsSync(kbDir)) {
+    console.error('Error: "knowledge_base" directory not found. Please create it in the root folder.')
+    return
+  }
 
-  for (const content of knowledgeBase) {
-    console.log(`Embedding: "${content.substring(0, 50)}..."`)
+  const files = fs.readdirSync(kbDir)
+  const knowledgeBase = []
+
+  // Read supported files
+  for (const file of files) {
+    const filePath = path.join(kbDir, file)
+    let content = ''
+
     try {
-      const embedding = await generateEmbedding(content)
+      if (file.endsWith('.txt') || file.endsWith('.md')) {
+        content = fs.readFileSync(filePath, 'utf-8')
+      } else if (file.endsWith('.pdf')) {
+        const dataBuffer = fs.readFileSync(filePath)
+        const data = await pdfParse(dataBuffer)
+        content = data.text
+      } else if (file.endsWith('.docx') || file.endsWith('.pptx')) {
+        content = await officeParser.parseOfficeAsync(filePath)
+      } else {
+        continue // Unsupported file type
+      }
+      
+      // Simple chunking strategy: Split by paragraphs (double newline)
+      const chunks = content.split(/\n\s*\n/).map(c => c.trim()).filter(c => c.length > 20)
+      
+      chunks.forEach(chunk => {
+        knowledgeBase.push({
+          text: chunk,
+          source: file
+        })
+      })
+      console.log(`Parsed ${file}`)
+    } catch (err) {
+      console.error(`Error parsing ${file}: ${err.message}`)
+    }
+  }
+
+  if (knowledgeBase.length === 0) {
+    console.log('No valid text or markdown files found to process in knowledge_base/.')
+    return
+  }
+
+  console.log(`Found ${knowledgeBase.length} chunks from ${files.length} files. Starting embedding generation...`)
+
+  for (const item of knowledgeBase) {
+    console.log(`Embedding: "${item.text.substring(0, 50).replace(/\n/g, ' ')}..." from ${item.source}`)
+    try {
+      const embedding = await generateEmbedding(item.text)
 
       const { error } = await supabase
         .from('documents')
         .insert({
-          content,
-          metadata: { source: 'seed_data' },
+          content: item.text,
+          metadata: { source: item.source },
           embedding
         })
 
@@ -61,7 +108,7 @@ async function processKnowledgeBase() {
         console.log('Successfully inserted into Supabase.')
       }
 
-      // Delay to respect rate limits
+      // Delay to respect rate limits (1 request per second)
       await new Promise(resolve => setTimeout(resolve, 1000))
     } catch (err) {
       console.error('Error processing document:', err.message)

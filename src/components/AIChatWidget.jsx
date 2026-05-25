@@ -235,7 +235,7 @@ export default function AIChatWidget() {
                     {msg.role === 'assistant' && (
                       <button 
                         onClick={() => speak(msg.text, true)}
-                        className="absolute -right-10 bottom-2 p-1.5 rounded-full bg-white/5 text-[var(--text-muted)] hover:text-cyan-400 hover:bg-white/10 opacity-0 group-hover:opacity-100 transition-all cursor-pointer border border-white/10 shadow-lg"
+                        className="absolute -right-10 bottom-2 p-1.5 rounded-full bg-white/5 text-[var(--text-muted)] hover:text-cyan-400 hover:bg-white/10 opacity-60 hover:opacity-100 transition-all cursor-pointer border border-white/10 shadow-lg"
                         title="Replay Audio"
                       >
                         <Volume2 size={14} />

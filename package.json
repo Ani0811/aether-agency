@@ -24,6 +24,8 @@
     "lucide-react": "^0.475.0",
     "ngrok": "^5.0.0-beta.2",
     "nodemailer": "^8.0.7",
+    "officeparser": "^7.0.3",
+    "pdf-parse": "^2.4.5",
     "pg": "^8.21.0",
     "razorpay": "^2.9.6",
     "react": "^19.2.5",
