@@ -66,7 +66,18 @@ export default function AIChatWidget() {
     if (!ttsEnabled || !window.speechSynthesis) return
     window.speechSynthesis.cancel() // stop current speech
     const utterance = new SpeechSynthesisUtterance(text)
-    utterance.lang = 'en-US'
+    utterance.lang = 'en-IN'
+
+    const voices = window.speechSynthesis.getVoices()
+    // Prefer female Indian voice (e.g., Neerja on Windows, Veena on macOS)
+    const indianVoice = voices.find(v => 
+      v.lang.includes('en-IN') && (v.name.includes('Female') || v.name.includes('Neerja') || v.name.includes('Veena'))
+    ) || voices.find(v => v.lang.includes('en-IN'))
+
+    if (indianVoice) {
+      utterance.voice = indianVoice
+    }
+
     utterance.rate = 1.0
     utterance.pitch = 1.0
     window.speechSynthesis.speak(utterance)
