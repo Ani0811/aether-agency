@@ -52,6 +52,16 @@ export default function AIChatWidget() {
     }
   }, [])
 
+  // Preload voices to ensure they are available in Chrome
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.getVoices()
+      window.speechSynthesis.onvoiceschanged = () => {
+        window.speechSynthesis.getVoices()
+      }
+    }
+  }, [])
+
   const toggleListening = () => {
     if (isListening) {
       recognitionRef.current?.stop()
@@ -62,20 +72,29 @@ export default function AIChatWidget() {
     }
   }
 
-  const speak = (text) => {
-    if (!ttsEnabled || !window.speechSynthesis) return
+  const speak = (text, force = false) => {
+    if ((!ttsEnabled && !force) || !window.speechSynthesis) return
     window.speechSynthesis.cancel() // stop current speech
     const utterance = new SpeechSynthesisUtterance(text)
-    utterance.lang = 'en-IN'
 
     const voices = window.speechSynthesis.getVoices()
-    // Prefer female Indian voice (e.g., Neerja on Windows, Veena on macOS)
-    const indianVoice = voices.find(v => 
+    
+    // 1. Try Indian female explicitly
+    let selectedVoice = voices.find(v => 
       v.lang.includes('en-IN') && (v.name.includes('Female') || v.name.includes('Neerja') || v.name.includes('Veena'))
-    ) || voices.find(v => v.lang.includes('en-IN'))
-
-    if (indianVoice) {
-      utterance.voice = indianVoice
+    )
+    
+    // 2. Try any Indian voice
+    if (!selectedVoice) selectedVoice = voices.find(v => v.lang.includes('en-IN'))
+    
+    // 3. Try UK female as fallback
+    if (!selectedVoice) selectedVoice = voices.find(v => v.name === 'Google UK English Female' || (v.lang.includes('en-GB') && v.name.includes('Female')))
+    
+    if (selectedVoice) {
+      utterance.voice = selectedVoice
+      utterance.lang = selectedVoice.lang
+    } else {
+      utterance.lang = 'en-IN'
     }
 
     utterance.rate = 1.0
@@ -208,11 +227,20 @@ export default function AIChatWidget() {
                     }`}>
                     {msg.role === 'user' ? <User size={14} className="text-fuchsia-400" /> : <Bot size={14} className="text-cyan-400" />}
                   </div>
-                  <div className={`max-w-[75%] px-4 py-3 rounded-2xl text-sm leading-relaxed ${msg.role === 'user'
+                  <div className={`max-w-[75%] px-4 py-3 rounded-2xl text-sm leading-relaxed relative group ${msg.role === 'user'
                     ? 'bg-fuchsia-500/15 border border-fuchsia-500/20 text-[var(--text-primary)] rounded-tr-md'
                     : 'bg-white/5 border border-white/10 text-[var(--text-secondary)] rounded-tl-md'
                     }`}>
                     {msg.text}
+                    {msg.role === 'assistant' && (
+                      <button 
+                        onClick={() => speak(msg.text, true)}
+                        className="absolute -right-10 bottom-2 p-1.5 rounded-full bg-white/5 text-[var(--text-muted)] hover:text-cyan-400 hover:bg-white/10 opacity-0 group-hover:opacity-100 transition-all cursor-pointer border border-white/10 shadow-lg"
+                        title="Replay Audio"
+                      >
+                        <Volume2 size={14} />
+                      </button>
+                    )}
                   </div>
                 </motion.div>
               ))}
