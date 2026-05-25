@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MessageCircle, X, Send, Bot, User, Sparkles, Mic, MicOff, Volume2, VolumeX } from 'lucide-react'
+import ReactMarkdown from 'react-markdown'
 
 export default function AIChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
@@ -15,6 +16,7 @@ export default function AIChatWidget() {
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
   const recognitionRef = useRef(null)
+  const audioRef = useRef(null)
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -52,12 +54,12 @@ export default function AIChatWidget() {
     }
   }, [])
 
-  // Preload voices to ensure they are available in Chrome
+  // Optional: pre-load audio or clean up object URLs
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.speechSynthesis) {
-      window.speechSynthesis.getVoices()
-      window.speechSynthesis.onvoiceschanged = () => {
-        window.speechSynthesis.getVoices()
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current = null
       }
     }
   }, [])
@@ -72,34 +74,37 @@ export default function AIChatWidget() {
     }
   }
 
-  const speak = (text, force = false) => {
-    if ((!ttsEnabled && !force) || !window.speechSynthesis) return
-    window.speechSynthesis.cancel() // stop current speech
-    const utterance = new SpeechSynthesisUtterance(text)
-
-    const voices = window.speechSynthesis.getVoices()
+  const speak = async (text, force = false) => {
+    if (!ttsEnabled && !force) return
     
-    // 1. Try Indian female explicitly
-    let selectedVoice = voices.find(v => 
-      v.lang.includes('en-IN') && (v.name.includes('Female') || v.name.includes('Neerja') || v.name.includes('Veena'))
-    )
-    
-    // 2. Try any Indian voice
-    if (!selectedVoice) selectedVoice = voices.find(v => v.lang.includes('en-IN'))
-    
-    // 3. Try UK female as fallback
-    if (!selectedVoice) selectedVoice = voices.find(v => v.name === 'Google UK English Female' || (v.lang.includes('en-GB') && v.name.includes('Female')))
-    
-    if (selectedVoice) {
-      utterance.voice = selectedVoice
-      utterance.lang = selectedVoice.lang
-    } else {
-      utterance.lang = 'en-IN'
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
     }
 
-    utterance.rate = 1.0
-    utterance.pitch = 1.0
-    window.speechSynthesis.speak(utterance)
+    try {
+      const API_BASE = import.meta.env.DEV
+        ? 'http://localhost:3001'
+        : (import.meta.env.VITE_API_BACKEND_URL || '')
+
+      const res = await fetch(`${API_BASE.replace(/\/$/, '')}/api/tts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text })
+      })
+
+      if (res.ok) {
+        const blob = await res.blob()
+        const url = URL.createObjectURL(blob)
+        const audio = new Audio(url)
+        audioRef.current = audio
+        audio.play()
+      } else {
+        console.error('TTS API error')
+      }
+    } catch (err) {
+      console.error('Failed to play audio:', err)
+    }
   }
 
   const sendMessage = async () => {
@@ -204,7 +209,9 @@ export default function AIChatWidget() {
               <button 
                 onClick={() => {
                   setTtsEnabled(!ttsEnabled);
-                  if (ttsEnabled) window.speechSynthesis?.cancel();
+                  if (ttsEnabled && audioRef.current) {
+                    audioRef.current.pause();
+                  }
                 }}
                 className="text-[var(--text-muted)] hover:text-white transition-colors p-2 cursor-pointer"
                 title={ttsEnabled ? "Mute Voice" : "Enable Voice"}
@@ -231,7 +238,24 @@ export default function AIChatWidget() {
                     ? 'bg-fuchsia-500/15 border border-fuchsia-500/20 text-[var(--text-primary)] rounded-tr-md'
                     : 'bg-white/5 border border-white/10 text-[var(--text-secondary)] rounded-tl-md'
                     }`}>
-                    {msg.text}
+                    {msg.role === 'user' ? (
+                      msg.text
+                    ) : (
+                      <div className="markdown-chat">
+                        <ReactMarkdown
+                          components={{
+                            p: ({node, ...props}) => <p className="mb-3 last:mb-0 leading-relaxed" {...props} />,
+                            ul: ({node, ...props}) => <ul className="list-disc ml-5 mb-3 space-y-1" {...props} />,
+                            ol: ({node, ...props}) => <ol className="list-decimal ml-5 mb-3 space-y-1" {...props} />,
+                            li: ({node, ...props}) => <li className="pl-1" {...props} />,
+                            strong: ({node, ...props}) => <strong className="font-bold text-cyan-300" {...props} />,
+                            a: ({node, ...props}) => <a className="text-cyan-400 hover:underline" target="_blank" rel="noopener noreferrer" {...props} />
+                          }}
+                        >
+                          {msg.text}
+                        </ReactMarkdown>
+                      </div>
+                    )}
                     {msg.role === 'assistant' && (
                       <button 
                         onClick={() => speak(msg.text, true)}

@@ -356,21 +356,36 @@ app.post('/api/chat', async (req, res) => {
       payloadHistory[payloadHistory.length - 1].parts[0].text = `[Retrieved Knowledge Base Context]\n${contextText}\n\n[User Message]\n${lastUserMsg}`
     }
 
-    // 4. Generate AI Response
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: payloadHistory,
-          generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
-        })
+    // 4. Generate AI Response with Retry Logic
+    let response;
+    let retries = 3;
+    let delay = 1000;
+    
+    while (retries > 0) {
+      response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: payloadHistory,
+            generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
+          })
+        }
+      );
+
+      if (response.status === 429 && retries > 1) {
+        console.warn(`[Gemini API] 429 Rate Limit hit. Retrying in ${delay}ms...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        delay *= 2;
+        retries--;
+      } else {
+        break;
       }
-    )
+    }
 
     if (!response.ok) {
-      throw new Error(`Gemini API error: ${response.status}`)
+      throw new Error(`Gemini API error: ${response.status}`);
     }
 
     const data = await response.json()
@@ -388,9 +403,59 @@ app.post('/api/chat', async (req, res) => {
     res.json({ reply, sessionId: sid })
   } catch (error) {
     console.error('Chat API error:', error)
-    res.status(500).json({ error: 'Failed to get AI response.' })
+    if (error.message.includes('429')) {
+      res.json({ 
+        reply: "I'm currently receiving too many requests. Please wait about 30-40 seconds and try again! ⏳", 
+        sessionId: sid 
+      })
+    } else {
+      res.status(500).json({ error: 'Failed to get AI response.' })
+    }
   }
 })
 
-app.listen(PORT, () => console.log(`✅ Aether API running on http://localhost:${PORT}`))
+// Text-to-Speech Endpoint (ElevenLabs)
+app.post('/api/tts', async (req, res) => {
+  const { text, voiceId = '21m00Tcm4TlvDq8ikWAM' } = req.body; // Default to Rachel voice
+  if (!text) return res.status(400).json({ error: 'Text is required' });
 
+  const apiKey = process.env.ELEVENLABS_API_KEY;
+  if (!apiKey) return res.status(500).json({ error: 'ElevenLabs API key not configured' });
+
+  try {
+    const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'audio/mpeg',
+        'xi-api-key': apiKey,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        text,
+        model_id: 'eleven_turbo_v2_5', // Turbo model for lowest latency
+        voice_settings: {
+          stability: 0.5,
+          similarity_boost: 0.75
+        }
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`ElevenLabs API error: ${response.status}`);
+    }
+
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    res.set({
+      'Content-Type': 'audio/mpeg',
+      'Content-Length': buffer.length
+    });
+    res.send(buffer);
+  } catch (error) {
+    console.error('TTS error:', error);
+    res.status(500).json({ error: 'Failed to generate audio' });
+  }
+});
+
+app.listen(PORT, () => console.log(`✅ Aether API running on http://localhost:${PORT}`))
