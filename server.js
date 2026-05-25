@@ -364,7 +364,7 @@ app.post('/api/chat', async (req, res) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: payloadHistory,
-          generationConfig: { temperature: 0.7, maxOutputTokens: 300 }
+          generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
         })
       }
     )
