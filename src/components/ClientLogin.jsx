@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { Lock, Mail, ArrowRight, Shield, Eye, EyeOff } from 'lucide-react'
 import { supabase } from '../lib/supabaseClient'
+import { Helmet } from 'react-helmet-async'
 
 export default function ClientLogin() {
   useEffect(() => {
@@ -37,6 +38,11 @@ export default function ClientLogin() {
     <section className="pt-32 pb-20 min-h-screen flex items-center">
       <div className="container-custom">
         <div className="max-w-md mx-auto">
+          <Helmet>
+            <title>Client Portal | G-One Media</title>
+            <meta name="description" content="Secure client portal for G-One Media. Access your dashboard, project milestones, and deliverables." />
+            <link rel="canonical" href="https://ani0811.github.io/G-OneMedia/portal" />
+          </Helmet>
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}

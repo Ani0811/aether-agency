@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Link, useNavigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { ArrowLeft, User, Mail, Building2, Globe, Briefcase, DollarSign, MessageSquare, Megaphone, Send, CheckCircle, Loader, AlertCircle } from 'lucide-react'
 
 const SERVICE_OPTIONS = ['Web Engineering', 'AI Agents', 'Content Creation', 'Digital Consultation', 'Multiple Services']
@@ -61,6 +62,11 @@ export default function DiscoveryCall() {
 
   return (
     <section className="min-h-screen pt-28 pb-24 relative overflow-hidden">
+      <Helmet>
+        <title>Book a Discovery Call | G-One Media</title>
+        <meta name="description" content="Schedule a discovery call with G-One Media to discuss your project, business goals, and see how we can help you scale." />
+        <link rel="canonical" href="https://ani0811.github.io/G-OneMedia/discovery" />
+      </Helmet>
       {/* Ambient background glows */}
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-cyan-500/8 rounded-full blur-[140px] -z-10" />
       <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-fuchsia-500/8 rounded-full blur-[120px] -z-10" />

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
+import { HelmetProvider } from 'react-helmet-async'
 import { ThemeProvider } from './context/ThemeContext'
 import { trackPageView } from './utils/analytics'
 import Navbar from './components/Navbar'
@@ -38,6 +39,11 @@ const PageLoader = () => (
 function HomePage({ onScheduleCall }) {
   return (
     <>
+      <Helmet>
+        <title>G-One Media | High-Performance Digital Agency</title>
+        <meta name="description" content="G-One Media — A digital agency crafting high-converting websites and engaging video content that drives business growth." />
+        <link rel="canonical" href="https://ani0811.github.io/G-OneMedia/" />
+      </Helmet>
       <Hero onScheduleCall={onScheduleCall} />
       <Services />
       <Portfolio />
@@ -86,37 +92,41 @@ export default function App() {
 
   if (loading) {
     return (
-      <ThemeProvider>
-        <Loader onComplete={handleComplete} />
-      </ThemeProvider>
+      <HelmetProvider>
+        <ThemeProvider>
+          <Loader onComplete={handleComplete} />
+        </ThemeProvider>
+      </HelmetProvider>
     )
   }
 
   return (
-    <ThemeProvider>
-      <div className="min-h-screen relative">
-        <Navbar onScheduleCall={() => setIsScheduleOpen(true)} />
-        <ScheduleModal isOpen={isScheduleOpen} onClose={() => setIsScheduleOpen(false)} />
+    <HelmetProvider>
+      <ThemeProvider>
+        <div className="min-h-screen relative">
+          <Navbar onScheduleCall={() => setIsScheduleOpen(true)} />
+          <ScheduleModal isOpen={isScheduleOpen} onClose={() => setIsScheduleOpen(false)} />
 
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
-            <Route path="/" element={<HomePage onScheduleCall={() => setIsScheduleOpen(true)} />} />
-            <Route path="/get-started" element={<GetStarted />} />
-            <Route path="/services/:slug" element={<ServiceDetail onScheduleCall={() => setIsScheduleOpen(true)} />} />
-            <Route path="/portfolio/:id" element={<CaseStudyDetail />} />
-            <Route path="/portal" element={<ClientLogin />} />
-            <Route path="/portal/dashboard" element={<ClientDashboard />} />
-            <Route path="/refund" element={<RefundRequest />} />
-            <Route path="/reviews" element={<Reviews />} />
-            <Route path="/discovery" element={<DiscoveryCall />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
-        <Footer />
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/" element={<HomePage onScheduleCall={() => setIsScheduleOpen(true)} />} />
+              <Route path="/get-started" element={<GetStarted />} />
+              <Route path="/services/:slug" element={<ServiceDetail onScheduleCall={() => setIsScheduleOpen(true)} />} />
+              <Route path="/portfolio/:id" element={<CaseStudyDetail />} />
+              <Route path="/portal" element={<ClientLogin />} />
+              <Route path="/portal/dashboard" element={<ClientDashboard />} />
+              <Route path="/refund" element={<RefundRequest />} />
+              <Route path="/reviews" element={<Reviews />} />
+              <Route path="/discovery" element={<DiscoveryCall />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+          <Footer />
 
-        {/* Global AI Chat Widget */}
-        <AIChatWidget />
-      </div>
-    </ThemeProvider>
+          {/* Global AI Chat Widget */}
+          <AIChatWidget />
+        </div>
+      </ThemeProvider>
+    </HelmetProvider>
   )
 }

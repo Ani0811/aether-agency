@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Star, Upload, X, CheckCircle, ChevronLeft, ChevronRight, MessageSquarePlus, Loader2, AlertCircle, ArrowLeft, Pencil, Trash2 } from 'lucide-react'
 import { supabase } from '../lib/supabaseClient'
 import { useNavigate, Link, useLocation } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 
 const REVIEWS_PER_PAGE = 6
 
@@ -573,6 +574,11 @@ export default function Reviews() {
 
       {/* Hero Banner */}
       <section className="pb-0">
+        <Helmet>
+          <title>Client Reviews | G-One Media</title>
+          <meta name="description" content="Read real reviews from our clients. See how G-One Media has helped businesses grow with high-converting websites and video production." />
+          <link rel="canonical" href="https://ani0811.github.io/G-OneMedia/reviews" />
+        </Helmet>
         <div className="container-custom">
 
           {/* Navigation Buttons */}
