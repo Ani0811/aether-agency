@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { Instagram, Linkedin, Youtube, Mail, MessageCircle } from 'lucide-react'
 import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, Link } from 'react-router-dom'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -36,6 +36,10 @@ export default function Footer() {
     { label: 'Services', id: 'services' },
     { label: 'Our Portfolio', id: 'portfolio' },
     { label: 'Pricing Plans', id: 'pricing' }
+  ]
+  const exploreRoutes = [
+    { label: 'Client Reviews', path: '/reviews' },
+    { label: 'Discovery Call', path: '/discovery' }
   ]
 
   return (
@@ -118,6 +122,16 @@ export default function Footer() {
               >
                 {item.label}
               </a>
+            ))}
+            {exploreRoutes.map((item) => (
+              <Link
+                key={item.label}
+                to={item.path}
+                className="text-base transition-all duration-300 hover:text-cyan-400 hover:translate-x-1 inline-block w-fit"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                {item.label}
+              </Link>
             ))}
           </div>
 

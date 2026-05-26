@@ -1,9 +1,9 @@
 -- ============================================================
--- G-One Media — Table: Payments
--- Run 00_schema.sql first if table doesn't exist yet
+-- G-One Media — Use Case: Payments
+-- Run database/core/schema.sql first if table doesn't exist yet
 -- ============================================================
 
--- The table is already created in 00_schema.sql.
+-- The payments table is already defined in core/schema.sql.
 -- This file contains helpful queries for managing payment records.
 
 -- View all payments (newest first)

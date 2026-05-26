@@ -4,7 +4,7 @@
 -- ============================================================
 
 -- Clear existing data to prevent duplicates if run multiple times
-truncate table case_studies;
+truncate table case_studies cascade;
 
 insert into case_studies (slug, title, category, hero_image, description, challenge, solution, tech_stack, metrics)
 values

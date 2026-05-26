@@ -28,13 +28,6 @@ const pricingData = {
         description: 'Enterprise level solutions',
         features: ['Advanced Integrations', 'Custom Dashboards', 'Workflow Automations', 'AI Features']
       }
-    ],
-    services: [
-      { name: 'Landing Page', price: { INR: '15K - 30K', USD: '$200 - $400' } },
-      { name: 'Business Website', price: { INR: '30K - 80K', USD: '$400 - $1,000' } },
-      { name: 'Custom Dashboard / Web App', price: { INR: '80K - 2L', USD: '$1,000 - $2,500' } },
-      { name: 'MVP Development', price: { INR: '1L - 4L', USD: '$1,200 - $5,000' } },
-      { name: 'Maintenance Retainer', price: { INR: '5K - 25K / mo', USD: '$50 - $300 / mo' } }
     ]
   },
   'Video Editing': {
@@ -61,14 +54,6 @@ const pricingData = {
         description: 'Full channel dominance',
         features: ['30+ Reels / Shorts per month', 'Full Channel Management', 'Cinematic Edits', 'Dedicated Content Strategist']
       }
-    ],
-    services: [
-      { name: 'Reels Editing', price: { INR: '₹500 - ₹4K+ / video', USD: '$30 - $150 / video' } },
-      { name: 'YouTube Editing', price: { INR: '₹2K - ₹20K+ / video', USD: '$100 - $500 / video' } },
-      { name: 'Podcast Editing', price: { INR: '₹2K - ₹15K+ / episode', USD: '$150 - $1,000 / episode' } },
-      { name: 'Thumbnail Design', price: { INR: '₹500 - ₹2K+ / unit', USD: '$10 - $30 / unit' } },
-      { name: 'Captions Only', price: { INR: '₹300 - ₹1.5K+ / unit', USD: '$5 - $20 / unit' } },
-      { name: 'Full Video Retainer', price: { INR: '₹40K - ₹4L+ / mo', USD: '$500 - $5,000 / mo' } }
     ]
   },
   'AI Agents': {
@@ -95,12 +80,6 @@ const pricingData = {
         description: 'Enterprise automation',
         features: ['Autonomous multi-agent', 'Custom AI Pipelines', 'Internal Team Tools', 'Ongoing Optimization']
       }
-    ],
-    services: [
-      { name: 'AI Chatbot Integration', price: { INR: '25K - 75K', USD: '$300 - $900' } },
-      { name: 'Custom LLM Training', price: { INR: '50K - 1.5L', USD: '$600 - $1,800' } },
-      { name: 'WhatsApp Bot Integration', price: { INR: '30K - 80K', USD: '$400 - $1,000' } },
-      { name: 'Agent Maintenance', price: { INR: '10K - 30K / mo', USD: '$150 - $400 / mo' } }
     ]
   },
   'Digital Marketing': {
@@ -127,19 +106,37 @@ const pricingData = {
         description: 'Market leadership',
         features: ['Omnichannel Strategy', 'Unlimited Ad Management', 'Daily Content Publishing', 'Advanced Analytics Dashboard']
       }
-    ],
-    services: [
-      { name: 'SEO Optimization', price: { INR: '15K - 35K / mo', USD: '$200 - $450 / mo' } },
-      { name: 'Performance Ads (Meta/Google)', price: { INR: '25K - 80K / mo', USD: '$300 - $1,000 / mo' } },
-      { name: 'Email Marketing Flow', price: { INR: '15K - 40K', USD: '$200 - $500' } },
-      { name: 'Brand Identity Design', price: { INR: '30K - 1L', USD: '$400 - $1,200' } }
     ]
   }
+}
+
+const individualServicesData = {
+  'Development': [
+    { name: 'Landing Page', price: { INR: '15K - 30K', USD: '$200 - $400' } },
+    { name: 'Business Website', price: { INR: '30K - 80K', USD: '$400 - $1,000' } },
+    { name: 'Custom Dashboard / Web App', price: { INR: '80K - 2L', USD: '$1,000 - $2,500' } },
+    { name: 'MVP Development', price: { INR: '1L - 4L', USD: '$1,200 - $5,000' } },
+    { name: 'AI Chatbot Integration', price: { INR: '25K - 75K', USD: '$300 - $900' } },
+    { name: 'Custom LLM Training', price: { INR: '50K - 1.5L', USD: '$600 - $1,800' } },
+    { name: 'WhatsApp Bot Integration', price: { INR: '30K - 80K', USD: '$400 - $1,000' } },
+    { name: 'Maintenance Retainer', price: { INR: '10K - 30K / mo', USD: '$150 - $400 / mo' } },
+    { name: 'Discovery Call 1:1 (Paid)', price: { INR: '1,500 / 30 mins', USD: '$20 / 30 mins' }, link: 'https://calendly.com/g-onemedia/discovery-call' }
+  ],
+  'Video Editing': [
+    { name: 'Reels Editing', price: { INR: '500 - 4K+ / video', USD: '$30 - $150 / video' } },
+    { name: 'YouTube Editing', price: { INR: '2K - 20K+ / video', USD: '$100 - $500 / video' } },
+    { name: 'Podcast Editing', price: { INR: '2K - 15K+ / episode', USD: '$150 - $1,000 / episode' } },
+    { name: 'Thumbnail Design', price: { INR: '500 - 2K+ / unit', USD: '$10 - $30 / unit' } },
+    { name: 'Captions Only', price: { INR: '300 - 1.5K+ / unit', USD: '$5 - $20 / unit' } },
+    { name: 'Full Video Retainer', price: { INR: '40K - 4L+ / mo', USD: '$500 - $5,000 / mo' } },
+    { name: 'Discovery Call 1:1 (Paid)', price: { INR: '1,500 / 30 mins', USD: '$20 / 30 mins' }, link: 'https://calendly.com/g-onemedia/discovery-call' }
+  ]
 }
 
 export default function Pricing({ onScheduleCall }) {
   const [currency, setCurrency] = useState('INR')
   const [activeCategory, setActiveCategory] = useState('Websites & Apps')
+  const [activeIndividualSub, setActiveIndividualSub] = useState('Development')
   const [isPaymentOpen, setIsPaymentOpen] = useState(false)
   const [selectedPlanName, setSelectedPlanName] = useState('')
   const [defaultAmount, setDefaultAmount] = useState('')
@@ -264,7 +261,7 @@ export default function Pricing({ onScheduleCall }) {
         {/* Individual Services Grid */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={`${activeCategory}-grid`}
+            key={`${activeIndividualSub}-grid`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -273,11 +270,30 @@ export default function Pricing({ onScheduleCall }) {
           >
             <div className="text-center mb-12">
               <h3 className="text-3xl font-black tracking-tight" style={{ color: 'var(--text-primary)' }}>Individual Services</h3>
-              <p className="text-base mt-3" style={{ color: 'var(--text-muted)' }}>Need a specific service? Select individually.</p>
+              <p className="text-base mt-3 mb-8" style={{ color: 'var(--text-muted)' }}>Need a specific service? Select individually.</p>
+              
+              {/* Sub-section swap toggle */}
+              <div className="inline-flex p-1 rounded-xl bg-black/10 border border-white/5 backdrop-blur-sm mx-auto">
+                {['Development', 'Video Editing'].map((sub) => {
+                  const isActive = activeIndividualSub === sub
+                  return (
+                    <button
+                      key={sub}
+                      onClick={() => setActiveIndividualSub(sub)}
+                      className={`px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-all ${isActive
+                        ? 'bg-(--accent-blue) text-black shadow-md'
+                        : 'text-(--text-muted) hover:text-(--text-primary) hover:bg-white/5'
+                        }`}
+                    >
+                      {sub}
+                    </button>
+                  )
+                })}
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {currentData.services.map((service, index) => (
+              {individualServicesData[activeIndividualSub].map((service, index) => (
                 <motion.div
                   key={index}
                   whileHover={{ y: -5 }}
@@ -300,29 +316,40 @@ export default function Pricing({ onScheduleCall }) {
                         {currency === 'INR' ? '₹' + service.price.INR : service.price.USD}
                       </div>
                       
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault()
-                          let initialAmt = ''
-                          const inrStr = service.price.INR
-                          if (inrStr.includes('L') && !inrStr.split('L')[0].includes('K')) {
-                            const match = inrStr.match(/\d+/)
-                            if (match) initialAmt = String(Number(match[0]) * 100000)
-                          } else if (inrStr.includes('K')) {
-                            const match = inrStr.match(/\d+/)
-                            if (match) initialAmt = String(Number(match[0]) * 1000)
-                          } else {
-                            initialAmt = inrStr.replace(/[^\d]/g, '') || '5000'
-                          }
+                      {service.link ? (
+                        <a
+                          href={service.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full py-3 px-6 text-sm font-bold rounded-xl transition-all duration-300 border border-white/10 hover:border-cyan-400/50 bg-white/5 hover:bg-cyan-400 text-[var(--text-primary)] hover:text-black hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] flex justify-center items-center gap-2 group-hover:border-cyan-400/30"
+                        >
+                          Book Instantly
+                        </a>
+                      ) : (
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault()
+                            let initialAmt = ''
+                            const inrStr = service.price.INR
+                            if (inrStr.includes('L') && !inrStr.split('L')[0].includes('K')) {
+                              const match = inrStr.match(/\d+/)
+                              if (match) initialAmt = String(Number(match[0]) * 100000)
+                            } else if (inrStr.includes('K')) {
+                              const match = inrStr.match(/\d+/)
+                              if (match) initialAmt = String(Number(match[0]) * 1000)
+                            } else {
+                              initialAmt = inrStr.replace(/[^\d]/g, '') || '5000'
+                            }
 
-                          setSelectedPlanName(`${service.name} (${activeCategory})`)
-                          setDefaultAmount(initialAmt)
-                          setIsPaymentOpen(true)
-                        }}
-                        className="w-full py-3 px-6 text-sm font-bold rounded-xl transition-all duration-300 border border-white/10 hover:border-cyan-400/50 bg-white/5 hover:bg-cyan-400 text-[var(--text-primary)] hover:text-black hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] flex justify-center items-center gap-2 group-hover:border-cyan-400/30"
-                      >
-                        Select Service
-                      </button>
+                            setSelectedPlanName(`${service.name} (${activeIndividualSub})`)
+                            setDefaultAmount(initialAmt)
+                            setIsPaymentOpen(true)
+                          }}
+                          className="w-full py-3 px-6 text-sm font-bold rounded-xl transition-all duration-300 border border-white/10 hover:border-cyan-400/50 bg-white/5 hover:bg-cyan-400 text-[var(--text-primary)] hover:text-black hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] flex justify-center items-center gap-2 group-hover:border-cyan-400/30"
+                        >
+                          Select Service
+                        </button>
+                      )}
                     </div>
                   </div>
                 </motion.div>

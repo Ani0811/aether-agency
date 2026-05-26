@@ -26,6 +26,8 @@ const CaseStudyDetail = lazy(() => import('./components/CaseStudyDetail'))
 const ClientLogin = lazy(() => import('./components/ClientLogin'))
 const ClientDashboard = lazy(() => import('./components/ClientDashboard'))
 const RefundRequest = lazy(() => import('./components/RefundRequest'))
+const Reviews = lazy(() => import('./components/Reviews'))
+const DiscoveryCall = lazy(() => import('./components/DiscoveryCall'))
 
 const PageLoader = () => (
   <div className="min-h-screen bg-[#050508] flex items-center justify-center">
@@ -105,6 +107,8 @@ export default function App() {
             <Route path="/portal" element={<ClientLogin />} />
             <Route path="/portal/dashboard" element={<ClientDashboard />} />
             <Route path="/refund" element={<RefundRequest />} />
+            <Route path="/reviews" element={<Reviews />} />
+            <Route path="/discovery" element={<DiscoveryCall />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

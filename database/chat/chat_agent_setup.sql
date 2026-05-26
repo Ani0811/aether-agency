@@ -1,5 +1,5 @@
 -- =========================================================
--- G-One Media — AI Chat Agent Database Tables
+-- G-One Media — Use Case: AI Chat Agent Leads & Contacts
 -- Run this in your Supabase SQL Editor
 -- =========================================================
 

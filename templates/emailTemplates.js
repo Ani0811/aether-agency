@@ -358,3 +358,86 @@ export const getChatRefundRequestTemplate = ({ name, email, payment_id, reason }
     footerBorderColor
   });
 };
+
+export const getDiscoveryEmailTemplate = ({ name, email, company, website, service, budget, details, referral }) => {
+  const title = `Discovery Call Booking — G-One Media`;
+  const headerSubtitle = `✦ New Discovery Call Booking`;
+
+  const contentHtml = `
+    <!-- Client Details -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 32px;">
+      <tr>
+        <td style="padding-bottom: 8px;">
+          <p style="margin:0; font-size:12px; text-transform:uppercase; letter-spacing:1px; color:#64748b; font-weight:600;">Client & Brand Profile</p>
+        </td>
+      </tr>
+      <tr>
+        <td style="background-color: #f1f5f9; padding: 20px; border-radius: 6px; border: 1px solid #e2e8f0;">
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td width="150" style="font-size:14px; color:#64748b; padding-bottom:12px;">Name:</td>
+              <td style="font-size:14px; font-weight:600; color:#0f172a; padding-bottom:12px;">${name}</td>
+            </tr>
+            <tr>
+              <td width="150" style="font-size:14px; color:#64748b; padding-bottom:12px;">Email:</td>
+              <td style="font-size:14px; font-weight:600; padding-bottom:12px;">
+                <a href="mailto:${email}" style="color:#2563eb; text-decoration:none;">${email}</a>
+              </td>
+            </tr>
+            <tr>
+              <td width="150" style="font-size:14px; color:#64748b; padding-bottom:12px;">Company / Brand:</td>
+              <td style="font-size:14px; font-weight:600; color:#0f172a; padding-bottom:12px;">${company || 'N/A'}</td>
+            </tr>
+            <tr>
+              <td width="150" style="font-size:14px; color:#64748b; padding-bottom:12px;">Website / Links:</td>
+              <td style="font-size:14px; font-weight:600; padding-bottom:12px;">
+                ${website ? `<a href="${website.startsWith('http') ? website : 'http://' + website}" target="_blank" style="color:#2563eb; text-decoration:none;">${website}</a>` : 'N/A'}
+              </td>
+            </tr>
+            <tr>
+              <td width="150" style="font-size:14px; color:#64748b; padding-bottom:12px;">Service Focus:</td>
+              <td style="font-size:14px; font-weight:600; color:#06b6d4; padding-bottom:12px;">${service}</td>
+            </tr>
+            <tr>
+              <td width="150" style="font-size:14px; color:#64748b; padding-bottom:12px;">Budget Focus:</td>
+              <td style="font-size:14px; font-weight:600; color:#0f172a; padding-bottom:12px;">${budget}</td>
+            </tr>
+            <tr>
+              <td width="150" style="font-size:14px; color:#64748b;">How they found us:</td>
+              <td style="font-size:14px; font-weight:600; color:#0f172a;">${referral || 'N/A'}</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Project Goals -->
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td style="padding-bottom: 8px;">
+          <p style="margin:0; font-size:12px; text-transform:uppercase; letter-spacing:1px; color:#64748b; font-weight:600;">
+            Project Description & Goals
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 24px; border: 1px solid #e2e8f0; border-left: 4px solid #0f172a; border-radius: 4px; background-color: #ffffff;">
+          <p style="margin:0; font-size:15px; color:#334155; line-height:1.6; white-space:pre-wrap;">${(details || 'No additional details provided.').replace(/\n/g, '<br/>')}</p>
+        </td>
+      </tr>
+    </table>
+  `;
+
+  const actionHtml = `
+    <a href="mailto:${email}?subject=Re: G-One Media Discovery Call Booking" style="display:inline-block; background-color:#2563eb; color:#ffffff; font-weight:500; font-size:14px; text-decoration:none; padding:12px 32px; border-radius:6px;">
+      Reply to ${name}
+    </a>
+  `;
+
+  const footerContent = `
+    <p style="margin:0; font-size:13px; color:#64748b;">This email was sent from the G-One Media Discovery Booking Page.</p>
+  `;
+
+  return buildEmailLayout({ title, headerSubtitle, contentHtml, actionHtml, footerContent });
+};
+

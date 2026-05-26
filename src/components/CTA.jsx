@@ -45,7 +45,7 @@ export default function CTA() {
   }
 
   const getWhatsappUrl = (num) => `https://wa.me/${num}?text=${encodeURIComponent(
-    "Hi! I'm interested in working with Aether Digital. Can we talk?"
+    "Hi! I'm interested in working with G-One Media. Can we talk?"
   )}`
 
   return (

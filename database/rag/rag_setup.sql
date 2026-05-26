@@ -1,7 +1,12 @@
+-- =============================================================================
+-- G-One Media — Use Case: RAG / Vector Database & Similarity Search Setup
+-- Enable the pgvector extension and configure documents table for AI agent
+-- =============================================================================
+
 -- Enable the pgvector extension to work with embedding vectors
 create extension if not exists vector;
 
--- Drop existing resources so we can recreate them with 3072 dimensions
+-- Drop existing resources so we can recreate them with 3072 dimensions if needed
 drop function if exists match_documents;
 drop table if exists documents;
 
@@ -10,7 +15,7 @@ create table documents (
   id bigint primary key generated always as identity,
   content text not null,
   metadata jsonb,
-  embedding vector(3072) -- Gemini embedding-2 uses 3072 dimensions
+  embedding vector(3072) -- Gemini embedding-004 / text-embedding-004 uses 3072 dimensions
 );
 
 -- Enable RLS and create policies for public access (since this is public knowledge)

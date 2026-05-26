@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
 import { Sun, Moon, Menu, X } from 'lucide-react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, Link } from 'react-router-dom'
 
 export default function Navbar({ onScheduleCall }) {
   const { theme, toggleTheme } = useTheme()
@@ -94,9 +94,6 @@ export default function Navbar({ onScheduleCall }) {
           className="flex items-center relative" 
           style={{ color: 'var(--text-primary)' }}
         >
-          {/* Logo Glow Effect */}
-          <div className="absolute -inset-2 bg-cyan-500/20 blur-xl rounded-full opacity-100" />
-          
           <img 
             src={`${import.meta.env.BASE_URL}G-OneMedia.png`.replace(/\/+/g, '/')} 
             alt="G-One Media Logo" 
@@ -169,7 +166,7 @@ export default function Navbar({ onScheduleCall }) {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 right-0 p-8 md:hidden shadow-2xl backdrop-blur-3xl"
+            className="absolute top-full left-0 right-0 p-8 md:hidden shadow-2xl backdrop-blur-3xl max-h-[calc(100vh-80px)] overflow-y-auto"
             style={{ 
               background: theme === 'dark' ? 'rgba(10, 10, 15, 0.98)' : 'rgba(255, 255, 255, 0.98)', 
               borderBottom: '1px solid var(--border-subtle)' 
@@ -192,6 +189,14 @@ export default function Navbar({ onScheduleCall }) {
                   </a>
                 )
               })}
+              <Link
+                to="/discovery"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-2xl font-black py-4 border-b border-white/5 flex items-center justify-between transition-all"
+                style={{ color: location.pathname === '/discovery' ? 'var(--accent-blue)' : 'var(--text-primary)' }}
+              >
+                Discovery Call
+              </Link>
               <a 
                 href="#contact"
                 onClick={(e) => {

@@ -4,7 +4,7 @@
 -- ============================================================
 
 -- Clear existing data to prevent duplicates if run multiple times
-truncate table portfolio_projects;
+truncate table portfolio_projects cascade;
 
 insert into portfolio_projects (title, type, category, description, image, link, case_study_slug, sort_order)
 values
@@ -82,7 +82,6 @@ values
     'Client Showcase',
     'Reels',
     'IG Reels • Client',
-    'Dynamic client showcase reel highlighting key achievements and project milestones.',
     '/Agency_Videos/ClientReel.jpg',
     'https://drive.google.com/file/d/1LvITp9vG8ieDu7EGzzmxjdasWbQRFSjN/view',
     'client-showcase',
@@ -92,7 +91,6 @@ values
     'Aesthetic Cloth Reel',
     'Reels',
     'IG Reels • Fashion',
-    'Cinematic fashion showcase featuring high-end apparel with rapid-cut editing.',
     '/Agency_Videos/ClothReel.jpg',
     'https://drive.google.com/file/d/1lFvPCKIzgt3gSTj1T35R2qxgjkjXAKlk/view',
     'aesthetic-cloth-reel',
@@ -102,7 +100,6 @@ values
     'Aether Essence',
     'YT Videos',
     'YouTube • Cinematic',
-    'High-production value cinematic experience showcasing the essence of digital agency work.',
     '/Agency_Videos/Reel1.jpg',
     'https://drive.google.com/file/d/1rmSSFv5UU8UipYjdZtOk0IXvYUwJiwdB/view',
     'aether-essence',
@@ -112,7 +109,6 @@ values
     'Production Highlights',
     'YT Videos',
     'YouTube • Production',
-    'Detailed breakdown of our production process and equipment setup for large-scale projects.',
     '/Agency_Videos/Reel2.jpg',
     'https://drive.google.com/file/d/1vsfhyLj6X0i3s2cHkhQ-S7gszuqDZONB/view',
     'production-highlights',
@@ -122,7 +118,6 @@ values
     'Behind the Scenes',
     'Vlogs',
     'Vlog • BTS',
-    'Raw and authentic look at our team in action during a major brand campaign shoot.',
     '/Agency_Videos/0621_Reel.jpg',
     'https://drive.google.com/file/d/1fNKd-6i0fEGVnkEev-TCN9b1P3VU7UZB/view',
     'behind-the-scenes',
@@ -132,7 +127,6 @@ values
     'Agency Lifestyle',
     'Vlogs',
     'Vlog • Culture',
-    'Insight into the day-to-day culture and creative atmosphere at Aether Agency.',
     '/Agency_Videos/Reel3.jpg',
     'https://drive.google.com/file/d/1CcIoHrBpPCU9ekpeT1CexDY6ULIBbKU9/view',
     'agency-lifestyle',
@@ -142,7 +136,6 @@ values
     'Dynamic Reel',
     'Reels',
     'IG Reels • Movement',
-    'Fast-paced, high-transition reel demonstrating our creative editing capabilities.',
     '/Agency_Videos/Reel.jpg',
     'https://drive.google.com/file/d/1aA4v-bCBV4IG4oqzgb4KiMZ7XgqyEtd-/view',
     'dynamic-reel',

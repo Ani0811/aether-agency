@@ -1,10 +1,14 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { Lock, Mail, ArrowRight, Shield, Eye, EyeOff } from 'lucide-react'
 import { supabase } from '../lib/supabaseClient'
 
 export default function ClientLogin() {
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -127,7 +131,7 @@ export default function ClientLogin() {
             </form>
 
             <p className="text-center text-[10px] mt-6 font-semibold tracking-wider uppercase" style={{ color: 'var(--text-muted)' }}>
-              Credentials provided by Aether Digital
+              Credentials provided by G-One Media
             </p>
           </motion.div>
         </div>

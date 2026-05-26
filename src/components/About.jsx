@@ -3,21 +3,6 @@ import { Code, Video, Star, Zap, Handshake, Linkedin, Github, Mail, Instagram, Y
 
 const founders = [
   {
-    name: 'Anirudha Basu Thakur',
-    role: 'Technical Visionary & Full-Stack Architect',
-    description: 'Expert full-stack developer dedicated to building high-performance, pixel-perfect digital ecosystems. I architect and build robust web solutions from the ground up—whether it is a complex SaaS platform, a high-converting landing page, or a custom internal tool, I translate any vision into clean, scalable code that delivers measurable impact. If you can dream it, I will code it.',
-    icon: Code,
-    image: 'AnirudhaTechie.jpg',
-    color: 'cyan',
-    skills: ['React & Next.js', 'Node.js Backend', 'System Architecture'],
-    email: 'anirudha.basuthakur@gmail.com',
-    socials: [
-      { name: 'GitHub', url: 'https://github.com/Ani0811', icon: Github },
-      { name: 'LinkedIn', url: 'https://www.linkedin.com/in/anirudha-basu-thakur-686aa8253', icon: Linkedin },
-      { name: 'Instagram', url: 'https://www.instagram.com/this_is_ringo_here/', icon: Instagram }
-    ]
-  },
-  {
     name: 'Vasudev Sharma',
     role: 'Creative Director & Cinematic Editor',
     description: 'A cinematic storyteller specializing in professional-grade video production and high-impact post-processing. I transform raw concepts into compelling visual narratives that captivate audiences and define brand identities. From high-energy social content to cinematic brand films, I craft the visual journey that brings your story to life, whatever the medium, whatever the request.',
@@ -30,6 +15,21 @@ const founders = [
       { name: 'YouTube', url: 'https://www.youtube.com/@vasudevsharma1', icon: Youtube },
       { name: 'LinkedIn', url: 'https://linkedin.com/in/vasudev-sharma-a8b4ab22a', icon: Linkedin },
       { name: 'Instagram', url: 'https://www.instagram.com/vasudev.sharma5/', icon: Instagram }
+    ]
+  },
+  {
+    name: 'Anirudha Basu Thakur',
+    role: 'Technical Visionary & Full-Stack Architect',
+    description: 'Expert full-stack developer dedicated to building high-performance, pixel-perfect digital ecosystems. I architect and build robust web solutions from the ground up—whether it is a complex SaaS platform, a high-converting landing page, or a custom internal tool, I translate any vision into clean, scalable code that delivers measurable impact. If you can dream it, I will code it.',
+    icon: Code,
+    image: 'AnirudhaTechie.jpg',
+    color: 'cyan',
+    skills: ['React & Next.js', 'Node.js Backend', 'System Architecture'],
+    email: 'anirudha.basuthakur@gmail.com',
+    socials: [
+      { name: 'GitHub', url: 'https://github.com/Ani0811', icon: Github },
+      { name: 'LinkedIn', url: 'https://www.linkedin.com/in/anirudha-basu-thakur-686aa8253', icon: Linkedin },
+      { name: 'Instagram', url: 'https://www.instagram.com/this_is_ringo_here/', icon: Instagram }
     ]
   }
 ]
@@ -99,7 +99,7 @@ export default function About() {
               >
                 <div className="relative w-full aspect-square max-w-70 mb-6 group">
                   <div className={`absolute inset-0 bg-linear-to-br ${founder.color === 'cyan' ? 'from-cyan-500/30' : 'from-fuchsia-500/30'} to-transparent rounded-[40px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                  <div className="relative h-full w-full rounded-[40px] overflow-hidden glass-card border-white/10 shadow-2xl">
+                  <div className="relative h-full w-full rounded-[40px] overflow-hidden glass-card border-white/10 shadow-lg shadow-black/25">
                     <img
                       src={`${import.meta.env.BASE_URL}${founder.image}`.replace(/\/+/g, '/')}
                       alt={founder.name}
@@ -132,7 +132,7 @@ export default function About() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="glass-card p-10 md:p-14 border-white/5 relative overflow-hidden shadow-2xl"
+            className="glass-card p-10 md:p-14 border-white/5 relative overflow-hidden shadow-lg shadow-black/25"
           >
             <div className="absolute top-0 left-0 w-1.5 h-full bg-linear-to-b from-cyan-400 to-fuchsia-500" />
             <div className="grid md:grid-cols-2 gap-8">

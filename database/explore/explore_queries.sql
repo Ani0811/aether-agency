@@ -1,6 +1,6 @@
 -- ============================================================
 -- G-One Media — Database Explorer Queries
--- Handy inspection queries to understand your database
+-- Handy inspection queries to understand your database schema and data
 -- ============================================================
 
 -- ─────────────────────────────────────────────────────────────
@@ -25,7 +25,17 @@ select 'bookings', count(*) from bookings
 union all
 select 'payments', count(*) from payments
 union all
-select 'leads', count(*) from leads;
+select 'leads', count(*) from leads
+union all
+select 'reviews', count(*) from reviews
+union all
+select 'chat_leads', count(*) from chat_leads
+union all
+select 'chat_contacts', count(*) from chat_contacts
+union all
+select 'chat_refund_requests', count(*) from chat_refund_requests
+union all
+select 'documents', count(*) from documents;
 
 
 -- ─────────────────────────────────────────────────────────────
@@ -70,6 +80,12 @@ select id, slug, title, category
 from case_studies
 order by created_at;
 
+-- Recent client reviews (last 10)
+select name, role, rating, is_approved, created_at
+from reviews
+order by created_at desc
+limit 10;
+
 -- Recent bookings (last 10)
 select name, email, service, status, created_at
 from bookings
@@ -85,6 +101,12 @@ limit 10;
 -- Recent payments (last 10)
 select razorpay_payment_id, amount, email, status, created_at
 from payments
+order by created_at desc
+limit 10;
+
+-- Recent AI chat agent leads (last 10)
+select name, email, service, type, created_at
+from chat_leads
 order by created_at desc
 limit 10;
 

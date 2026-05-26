@@ -1,66 +1,151 @@
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Star } from 'lucide-react'
+import { Star, ArrowRight } from 'lucide-react'
+import { supabase } from '../lib/supabaseClient'
+import { useNavigate } from 'react-router-dom'
 
-const testimonials = [
-  {
-    name: 'Arjun Mehta',
-    role: 'Founder, NovaTech',
-    text: 'Aether delivered a stunning website and promo video in just 4 days. Our conversions jumped 85% in the first month.',
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200'
-  },
-  {
-    name: 'Priya Sharma',
-    role: 'CEO, FitFlow',
-    text: 'Professional, fast, and creative. The website and social media content package was exactly what we needed for our launch.',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200'
-  },
-  {
-    name: 'Rahul Verma',
-    role: 'Director, Luxe Interiors',
-    text: 'The brand video they created perfectly captures our aesthetic. Clean work, great communication throughout.',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200'
-  }
-]
+function StarDisplay({ rating }) {
+  return (
+    <div className="flex gap-1">
+      {[1, 2, 3, 4, 5].map((s) => (
+        <Star key={s} size={14} className={s <= rating ? 'fill-yellow-400 text-yellow-400' : 'fill-white/10 text-white/10'} />
+      ))}
+    </div>
+  )
+}
+
+function SkeletonCard() {
+  return (
+    <div className="glass-card p-10 animate-pulse">
+      <div className="flex gap-1 mb-6">
+        {[...Array(5)].map((_, i) => <div key={i} className="w-3.5 h-3.5 rounded-full" style={{ background: 'var(--border-subtle)' }} />)}
+      </div>
+      <div className="space-y-2 mb-8">
+        <div className="h-4 rounded w-full" style={{ background: 'var(--border-subtle)' }} />
+        <div className="h-4 rounded w-4/5" style={{ background: 'var(--border-subtle)' }} />
+        <div className="h-4 rounded w-3/5" style={{ background: 'var(--border-subtle)' }} />
+      </div>
+      <div className="flex items-center gap-4">
+        <div className="w-12 h-12 rounded-full shrink-0" style={{ background: 'var(--border-subtle)' }} />
+        <div className="space-y-2 flex-1">
+          <div className="h-3 rounded w-1/3" style={{ background: 'var(--border-subtle)' }} />
+          <div className="h-2 rounded w-1/4" style={{ background: 'var(--border-subtle)' }} />
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default function Testimonials() {
+  const [reviews, setReviews] = useState([])
+  const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    supabase
+      .from('reviews')
+      .select('id, name, role, rating, review, image_url')
+      .eq('is_approved', true)
+      .order('rating', { ascending: false })
+      .order('created_at', { ascending: false })
+      .limit(3)
+      .then(({ data }) => {
+        setReviews(data || [])
+        setLoading(false)
+      })
+  }, [])
+
   return (
     <section id="testimonials" style={{ background: 'var(--bg-secondary)' }}>
       <div className="container-custom">
         <div className="text-center mb-20">
-          <h2 className="text-4xl lg:text-5xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Client <span className="gradient-text">Testimonials</span></h2>
-          <p className="max-w-lg mx-auto" style={{ color: 'var(--text-secondary)' }}>What our clients say about working with us.</p>
+          <h2 className="text-4xl lg:text-5xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+            Client <span className="gradient-text">Testimonials</span>
+          </h2>
+          <p className="max-w-lg mx-auto" style={{ color: 'var(--text-secondary)' }}>
+            Real reviews from real clients — sorted by highest rating.
+          </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {testimonials.map((t, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="glass-card p-10"
-            >
-              <div className="flex gap-1 mb-6">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={14} className="fill-purple-500 text-purple-500" />
-                ))}
+          {loading
+            ? [...Array(3)].map((_, i) => <SkeletonCard key={i} />)
+            : reviews.length === 0
+            ? (
+              <div className="col-span-3 text-center py-16">
+                <p className="text-lg" style={{ color: 'var(--text-muted)' }}>
+                  No reviews yet. <button onClick={() => navigate('/reviews')} className="underline hover:text-cyan-400 transition-colors" style={{ color: 'var(--accent-blue)' }}>Be the first to leave one!</button>
+                </p>
               </div>
-              
-              <p className="text-lg font-medium leading-relaxed mb-8 italic" style={{ color: 'var(--text-primary)' }}>
-                "{t.text}"
-              </p>
+            )
+            : reviews.map((t, index) => {
+              const initials = t.name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || '?'
+              return (
+                <motion.div
+                  key={t.id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="glass-card p-10"
+                >
+                  <div className="mb-6">
+                    <StarDisplay rating={t.rating} />
+                  </div>
 
-              <div className="flex items-center gap-4">
-                <img src={t.image} alt={t.name} className="w-12 h-12 rounded-full object-cover ring-2 ring-purple-500/20" />
-                <div>
-                  <h4 className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>{t.name}</h4>
-                  <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>{t.role}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                  <p className="text-lg font-medium leading-relaxed mb-8 italic" style={{ color: 'var(--text-primary)' }}>
+                    "{t.review}"
+                  </p>
+
+                  <div className="flex items-center gap-4">
+                    {t.image_url ? (
+                      <img
+                        src={t.image_url}
+                        alt={t.name}
+                        loading="lazy"
+                        className="w-12 h-12 rounded-full object-cover ring-2 ring-purple-500/20"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold ring-2 ring-purple-500/20"
+                        style={{ background: 'var(--bg-secondary)', color: 'var(--accent-blue)' }}>
+                        {initials}
+                      </div>
+                    )}
+                    <div>
+                      <h4 className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>{t.name}</h4>
+                      {t.role && (
+                        <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>{t.role}</p>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              )
+            })
+          }
         </div>
+
+        {/* CTA to reviews page */}
+        {!loading && (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex flex-wrap items-center justify-center gap-4 mt-14"
+          >
+            <button
+              onClick={() => navigate('/reviews')}
+              className="btn-secondary text-sm py-2.5! px-6! inline-flex items-center gap-2"
+            >
+              See All Reviews <ArrowRight size={16} />
+            </button>
+            <button
+              onClick={() => navigate('/reviews?write=true')}
+              className="btn-primary text-sm py-2.5! px-6! inline-flex items-center gap-2"
+            >
+              Write Your Review
+            </button>
+          </motion.div>
+        )}
       </div>
     </section>
   )

@@ -6,6 +6,11 @@ import { useSearchParams, useNavigate } from 'react-router-dom'
 export default function RefundRequest() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+  
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   const [status, setStatus] = useState('idle') // idle | loading | success | error
   const [email, setEmail] = useState('')
   const [paymentId, setPaymentId] = useState(searchParams.get('payment_id') || '')

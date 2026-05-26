@@ -6,7 +6,7 @@ import dotenv from 'dotenv'
 import Razorpay from 'razorpay'
 import crypto from 'crypto'
 import { createClient } from '@supabase/supabase-js'
-import { getContactEmailTemplate, getPaymentSuccessTemplate, getRefundInitiatedTemplate, getRefundSuccessTemplate, getChatBookingTemplate, getChatRefundRequestTemplate } from './templates/emailTemplates.js';
+import { getContactEmailTemplate, getPaymentSuccessTemplate, getRefundInitiatedTemplate, getRefundSuccessTemplate, getChatBookingTemplate, getChatRefundRequestTemplate, getDiscoveryEmailTemplate } from './templates/emailTemplates.js';
 import { CHAT_SYSTEM_PROMPT, PRICING_MATRIX, CHAT_TOOLS } from './config/chatConfig.js';
 
 dotenv.config()
@@ -53,8 +53,8 @@ app.post('/api/contact', async (req, res) => {
       to: process.env.AGENCY_EMAIL || 'gmedia774@gmail.com', // sends to agency
       replyTo: email,
       subject: isDiscoveryCall
-        ? `✦ Discovery Call Request [${service}] from ${name} — Aether Digital`
-        : `✦ New Message from ${name} — Aether Digital`,
+        ? `✦ Discovery Call Request [${service}] from ${name} — G-One Media`
+        : `✦ New Message from ${name} — G-One Media`,
       html: getContactEmailTemplate({ name, email, service, budget, content, isDiscoveryCall }),
     })
 
@@ -65,7 +65,49 @@ app.post('/api/contact', async (req, res) => {
   }
 })
 
-app.get('/', (req, res) => res.send('Aether Agency API'))
+// Dedicated Discovery Call booking form endpoint (saves to DB + sends email notification)
+app.post('/api/discovery', async (req, res) => {
+  const { name, email, company, website, service, budget, details, referral } = req.body
+
+  if (!name || !email || !service) {
+    return res.status(400).json({ error: 'Name, email, and service needed are required.' })
+  }
+
+  try {
+    // 1. Insert into Supabase discovery_calls table
+    const { error: dbError } = await supabase.from('discovery_calls').insert([{
+      name,
+      email,
+      company: company || null,
+      website: website || null,
+      service,
+      budget: budget || null,
+      details: details || null,
+      referral: referral || null
+    }])
+
+    if (dbError) {
+      console.error('[Discovery] Supabase DB error:', dbError.message)
+      // We will not block the user response if database fails, but log it.
+    }
+
+    // 2. Dispatch email notification to founders
+    await transporter.sendMail({
+      from: `"${name}" <${process.env.SMTP_USER}>`,
+      to: process.env.AGENCY_EMAIL || 'gmedia774@gmail.com',
+      replyTo: email,
+      subject: `✦ Discovery Booking Request from ${name} [${service}]`,
+      html: getDiscoveryEmailTemplate({ name, email, company, website, service, budget, details, referral })
+    })
+
+    res.json({ success: true })
+  } catch (err) {
+    console.error('[Discovery] API error:', err)
+    res.status(500).json({ error: 'Failed to submit discovery call. Please try again later.' })
+  }
+})
+
+app.get('/', (req, res) => res.send('G-One Media API'))
 
 // Razorpay Initialization
 const VITE_RAZORPAY_KEY_ID = process.env.VITE_RAZORPAY_KEY_ID
@@ -190,16 +232,16 @@ app.post('/api/refund', async (req, res) => {
     // In Test Mode (or if Razorpay processed it instantly in Live Mode), status is 'processed'
     if (refund.status === 'processed') {
       await transporter.sendMail({
-        from: `"Aether Agency" <${process.env.SMTP_USER}>`,
+        from: `"G-One Media" <${process.env.SMTP_USER}>`,
         to: email,
-        subject: 'Refund Successful — Aether Agency',
+        subject: 'Refund Successful — G-One Media',
         html: getRefundSuccessTemplate({ amount: payment.amount / 100, payment_id, refund_id: refund.id })
       })
     } else {
       await transporter.sendMail({
-        from: `"Aether Agency" <${process.env.SMTP_USER}>`,
+        from: `"G-One Media" <${process.env.SMTP_USER}>`,
         to: email,
-        subject: 'Refund Initiated — Aether Agency',
+        subject: 'Refund Initiated — G-One Media',
         html: getRefundInitiatedTemplate({ amount: payment.amount / 100, payment_id })
       })
     }
@@ -517,4 +559,4 @@ app.post('/api/tts', async (req, res) => {
   }
 })
 
-app.listen(PORT, () => console.log(`✅ Aether API running on http://localhost:${PORT}`))
+app.listen(PORT, () => console.log(`✅ G-One Media API running on http://localhost:${PORT}`))
