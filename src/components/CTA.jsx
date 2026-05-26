@@ -20,7 +20,6 @@ export default function CTA() {
   const formRef = useRef()
   const [fields, setFields] = useState({ name: '', email: '', message: '' })
   const [status, setStatus] = useState('idle') // idle | loading | success | error
-  const [showWhatsAppOptions, setShowWhatsAppOptions] = useState(false)
 
   const handleChange = (e) =>
     setFields((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -86,8 +85,10 @@ export default function CTA() {
               </div>
 
               <div className="relative w-fit mt-auto">
-                <motion.button
-                  onClick={() => setShowWhatsAppOptions(!showWhatsAppOptions)}
+                <motion.a
+                  href="https://chat.whatsapp.com/BshakaceNC7BahYMoNdiK4"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ scale: 1.03, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   className="inline-flex items-center justify-center gap-3 py-4 px-8 rounded-xl font-bold text-white transition-all duration-300 cursor-pointer"
@@ -98,57 +99,7 @@ export default function CTA() {
                 >
                   <MessageCircle size={22} />
                   Chat on WhatsApp
-                </motion.button>
-
-                <AnimatePresence>
-                  {showWhatsAppOptions && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: -20, scale: 1 }}
-                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                      className="absolute bottom-full left-0 mb-4 p-1 rounded-2xl z-50 w-[280px] sm:min-w-75 max-w-[calc(100vw-3rem)] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10"
-                      style={{ 
-                        background: 'rgba(15, 15, 20, 0.8)', 
-                        backdropFilter: 'blur(24px)',
-                        boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.05), 0 20px 50px rgba(0,0,0,0.5)'
-                      }}
-                    >
-                      <div className="p-4">
-                        <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-4 opacity-40 px-2 text-cyan-400">Direct Access</p>
-                        <div className="flex flex-col gap-1">
-                          <a
-                            href={getWhatsappUrl(FOUNDERS_WHATSAPP.anirudha)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-between p-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-cyan-500/20 transition-all group"
-                          >
-                            <div className="flex flex-col">
-                              <span className="text-sm font-bold group-hover:text-cyan-400 transition-colors text-white">Anirudha Basu Thakur</span>
-                              <span className="text-[9px] uppercase tracking-widest opacity-40 mt-1">Lead Developer</span>
-                            </div>
-                            <div className="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20 group-hover:border-cyan-500/50 transition-all">
-                              <MessageCircle size={14} className="text-cyan-400" />
-                            </div>
-                          </a>
-                          <a
-                            href={getWhatsappUrl(FOUNDERS_WHATSAPP.vasudev)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-between p-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-fuchsia-500/20 transition-all group"
-                          >
-                            <div className="flex flex-col">
-                              <span className="text-sm font-bold group-hover:text-fuchsia-400 transition-colors text-white">Vasudev Sharma</span>
-                              <span className="text-[9px] uppercase tracking-widest opacity-40 mt-1">Video Specialist</span>
-                            </div>
-                            <div className="w-8 h-8 rounded-lg bg-fuchsia-500/10 flex items-center justify-center border border-fuchsia-500/20 group-hover:border-fuchsia-500/50 transition-all">
-                              <MessageCircle size={14} className="text-fuchsia-400" />
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                </motion.a>
               </div>
             </motion.div>
 

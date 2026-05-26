@@ -286,3 +286,156 @@ export const getRefundSuccessTemplate = ({ amount, payment_id, refund_id }) => `
   </html>
 `
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AI CHAT AGENT EMAIL TEMPLATES
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const getChatBookingTemplate = ({ name, email, service, budget, details, type = 'enquiry' }) => `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>${type === 'booking' ? 'New Booking' : 'New Enquiry'} via AI Chat — G-One Media</title>
+  </head>
+  <body style="margin:0; padding:0; background-color:#f8fafc; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8fafc; padding: 40px 16px;">
+      <tr>
+        <td align="center">
+          <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%; background:#ffffff; border-radius:8px; overflow:hidden; border:1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+            <!-- HEADER -->
+            <tr>
+              <td style="padding: 32px 40px; background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); text-align: center;">
+                <h1 style="margin:0; font-size:24px; font-weight:600; color:#ffffff;">G-One Media</h1>
+                <p style="margin:6px 0 0; font-size:14px; color:#94a3b8;">${type === 'booking' ? '🗓️ New Booking Request' : '💬 New Enquiry'} — via AI Chat</p>
+              </td>
+            </tr>
+            <!-- AI CHAT BADGE -->
+            <tr>
+              <td style="padding: 16px 40px 0; text-align:center;">
+                <span style="display:inline-block; background:#f0fdf4; border:1px solid #86efac; color:#16a34a; font-size:12px; font-weight:700; padding:6px 16px; border-radius:99px; letter-spacing:0.05em;">📩 CAPTURED VIA AI CHAT AGENT</span>
+              </td>
+            </tr>
+            <!-- CONTENT -->
+            <tr>
+              <td style="padding: 32px 40px;">
+                <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 28px;">
+                  <tr><td style="padding-bottom:8px;"><p style="margin:0; font-size:12px; text-transform:uppercase; letter-spacing:1px; color:#64748b; font-weight:600;">Client Details</p></td></tr>
+                  <tr>
+                    <td style="background-color:#f1f5f9; padding:20px; border-radius:6px; border:1px solid #e2e8f0;">
+                      <table width="100%" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="100" style="font-size:14px; color:#64748b; padding-bottom:10px;">Name:</td>
+                          <td style="font-size:14px; font-weight:600; color:#0f172a; padding-bottom:10px;">${name}</td>
+                        </tr>
+                        <tr>
+                          <td width="100" style="font-size:14px; color:#64748b; padding-bottom:${service ? '10px' : '0'};">Email:</td>
+                          <td style="font-size:14px; font-weight:600; padding-bottom:${service ? '10px' : '0'};"><a href="mailto:${email}" style="color:#2563eb; text-decoration:none;">${email}</a></td>
+                        </tr>
+                        ${service ? `<tr><td width="100" style="font-size:14px; color:#64748b; padding-bottom:${budget ? '10px' : '0'};">Service:</td><td style="font-size:14px; font-weight:600; color:#06b6d4; padding-bottom:${budget ? '10px' : '0'};">${service}</td></tr>` : ''}
+                        ${budget ? `<tr><td width="100" style="font-size:14px; color:#64748b;">Budget:</td><td style="font-size:14px; font-weight:600; color:#0f172a;">${budget}</td></tr>` : ''}
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+                ${details ? `
+                <table width="100%" cellpadding="0" cellspacing="0">
+                  <tr><td style="padding-bottom:8px;"><p style="margin:0; font-size:12px; text-transform:uppercase; letter-spacing:1px; color:#64748b; font-weight:600;">${type === 'booking' ? 'Project Details' : 'Message'}</p></td></tr>
+                  <tr><td style="padding:20px; border:1px solid #e2e8f0; border-left:4px solid #6366f1; border-radius:4px; background:#ffffff;"><p style="margin:0; font-size:15px; color:#334155; line-height:1.6; white-space:pre-wrap;">${details.replace(/\n/g, '<br/>')}</p></td></tr>
+                </table>` : ''}
+              </td>
+            </tr>
+            <!-- ACTION -->
+            <tr>
+              <td style="padding: 0 40px 40px;" align="center">
+                <a href="mailto:${email}?subject=Re: Your ${type === 'booking' ? 'booking' : 'enquiry'} with G-One Media" style="display:inline-block; background:#2563eb; color:#ffffff; font-weight:500; font-size:14px; text-decoration:none; padding:12px 32px; border-radius:6px;">Reply to ${name}</a>
+              </td>
+            </tr>
+            <!-- FOOTER -->
+            <tr>
+              <td style="background:#f8fafc; border-top:1px solid #e2e8f0; padding:20px 40px; text-align:center;">
+                <p style="margin:0; font-size:12px; color:#94a3b8;">This lead was captured automatically by the G-ONE AI Chat Agent.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+  </html>
+`
+
+export const getChatRefundRequestTemplate = ({ name, email, payment_id, reason }) => `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Refund Request (Manual Review) — G-One Media</title>
+  </head>
+  <body style="margin:0; padding:0; background-color:#f8fafc; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8fafc; padding: 40px 16px;">
+      <tr>
+        <td align="center">
+          <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%; background:#ffffff; border-radius:8px; overflow:hidden; border:1px solid #fecaca; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+            <!-- HEADER -->
+            <tr>
+              <td style="padding: 32px 40px; background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%); text-align: center;">
+                <h1 style="margin:0; font-size:24px; font-weight:600; color:#ffffff;">G-One Media</h1>
+                <p style="margin:6px 0 0; font-size:14px; color:#fca5a5;">⚠️ Refund Request — Manual Review Required</p>
+              </td>
+            </tr>
+            <!-- WARNING BADGE -->
+            <tr>
+              <td style="padding: 20px 40px 0; text-align:center;">
+                <span style="display:inline-block; background:#fff7ed; border:1px solid #fdba74; color:#c2410c; font-size:12px; font-weight:700; padding:8px 20px; border-radius:6px; letter-spacing:0.05em;">🔒 DO NOT PROCESS AUTOMATICALLY — VERIFY BEFORE ACTIONING</span>
+              </td>
+            </tr>
+            <!-- CONTENT -->
+            <tr>
+              <td style="padding:32px 40px;">
+                <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px; background:#fef2f2; padding:20px; border-radius:6px; border:1px solid #fecaca;">
+                  <tr>
+                    <td width="140" style="font-size:14px; color:#64748b; padding-bottom:12px;">Client Name:</td>
+                    <td style="font-size:14px; font-weight:600; color:#0f172a; padding-bottom:12px;">${name || 'Not provided'}</td>
+                  </tr>
+                  <tr>
+                    <td width="140" style="font-size:14px; color:#64748b; padding-bottom:12px;">Client Email:</td>
+                    <td style="font-size:14px; font-weight:600; padding-bottom:12px;"><a href="mailto:${email}" style="color:#2563eb; text-decoration:none;">${email}</a></td>
+                  </tr>
+                  <tr>
+                    <td width="140" style="font-size:14px; color:#64748b; padding-bottom:${reason ? '12px' : '0'};">Payment ID:</td>
+                    <td style="font-size:14px; font-weight:700; color:#dc2626; padding-bottom:${reason ? '12px' : '0'}; font-family:monospace;">${payment_id}</td>
+                  </tr>
+                  ${reason ? `<tr><td width="140" style="font-size:14px; color:#64748b;">Reason:</td><td style="font-size:14px; color:#0f172a; line-height:1.5;">${reason}</td></tr>` : ''}
+                </table>
+                <p style="margin:0 0 12px; font-size:15px; color:#334155; line-height:1.6;">Please log into the <strong>Razorpay Dashboard</strong> to verify this payment ID and process the refund if approved.</p>
+                <p style="margin:0; font-size:13px; color:#64748b; line-height:1.6;">Once actioned, update the status in your Supabase <code>chat_refund_requests</code> table to <strong>'approved'</strong> or <strong>'rejected'</strong>.</p>
+              </td>
+            </tr>
+            <!-- ACTIONS -->
+            <tr>
+              <td style="padding:0 40px 32px;" align="center">
+                <table cellpadding="0" cellspacing="0"><tr>
+                  <td style="padding-right:12px;">
+                    <a href="https://dashboard.razorpay.com/app/payments/${payment_id}" target="_blank" style="display:inline-block; background:#2563eb; color:#ffffff; font-weight:600; font-size:14px; text-decoration:none; padding:12px 24px; border-radius:6px;">View in Razorpay →</a>
+                  </td>
+                  <td>
+                    <a href="mailto:${email}?subject=Your Refund Request — G-One Media" style="display:inline-block; background:#f1f5f9; color:#0f172a; font-weight:600; font-size:14px; text-decoration:none; padding:12px 24px; border-radius:6px; border:1px solid #e2e8f0;">Email Client</a>
+                  </td>
+                </tr></table>
+              </td>
+            </tr>
+            <!-- FOOTER -->
+            <tr>
+              <td style="background:#fef2f2; border-top:1px solid #fecaca; padding:20px 40px; text-align:center;">
+                <p style="margin:0; font-size:12px; color:#94a3b8;">This refund request was submitted via the G-ONE AI Chat Agent and requires manual review.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+  </html>
+`

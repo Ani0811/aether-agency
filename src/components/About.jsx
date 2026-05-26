@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Code, Video, Star, Zap, Handshake } from 'lucide-react'
+import { Code, Video, Star, Zap, Handshake, Linkedin, Github, Mail, Instagram, Youtube } from 'lucide-react'
 
 const founders = [
   {
@@ -9,7 +9,13 @@ const founders = [
     icon: Code,
     image: 'AnirudhaTechie.jpg',
     color: 'cyan',
-    skills: ['React & Next.js', 'Node.js Backend', 'System Architecture']
+    skills: ['React & Next.js', 'Node.js Backend', 'System Architecture'],
+    email: 'anirudha.basuthakur@gmail.com',
+    socials: [
+      { name: 'GitHub', url: 'https://github.com/Ani0811', icon: Github },
+      { name: 'LinkedIn', url: 'https://www.linkedin.com/in/anirudha-basu-thakur-686aa8253', icon: Linkedin },
+      { name: 'Instagram', url: 'https://www.instagram.com/this_is_ringo_here/', icon: Instagram }
+    ]
   },
   {
     name: 'Vasudev Sharma',
@@ -18,7 +24,13 @@ const founders = [
     icon: Video,
     image: 'VasudevVideoEditor.jpeg',
     color: 'fuchsia',
-    skills: ['Post-Production', 'Motion Graphics', 'Visual Storytelling']
+    skills: ['Post-Production', 'Motion Graphics', 'Visual Storytelling'],
+    email: 'vasudevsharma997@gmail.com',
+    socials: [
+      { name: 'YouTube', url: 'https://www.youtube.com/@vasudevsharma1', icon: Youtube },
+      { name: 'LinkedIn', url: 'https://linkedin.com/in/vasudev-sharma-a8b4ab22a', icon: Linkedin },
+      { name: 'Instagram', url: 'https://www.instagram.com/vasudev.sharma5/', icon: Instagram }
+    ]
   }
 ]
 
@@ -97,7 +109,20 @@ export default function About() {
                   </div>
                 </div>
                 <h3 className="text-xl md:text-2xl font-bold mb-1 tracking-tight text-center">{founder.name}</h3>
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400 text-center opacity-70">{founder.role.split(' & ')[0]}</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400 text-center opacity-70 mb-4">{founder.role.split(' & ')[0]}</p>
+                <div className="flex gap-4 justify-center items-center opacity-80">
+                  {founder.socials.map((social, i) => {
+                    const Icon = social.icon
+                    return (
+                      <a key={i} href={social.url} target="_blank" rel="noreferrer" className="hover:text-cyan-400 transition-colors">
+                        <Icon size={18} />
+                      </a>
+                    )
+                  })}
+                  <a href={`mailto:${founder.email}`} className="hover:text-cyan-400 transition-colors">
+                    <Mail size={18} />
+                  </a>
+                </div>
               </motion.div>
             ))}
           </div>

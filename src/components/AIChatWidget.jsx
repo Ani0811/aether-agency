@@ -1,15 +1,16 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MessageCircle, X, Send, Bot, User, Sparkles, Mic, MicOff, Volume2, VolumeX } from 'lucide-react'
+import { MessageCircle, X, Send, Bot, User, Sparkles, Mic, MicOff, Volume2, VolumeX, Zap } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 
 export default function AIChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState([
-    { role: 'assistant', text: "Hi! I'm G-ONE. How can I help you today? 🚀" }
+    { role: 'assistant', text: "Hi! I'm G-ONE 🚀 I can answer questions, estimate costs, **book services**, and even **process payments** — all right here. How can I help?" }
   ])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
+  const [executing, setExecuting] = useState(false) // true when AI is running a real action
   const [sessionId, setSessionId] = useState(null)
   const [isListening, setIsListening] = useState(false)
   const [ttsEnabled, setTtsEnabled] = useState(true)
@@ -130,6 +131,44 @@ export default function AIChatWidget() {
     }
   }
 
+  const openRazorpayCheckout = (action) => {
+    const loadScript = () => new Promise((resolve) => {
+      if (window.Razorpay) return resolve(true)
+      const script = document.createElement('script')
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+      script.onload = () => resolve(true)
+      script.onerror = () => resolve(false)
+      document.body.appendChild(script)
+    })
+
+    loadScript().then((loaded) => {
+      if (!loaded) {
+        setMessages(prev => [...prev, { role: 'assistant', text: 'Payment gateway failed to load. Please try again or use WhatsApp to pay.' }])
+        return
+      }
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        order_id: action.order.id,
+        amount: action.order.amount,
+        currency: 'INR',
+        name: 'G-One Media',
+        description: action.service_description,
+        prefill: { name: action.client_name, email: action.client_email },
+        theme: { color: '#00f0ff' },
+        handler: () => {
+          setMessages(prev => [...prev, { role: 'assistant', text: `✅ Payment of ₹${action.amount_inr} received! We'll get started on "${action.service_description}" right away. Check your email for a receipt.` }])
+        },
+        modal: {
+          ondismiss: () => {
+            setMessages(prev => [...prev, { role: 'assistant', text: 'Payment window was closed. You can try again anytime or ask me to recreate the payment link.' }])
+          }
+        }
+      }
+      const rzp = new window.Razorpay(options)
+      rzp.open()
+    })
+  }
+
   const sendMessage = async () => {
     const trimmed = input.trim()
     if (!trimmed || loading) return
@@ -152,8 +191,27 @@ export default function AIChatWidget() {
       if (res.ok) {
         const data = await res.json()
         if (data.sessionId) setSessionId(data.sessionId)
-        setMessages(prev => [...prev, { role: 'assistant', text: data.reply }])
-        speak(data.reply)
+
+        // Check if this response includes a real action to execute
+        if (data.action) {
+          setExecuting(true)
+          setLoading(false)
+          // Brief pause to show the "executing" state to the user
+          await new Promise(r => setTimeout(r, 600))
+          setExecuting(false)
+
+          if (data.action.type === 'OPEN_CHECKOUT') {
+            setMessages(prev => [...prev, { role: 'assistant', text: data.reply }])
+            speak(data.reply)
+            openRazorpayCheckout(data.action)
+          } else {
+            setMessages(prev => [...prev, { role: 'assistant', text: data.reply }])
+            speak(data.reply)
+          }
+        } else {
+          setMessages(prev => [...prev, { role: 'assistant', text: data.reply }])
+          speak(data.reply)
+        }
       } else {
         setMessages(prev => [...prev, { role: 'assistant', text: "Sorry, I couldn't connect. Please try again!" }])
       }
@@ -161,6 +219,7 @@ export default function AIChatWidget() {
       setMessages(prev => [...prev, { role: 'assistant', text: "Connection error. Please check your internet and try again." }])
     } finally {
       setLoading(false)
+      setExecuting(false)
     }
   }
 
@@ -300,7 +359,7 @@ export default function AIChatWidget() {
               ))}
 
               {/* Typing indicator */}
-              {loading && (
+              {loading && !executing && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -313,6 +372,25 @@ export default function AIChatWidget() {
                     <span className="w-2 h-2 rounded-full bg-cyan-400/60 animate-bounce" style={{ animationDelay: '0ms' }} />
                     <span className="w-2 h-2 rounded-full bg-cyan-400/60 animate-bounce" style={{ animationDelay: '150ms' }} />
                     <span className="w-2 h-2 rounded-full bg-cyan-400/60 animate-bounce" style={{ animationDelay: '300ms' }} />
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Executing action indicator */}
+              {executing && (
+                <motion.div
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex gap-2.5"
+                >
+                  <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 bg-fuchsia-500/20">
+                    <Zap size={14} className="text-fuchsia-400 animate-pulse" />
+                  </div>
+                  <div className="px-4 py-3 rounded-2xl rounded-tl-md bg-fuchsia-500/10 border border-fuchsia-500/20 flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-fuchsia-400/80 animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <span className="w-2 h-2 rounded-full bg-fuchsia-400/80 animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <span className="w-2 h-2 rounded-full bg-fuchsia-400/80 animate-bounce" style={{ animationDelay: '300ms' }} />
+                    <span className="text-[11px] font-semibold text-fuchsia-300 ml-1">Executing action…</span>
                   </div>
                 </motion.div>
               )}
