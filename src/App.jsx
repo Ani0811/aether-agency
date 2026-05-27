@@ -93,7 +93,7 @@ export default function App() {
   }, [location, loading])
 
   const handleScheduleCall = useCallback(() => {
-    window.open('https://docs.google.com/forms/d/e/1FAIpQLSfp6CFjivzuQuxv2GI-efSBY-k6UVEXXe4dcawiUVBkzEEntA/viewform?utm_source=chatgpt.com', '_blank', 'noopener,noreferrer')
+    window.open('https://docs.google.com/forms/d/e/1FAIpQLSdxQXLe2dz7zdL9v2HUiG1ZaK4WoEPpWvP4Ujm_HeMOIJ85Yg/viewform?usp=sharing&ouid=108472766452800645520', '_blank', 'noopener,noreferrer')
   }, [])
 
   if (loading) {
