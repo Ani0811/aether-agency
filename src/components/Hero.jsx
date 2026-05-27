@@ -114,7 +114,9 @@ export default function Hero({ onScheduleCall }) {
               <div className="h-4 w-px bg-white/10 hidden sm:block" />
 
               <a
-                href="#"
+                href={`${import.meta.env.BASE_URL}knowledge_base/G-one media.pdf`.replace(/\/+/g, '/')}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] transition-all border px-3 py-1.5 rounded-full"
                 style={{
                   color: 'var(--accent-blue)',

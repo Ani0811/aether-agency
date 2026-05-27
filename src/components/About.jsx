@@ -3,23 +3,8 @@ import { Code, Video, Star, Zap, Handshake, Linkedin, Github, Mail, Instagram, Y
 
 const founders = [
   {
-    name: 'Vasudev Sharma',
-    role: 'Creative Director & Cinematic Editor',
-    description: 'A cinematic storyteller specializing in professional-grade video production and high-impact post-processing. I transform raw concepts into compelling visual narratives that captivate audiences and define brand identities. From high-energy social content to cinematic brand films, I craft the visual journey that brings your story to life, whatever the medium, whatever the request.',
-    icon: Video,
-    image: 'Vasudev.jpeg',
-    color: 'fuchsia',
-    skills: ['Post-Production', 'Motion Graphics', 'Visual Storytelling'],
-    email: 'vasudevsharma997@gmail.com',
-    socials: [
-      { name: 'YouTube', url: 'https://www.youtube.com/@vasudevsharma1', icon: Youtube },
-      { name: 'LinkedIn', url: 'https://linkedin.com/in/vasudev-sharma-a8b4ab22a', icon: Linkedin },
-      { name: 'Instagram', url: 'https://www.instagram.com/vasudev.sharma5/', icon: Instagram }
-    ]
-  },
-  {
     name: 'Anirudha Basu Thakur',
-    role: 'Technical Visionary & Full-Stack Architect',
+    role: 'Co-Founder',
     description: 'Expert full-stack developer dedicated to building high-performance, pixel-perfect digital ecosystems. I architect and build robust web solutions from the ground up—whether it is a complex SaaS platform, a high-converting landing page, or a custom internal tool, I translate any vision into clean, scalable code that delivers measurable impact. If you can dream it, I will code it.',
     icon: Code,
     image: 'Anirudha.jpeg',
@@ -30,6 +15,21 @@ const founders = [
       { name: 'GitHub', url: 'https://github.com/Ani0811', icon: Github },
       { name: 'LinkedIn', url: 'https://www.linkedin.com/in/anirudha-basu-thakur-686aa8253', icon: Linkedin },
       { name: 'Instagram', url: 'https://www.instagram.com/this_is_ringo_here/', icon: Instagram }
+    ]
+  },
+  {
+    name: 'Vasudev Sharma',
+    role: 'Founder',
+    description: 'A cinematic storyteller specializing in professional-grade video production and high-impact post-processing. I transform raw concepts into compelling visual narratives that captivate audiences and define brand identities. From high-energy social content to cinematic brand films, I craft the visual journey that brings your story to life, whatever the medium, whatever the request.',
+    icon: Video,
+    image: 'Vasudev.jpeg',
+    color: 'fuchsia',
+    skills: ['Post-Production', 'Motion Graphics', 'Visual Storytelling'],
+    email: 'vasudevsharma997@gmail.com',
+    socials: [
+      { name: 'YouTube', url: 'https://www.youtube.com/@vasudevsharma1', icon: Youtube },
+      { name: 'LinkedIn', url: 'https://linkedin.com/in/vasudev-sharma-a8b4ab22a', icon: Linkedin },
+      { name: 'Instagram', url: 'https://www.instagram.com/vasudev.sharma5/', icon: Instagram }
     ]
   }
 ]
@@ -109,7 +109,18 @@ export default function About() {
                   </div>
                 </div>
                 <h3 className="text-xl md:text-2xl font-bold mb-1 tracking-tight text-center">{founder.name}</h3>
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400 text-center opacity-70 mb-4">{founder.role.split(' & ')[0]}</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400 text-center opacity-70 mb-2">{founder.role}</p>
+                
+                {/* Email Address Link */}
+                <a 
+                  href={`mailto:${founder.email}`} 
+                  className="text-xs text-white/50 hover:text-cyan-400 transition-colors mb-4 flex items-center gap-1.5 font-medium tracking-wide"
+                >
+                  <Mail size={13} className="opacity-80" />
+                  {founder.email}
+                </a>
+
+                {/* Social Media Links */}
                 <div className="flex gap-4 justify-center items-center opacity-80">
                   {founder.socials.map((social, i) => {
                     const Icon = social.icon
@@ -119,9 +130,6 @@ export default function About() {
                       </a>
                     )
                   })}
-                  <a href={`mailto:${founder.email}`} className="hover:text-cyan-400 transition-colors">
-                    <Mail size={18} />
-                  </a>
                 </div>
               </motion.div>
             ))}

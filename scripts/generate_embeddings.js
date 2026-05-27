@@ -2,10 +2,10 @@ import fs from 'fs'
 import path from 'path'
 import { createClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
+import { PDFParse } from 'pdf-parse'
 import { createRequire } from 'module'
 
 const require = createRequire(import.meta.url)
-const pdfParse = require('pdf-parse')
 const officeParser = require('officeparser')
 
 dotenv.config()
@@ -38,7 +38,7 @@ async function generateEmbedding(text) {
 }
 
 async function processKnowledgeBase() {
-  const kbDir = path.join(process.cwd(), 'knowledge_base')
+  const kbDir = path.join(process.cwd(), 'public', 'knowledge_base')
   console.log(`Scanning directory: ${kbDir}`)
   
   if (!fs.existsSync(kbDir)) {
@@ -59,7 +59,8 @@ async function processKnowledgeBase() {
         content = fs.readFileSync(filePath, 'utf-8')
       } else if (file.endsWith('.pdf')) {
         const dataBuffer = fs.readFileSync(filePath)
-        const data = await pdfParse(dataBuffer)
+        const parser = new PDFParse({ data: dataBuffer })
+        const data = await parser.getText()
         content = data.text
       } else if (file.endsWith('.docx') || file.endsWith('.pptx')) {
         content = await officeParser.parseOfficeAsync(filePath)
