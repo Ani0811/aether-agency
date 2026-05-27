@@ -99,7 +99,7 @@ export default function About() {
               >
                 <div className="relative w-full aspect-square max-w-70 mb-6 group">
                   <div className={`absolute inset-0 bg-linear-to-br ${founder.color === 'cyan' ? 'from-cyan-500/30' : 'from-fuchsia-500/30'} to-transparent rounded-[40px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                  <div className="relative h-full w-full rounded-[40px] overflow-hidden glass-card border-white/10 shadow-lg shadow-black/25">
+                  <div className="relative h-full w-full rounded-[40px] overflow-hidden glass-card border-white/10">
                     <img
                       src={`${import.meta.env.BASE_URL}${founder.image}`.replace(/\/+/g, '/')}
                       alt={founder.name}
