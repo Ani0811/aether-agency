@@ -29,7 +29,9 @@ const ClientDashboard = lazy(() => import('./components/ClientDashboard'))
 const RefundRequest = lazy(() => import('./components/RefundRequest'))
 const Reviews = lazy(() => import('./components/Reviews'))
 const DiscoveryCall = lazy(() => import('./components/DiscoveryCall'))
-
+const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy'))
+const TermsOfService = lazy(() => import('./components/TermsOfService'))
+const CookiePolicy = lazy(() => import('./components/CookiePolicy'))
 const PageLoader = () => (
   <div className="min-h-screen bg-[#050508] flex items-center justify-center">
     <div className="w-12 h-12 rounded-full border-2 border-cyan-400/20 border-t-cyan-400 animate-spin" />
@@ -90,6 +92,10 @@ export default function App() {
     }
   }, [location, loading])
 
+  const handleScheduleCall = useCallback(() => {
+    window.open('https://docs.google.com/forms/d/e/1FAIpQLSfp6CFjivzuQuxv2GI-efSBY-k6UVEXXe4dcawiUVBkzEEntA/viewform?utm_source=chatgpt.com', '_blank', 'noopener,noreferrer')
+  }, [])
+
   if (loading) {
     return (
       <HelmetProvider>
@@ -104,20 +110,23 @@ export default function App() {
     <HelmetProvider>
       <ThemeProvider>
         <div className="min-h-screen relative">
-          <Navbar onScheduleCall={() => setIsScheduleOpen(true)} />
+          <Navbar onScheduleCall={handleScheduleCall} />
           <ScheduleModal isOpen={isScheduleOpen} onClose={() => setIsScheduleOpen(false)} />
 
           <Suspense fallback={<PageLoader />}>
             <Routes>
-              <Route path="/" element={<HomePage onScheduleCall={() => setIsScheduleOpen(true)} />} />
+              <Route path="/" element={<HomePage onScheduleCall={handleScheduleCall} />} />
               <Route path="/get-started" element={<GetStarted />} />
-              <Route path="/services/:slug" element={<ServiceDetail onScheduleCall={() => setIsScheduleOpen(true)} />} />
+              <Route path="/services/:slug" element={<ServiceDetail onScheduleCall={handleScheduleCall} />} />
               <Route path="/portfolio/:id" element={<CaseStudyDetail />} />
               <Route path="/portal" element={<ClientLogin />} />
               <Route path="/portal/dashboard" element={<ClientDashboard />} />
               <Route path="/refund" element={<RefundRequest />} />
               <Route path="/reviews" element={<Reviews />} />
               <Route path="/discovery" element={<DiscoveryCall />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/terms" element={<TermsOfService />} />
+              <Route path="/cookie-policy" element={<CookiePolicy />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

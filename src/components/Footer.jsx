@@ -138,15 +138,19 @@ export default function Footer() {
           {/* Legal */}
           <div className="flex flex-col gap-4 col-span-1">
             <h4 className="font-bold mb-2 uppercase tracking-widest text-base">Legal</h4>
-            {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map((item) => (
-              <a 
-                key={item} 
-                href="#" 
+            {[
+              { label: 'Privacy Policy', path: '/privacy' },
+              { label: 'Terms of Service', path: '/terms' },
+              { label: 'Cookie Policy', path: '/cookie-policy' }
+            ].map((item) => (
+              <Link 
+                key={item.label} 
+                to={item.path} 
                 className="text-base transition-all duration-300 hover:text-fuchsia-400 hover:translate-x-1 inline-block w-fit" 
                 style={{ color: 'var(--text-secondary)' }}
               >
-                {item}
-              </a>
+                {item.label}
+              </Link>
             ))}
           </div>
 
