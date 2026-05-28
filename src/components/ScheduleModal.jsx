@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Calendar, User, Mail, Briefcase, DollarSign, Send, CheckCircle, Loader, AlertCircle } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabaseClient'
 
 export default function ScheduleModal({ isOpen, onClose }) {
@@ -12,6 +12,17 @@ export default function ScheduleModal({ isOpen, onClose }) {
     budget: 'Package',
     details: ''
   })
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isOpen])
 
   const budgetOptions = ['Package', 'Individual Service']
 

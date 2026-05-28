@@ -16,6 +16,17 @@ export default function PaymentModal({ isOpen, onClose, defaultAmount, planName 
   }, [isOpen, defaultAmount])
 
   useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isOpen])
+
+  useEffect(() => {
     // Dynamically load Razorpay script
     if (isOpen && !document.getElementById('razorpay-checkout-js')) {
       const script = document.createElement('script')
