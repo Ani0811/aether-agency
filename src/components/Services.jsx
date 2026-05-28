@@ -33,8 +33,20 @@ export default function Services() {
   const navigate = useNavigate()
 
   return (
-    <section id="services">
-      <div className="container-custom">
+    <section id="services" className="relative py-24">
+      {/* Background Image */}
+      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 bg-black/85 z-10" />
+        <img 
+          src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop" 
+          alt="Services Background" 
+          className="w-full h-full object-cover opacity-30 blur-sm scale-105" 
+        />
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[var(--bg-deep)] to-transparent z-10" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[var(--bg-deep)] to-transparent z-10" />
+      </div>
+      
+      <div className="container-custom relative z-10">
         <div className="text-center mb-20">
           <h2 className="text-4xl lg:text-5xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Core <span className="gradient-text">Competencies</span></h2>
           <p className="max-w-lg mx-auto" style={{ color: 'var(--text-secondary)' }}>Specialized solutions engineered for measurable impact.</p>

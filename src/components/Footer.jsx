@@ -2,11 +2,13 @@ import { motion } from 'framer-motion'
 import { Instagram, Linkedin, Youtube, Mail, MessageCircle } from 'lucide-react'
 import { useState } from 'react'
 import { useLocation, useNavigate, Link } from 'react-router-dom'
+import LegalModal from './LegalModal'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
   const location = useLocation()
   const navigate = useNavigate()
+  const [legalModalType, setLegalModalType] = useState(null)
 
   const scrollToSection = (e, id) => {
     e.preventDefault()
@@ -139,18 +141,18 @@ export default function Footer() {
           <div className="flex flex-col gap-4 col-span-1">
             <h4 className="font-bold mb-2 uppercase tracking-widest text-base">Legal</h4>
             {[
-              { label: 'Privacy Policy', path: '/privacy' },
-              { label: 'Terms of Service', path: '/terms' },
-              { label: 'Cookie Policy', path: '/cookie-policy' }
+              { label: 'Privacy Policy', type: 'privacy' },
+              { label: 'Terms of Service', type: 'terms' },
+              { label: 'Cookie Policy', type: 'cookies' }
             ].map((item) => (
-              <Link 
+              <button 
                 key={item.label} 
-                to={item.path} 
-                className="text-base transition-all duration-300 hover:text-fuchsia-400 hover:translate-x-1 inline-block w-fit" 
+                onClick={() => setLegalModalType(item.type)}
+                className="text-base transition-all duration-300 hover:text-fuchsia-400 hover:translate-x-1 inline-block w-fit text-left cursor-pointer" 
                 style={{ color: 'var(--text-secondary)' }}
               >
                 {item.label}
-              </Link>
+              </button>
             ))}
           </div>
 
@@ -198,6 +200,12 @@ export default function Footer() {
           </div>
         </div>
       </div>
+      
+      <LegalModal 
+        isOpen={!!legalModalType} 
+        onClose={() => setLegalModalType(null)} 
+        type={legalModalType} 
+      />
     </footer>
   )
 }

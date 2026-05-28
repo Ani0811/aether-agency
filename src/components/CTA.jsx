@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Send, MessageCircle, CheckCircle, AlertCircle, Loader } from 'lucide-react'
+import { Send, MessageCircle, CheckCircle, AlertCircle, Loader, Instagram, Linkedin, Youtube } from 'lucide-react'
 
 // Replace with actual WhatsApp numbers in international format (no + or spaces)
 const FOUNDERS_WHATSAPP = {
@@ -101,6 +101,37 @@ export default function CTA() {
                   Chat on WhatsApp
                 </motion.a>
               </div>
+
+              {/* Social Links */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="mt-8 flex flex-col gap-4 border-t border-white/5 pt-6"
+              >
+                <span className="text-[10px] font-bold uppercase tracking-[0.25em] opacity-50" style={{ color: 'var(--text-secondary)' }}>
+                  Connect with us
+                </span>
+                <div className="flex items-center gap-4">
+                  {[
+                    { icon: Instagram, href: "https://www.instagram.com/g1mediaofficial", color: "hover:text-fuchsia-400" },
+                    { icon: Linkedin, href: "https://www.linkedin.com/in/g-one-media-agency-93581040b/", color: "hover:text-cyan-400" },
+                    { icon: Youtube, href: "https://www.youtube.com/@G-OneMedia", color: "hover:text-red-500" }
+                  ].map((social, i) => (
+                    <a
+                      key={i}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`transition-all duration-300 transform hover:scale-110 ${social.color}`}
+                      style={{ color: 'var(--text-muted)' }}
+                    >
+                      <social.icon size={20} />
+                    </a>
+                  ))}
+                </div>
+              </motion.div>
             </motion.div>
 
             {/* Right side: Email Form */}
