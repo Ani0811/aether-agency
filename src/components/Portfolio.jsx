@@ -215,7 +215,7 @@ export default function Portfolio() {
                     }}
                     className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 border shrink-0 cursor-pointer ${activeTab === cat
                         ? 'bg-cyan-400 border-cyan-400 text-black shadow-[0_0_20px_rgba(0,240,255,0.4)]'
-                        : 'border-white/10 text-[var(--text-muted)] hover:border-white/30 hover:text-white'
+                        : 'border-[var(--border-subtle)] text-[var(--text-muted)] hover:border-[var(--text-muted)] hover:text-[var(--text-primary)]'
                       }`}
                   >
                     {cat}
@@ -235,12 +235,12 @@ export default function Portfolio() {
                 >
                   <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--bg-primary)] to-transparent pointer-events-none z-10 md:hidden" />
                   <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[var(--bg-primary)] to-transparent pointer-events-none z-10 md:hidden" />
-                  <div className="w-full overflow-x-auto scrollbar-none flex flex-nowrap md:flex-wrap justify-start md:justify-center gap-2 p-2 rounded-2xl bg-white/5 border border-white/10 mx-4">
+                  <div className="w-full overflow-x-auto scrollbar-none flex flex-nowrap md:flex-wrap justify-start md:justify-center gap-2 p-2 rounded-2xl bg-[var(--text-primary)]/5 border border-[var(--border-subtle)] mx-4">
                     {videoSubCategories.map((sub) => (
                       <button
                         key={sub}
                         onClick={() => { setActiveSubTab(sub); setCurrentPage(1) }}
-                        className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 shrink-0 cursor-pointer ${activeSubTab === sub ? 'bg-white/10 text-cyan-400' : 'text-[var(--text-muted)] hover:text-white'}`}
+                        className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 shrink-0 cursor-pointer ${activeSubTab === sub ? 'bg-[var(--text-primary)]/10 text-cyan-400' : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'}`}
                       >
                         {sub}
                       </button>
@@ -302,10 +302,10 @@ export default function Portfolio() {
 
             {totalPages > 1 && (
               <div className="flex items-center justify-center gap-3 mt-16">
-                <button
+                 <button
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
-                  className={`w-11 h-11 rounded-xl border border-white/10 flex items-center justify-center transition-all duration-300 cursor-pointer ${currentPage === 1 ? 'opacity-30 cursor-not-allowed' : 'hover:border-cyan-400 hover:text-cyan-400 hover:scale-105 hover:bg-cyan-400/5 active:scale-95'}`}
+                  className={`w-11 h-11 rounded-xl border border-[var(--border-subtle)] flex items-center justify-center transition-all duration-300 cursor-pointer ${currentPage === 1 ? 'opacity-30 cursor-not-allowed' : 'hover:border-cyan-400 hover:text-cyan-400 hover:scale-105 hover:bg-cyan-400/5 active:scale-95'}`}
                   style={{ color: 'var(--text-muted)' }}
                   aria-label="Previous Page"
                 >
@@ -316,7 +316,7 @@ export default function Portfolio() {
                   <button
                     key={page}
                     onClick={() => handlePageChange(page)}
-                    className={`w-11 h-11 rounded-xl text-xs font-black transition-all duration-300 border cursor-pointer ${currentPage === page ? 'bg-cyan-400 border-cyan-400 text-black shadow-[0_0_20px_rgba(0,240,255,0.4)]' : 'border-white/10 text-[var(--text-muted)] hover:border-white/30 hover:text-white hover:scale-105 hover:bg-white/5 active:scale-95'}`}
+                    className={`w-11 h-11 rounded-xl text-xs font-black transition-all duration-300 border cursor-pointer ${currentPage === page ? 'bg-cyan-400 border-cyan-400 text-black shadow-[0_0_20px_rgba(0,240,255,0.4)]' : 'border-[var(--border-subtle)] text-[var(--text-muted)] hover:border-[var(--text-muted)] hover:text-[var(--text-primary)] hover:scale-105 hover:bg-[var(--text-primary)]/5 active:scale-95'}`}
                   >
                     {page}
                   </button>
@@ -325,7 +325,7 @@ export default function Portfolio() {
                 <button
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  className={`w-11 h-11 rounded-xl border border-white/10 flex items-center justify-center transition-all duration-300 cursor-pointer ${currentPage === totalPages ? 'opacity-30 cursor-not-allowed' : 'hover:border-cyan-400 hover:text-cyan-400 hover:scale-105 hover:bg-cyan-400/5 active:scale-95'}`}
+                  className={`w-11 h-11 rounded-xl border border-[var(--border-subtle)] flex items-center justify-center transition-all duration-300 cursor-pointer ${currentPage === totalPages ? 'opacity-30 cursor-not-allowed' : 'hover:border-cyan-400 hover:text-cyan-400 hover:scale-105 hover:bg-cyan-400/5 active:scale-95'}`}
                   style={{ color: 'var(--text-muted)' }}
                   aria-label="Next Page"
                 >
