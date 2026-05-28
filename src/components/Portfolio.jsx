@@ -53,9 +53,7 @@ function LazyMedia({ image, title, isVideo }) {
             playsInline
             autoPlay
             loop
-            preload="auto"
-            onLoadedMetadata={() => setIsLoaded(true)}
-            onCanPlay={() => setIsLoaded(true)}
+            onLoadedData={() => setIsLoaded(true)}
             className={`w-full h-full object-cover transition-opacity duration-500 group-hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
           />
         ) : (
@@ -262,32 +260,27 @@ export default function Portfolio() {
           <>
             <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
               <AnimatePresence mode="popLayout">
-                {displayedProjects.map((project) => {
-                  const resolvedLink = project.link?.startsWith('http') || project.link?.startsWith('#') || !project.link
-                    ? project.link
-                    : `${import.meta.env.BASE_URL}${project.link.replace(/^\//, '')}`.replace(/\/+/g, '/')
-
-                  return (
-                    <motion.a
-                      key={project.id || project.title}
-                      layout
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{ duration: 0.4 }}
-                      href={resolvedLink || '#'}
-                      target={project.link ? '_blank' : undefined}
-                      rel={project.link ? 'noopener noreferrer' : undefined}
-                      className="group cursor-pointer block"
-                      onClick={(e) => {
-                        if (project.case_study_slug) {
-                          e.preventDefault()
-                          navigate(`/portfolio/${project.case_study_slug}`)
-                        } else if (!project.link) {
-                          e.preventDefault()
-                        }
-                      }}
-                    >
+                {displayedProjects.map((project) => (
+                  <motion.a
+                    key={project.id || project.title}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.4 }}
+                    href={project.link || '#'}
+                    target={project.link ? '_blank' : undefined}
+                    rel={project.link ? 'noopener noreferrer' : undefined}
+                    className="group cursor-pointer block"
+                    onClick={(e) => {
+                      if (project.case_study_slug) {
+                        e.preventDefault()
+                        navigate(`/portfolio/${project.case_study_slug}`)
+                      } else if (!project.link) {
+                        e.preventDefault()
+                      }
+                    }}
+                  >
                     <LazyMedia
                       image={project.image}
                       title={project.title}
@@ -303,8 +296,7 @@ export default function Portfolio() {
                       {project.description}
                     </p>
                   </motion.a>
-                  )
-                })}
+                ))}
               </AnimatePresence>
             </motion.div>
 
