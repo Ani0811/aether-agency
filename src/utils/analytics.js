@@ -1,10 +1,22 @@
+import { getCookie } from './cookies'
+
+let isInitialized = false
+
 export function initGA() {
   const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID
+
+  // Check cookie consent first
+  const consent = getCookie('g1media_cookie_consent')
+  if (consent !== 'accepted') {
+    return
+  }
+
+  if (isInitialized) return
 
   // Only load and initialize GA inside production environments when a Measurement ID is configured
   if (!measurementId || !import.meta.env.PROD) {
     if (!import.meta.env.PROD) {
-      console.log('[Analytics] Bypassed script loader in development mode.')
+      console.log('[Analytics] Bypassed script loader in development mode (Consent was Accepted).')
     }
     return
   }
@@ -26,11 +38,14 @@ export function initGA() {
     });
   `
   document.head.appendChild(script2)
+  isInitialized = true
 }
 
 export function trackPageView(path) {
   const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID
+  const consent = getCookie('g1media_cookie_consent')
   
+  if (consent !== 'accepted') return
   if (!measurementId || !import.meta.env.PROD || !window.gtag) return
 
   window.gtag('event', 'page_view', {
@@ -39,3 +54,4 @@ export function trackPageView(path) {
     send_to: measurementId
   })
 }
+

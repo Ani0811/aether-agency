@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Shield, FileText, Cookie } from 'lucide-react'
 import { useEffect } from 'react'
+import { deleteCookie } from '../utils/cookies'
 
 export default function LegalModal({ isOpen, onClose, type }) {
   useEffect(() => {
@@ -73,7 +74,33 @@ export default function LegalModal({ isOpen, onClose, type }) {
               <h3 className="text-white font-bold mt-6 mb-2">2. Why do we use cookies?</h3>
               <p>We use first-party and third-party cookies for several reasons. Some cookies are required for technical reasons in order for our website to operate, and we refer to these as "essential" or "strictly necessary" cookies.</p>
               <h3 className="text-white font-bold mt-6 mb-2">3. How can I control cookies?</h3>
-              <p>You have the right to decide whether to accept or reject cookies. You can exercise your cookie rights by setting your preferences in the Cookie Consent Manager.</p>
+              <p>You have the right to decide whether to accept or reject cookies. You can exercise your cookie rights by resetting your choices below to display the consent dialog again.</p>
+              
+              <div className="mt-6 p-4 rounded-xl border border-dashed border-orange-400/20 bg-orange-400/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                  <h4 className="text-white font-bold text-sm">Manage Cookie Preferences</h4>
+                  <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>Clicking reset will remove your choices and show the consent dialog again.</p>
+                </div>
+                <button
+                  onClick={() => {
+                    deleteCookie('g1media_cookie_consent')
+                    deleteCookie('_ga')
+                    deleteCookie('_gid')
+                    deleteCookie('_gat')
+                    const hostParts = window.location.hostname.split('.')
+                    if (hostParts.length >= 2) {
+                      const domain = '.' + hostParts.slice(-2).join('.')
+                      document.cookie = `_ga=; Path=/; Domain=${domain}; Expires=Thu, 01 Jan 1970 00:00:01 GMT; SameSite=Lax; Secure`
+                      document.cookie = `_gid=; Path=/; Domain=${domain}; Expires=Thu, 01 Jan 1970 00:00:01 GMT; SameSite=Lax; Secure`
+                    }
+                    window.location.reload()
+                  }}
+                  className="btn-secondary py-2! px-4! text-xs! whitespace-nowrap cursor-pointer hover:bg-orange-400/10 hover:border-orange-400/50 hover:text-orange-400!"
+                >
+                  Reset Preferences
+                </button>
+              </div>
+              
               <p className="mt-8 text-xs opacity-50">Last updated: May 2026</p>
             </div>
           )

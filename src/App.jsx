@@ -30,6 +30,7 @@ const ClientDashboard = lazy(() => import('./components/ClientDashboard'))
 const RefundRequest = lazy(() => import('./components/RefundRequest'))
 const Reviews = lazy(() => import('./components/Reviews'))
 const DiscoveryCall = lazy(() => import('./components/DiscoveryCall'))
+const FounderProfile = lazy(() => import('./components/FounderProfile'))
 const PageLoader = () => (
   <div className="min-h-screen bg-[#050508] flex items-center justify-center">
     <div className="w-12 h-12 rounded-full border-2 border-cyan-400/20 border-t-cyan-400 animate-spin" />
@@ -117,6 +118,7 @@ export default function App() {
               <Route path="/get-started" element={<GetStarted />} />
               <Route path="/services/:slug" element={<ServiceDetail onScheduleCall={handleScheduleCall} />} />
               <Route path="/portfolio/:id" element={<CaseStudyDetail />} />
+              <Route path="/about/:slug" element={<FounderProfile />} />
               <Route path="/portal" element={<ClientLogin />} />
               <Route path="/portal/dashboard" element={<ClientDashboard />} />
               <Route path="/refund" element={<RefundRequest />} />

@@ -1,17 +1,15 @@
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Code, Video, Star, Zap, Handshake, Linkedin, Github, Mail, Instagram, Youtube } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
+import { Code, Video, Linkedin, Github, Mail, Instagram, Youtube } from 'lucide-react'
 
 const founders = [
   {
+    slug: 'anirudha',
     name: 'Anirudha Basu Thakur',
     role: 'Co-Founder',
-    description: 'Expert full-stack developer dedicated to building high-performance, pixel-perfect digital ecosystems. I architect and build robust web solutions from the ground up—whether it is a complex SaaS platform, a high-converting landing page, or a custom internal tool, I translate any vision into clean, scalable code that delivers measurable impact. If you can dream it, I will code it.',
     icon: Code,
     image: 'Anirudha.jpeg',
     color: 'cyan',
-    bgImage: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop',
-    skills: ['React & Next.js', 'Node.js Backend', 'System Architecture'],
     email: 'anirudha.basuthakur@gmail.com',
     socials: [
       { name: 'GitHub', url: 'https://github.com/Ani0811', icon: Github },
@@ -20,14 +18,12 @@ const founders = [
     ]
   },
   {
+    slug: 'vasudev',
     name: 'Vasudev Sharma',
     role: 'Founder',
-    description: 'A cinematic storyteller specializing in professional-grade video production and high-impact post-processing. I transform raw concepts into compelling visual narratives that captivate audiences and define brand identities. From high-energy social content to cinematic brand films, I craft the visual journey that brings your story to life, whatever the medium, whatever the request.',
     icon: Video,
     image: 'Vasudev.jpeg',
     color: 'fuchsia',
-    bgImage: 'https://images.unsplash.com/photo-1601506521937-0121a7fc2a6b?q=80&w=2071&auto=format&fit=crop',
-    skills: ['Post-Production', 'Motion Graphics', 'Visual Storytelling'],
     email: 'vasudevsharma997@gmail.com',
     socials: [
       { name: 'YouTube', url: 'https://www.youtube.com/@vasudevsharma1', icon: Youtube },
@@ -38,39 +34,11 @@ const founders = [
 ]
 
 export default function About() {
-  const [activeFounder, setActiveFounder] = useState(null)
-
-  const handleFounderClick = (index) => {
-    setActiveFounder(activeFounder === index ? null : index)
-  }
+  const navigate = useNavigate()
 
   return (
-    <section id="about" className="relative py-32 overflow-hidden transition-colors duration-1000">
-      {/* Immersive background elements based on active founder */}
+    <section id="about" className="relative py-32 overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(0,240,255,0.03)_0%,transparent_70%)] -z-10" />
-      
-      <AnimatePresence>
-        {activeFounder !== null && (
-          <motion.div
-            key="bg-layer"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1 }}
-            className="absolute inset-0 -z-10 overflow-hidden pointer-events-none"
-          >
-            <div className={`absolute inset-0 z-10 bg-black/85 transition-colors duration-1000`} />
-            <div className={`absolute inset-0 z-20 opacity-30 ${founders[activeFounder].color === 'cyan' ? 'bg-cyan-900/40 mix-blend-color' : 'bg-fuchsia-900/40 mix-blend-color'}`} />
-            <img 
-              src={founders[activeFounder].bgImage} 
-              alt="Founder Background" 
-              className="w-full h-full object-cover opacity-40 blur-md scale-110" 
-            />
-            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[var(--bg-deep)] to-transparent z-30" />
-            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[var(--bg-deep)] to-transparent z-30" />
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <div className="container-custom relative z-10">
         <div className="text-center mb-20">
@@ -90,7 +58,7 @@ export default function About() {
           >
             Meet the <span className="gradient-text">Founders</span>
           </motion.h2>
-          <p className="text-sm opacity-50 uppercase tracking-widest text-center mb-8">Click photos to explore</p>
+          <p className="text-sm opacity-50 uppercase tracking-widest text-center mb-8">Click a photo to read the full bio</p>
         </div>
 
         <div className="max-w-4xl mx-auto relative">
@@ -122,9 +90,6 @@ export default function About() {
           {/* Founders Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-40 mb-24 relative z-10">
             {founders.map((founder, index) => {
-              const isActive = activeFounder === index;
-              const isOtherActive = activeFounder !== null && !isActive;
-
               return (
                 <motion.div
                   key={index}
@@ -132,23 +97,22 @@ export default function About() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: index * 0.1 }}
-                  className={`flex flex-col items-center transition-all duration-700 ${isOtherActive ? 'opacity-30 scale-95 grayscale' : 'opacity-100 scale-100'}`}
+                  className="flex flex-col items-center"
                 >
                   <div 
-                    className={`relative w-full aspect-square max-w-70 mb-6 group cursor-pointer transition-all duration-500 rounded-[40px] ${isActive ? (founder.color === 'cyan' ? 'ring-2 ring-cyan-400 ring-offset-4 ring-offset-black' : 'ring-2 ring-fuchsia-400 ring-offset-4 ring-offset-black') : ''}`}
-                    onClick={() => handleFounderClick(index)}
+                    className={`relative w-full aspect-square max-w-70 mb-6 group cursor-pointer transition-all duration-500 rounded-[40px] ${founder.color === 'cyan' ? 'hover:ring-2 hover:ring-cyan-400 hover:ring-offset-2 hover:ring-offset-black' : 'hover:ring-2 hover:ring-fuchsia-400 hover:ring-offset-2 hover:ring-offset-black'}`}
+                    onClick={() => navigate(`/about/${founder.slug}`)}
                   >
-                    {/* Hover shadow removed as per request, just the image container remains */}
                     <div className="relative h-full w-full rounded-[40px] overflow-hidden border border-white/10">
                       <img
                         src={`${import.meta.env.BASE_URL}${founder.image}`.replace(/\/+/g, '/')}
                         alt={founder.name}
-                        className={`w-full h-full object-cover profile-crop transition-all duration-1000 ${isActive ? 'scale-110' : 'group-hover:scale-105'}`}
+                        className="w-full h-full object-cover profile-crop transition-all duration-700 group-hover:scale-105"
                       />
                     </div>
                   </div>
-                  <h3 className={`text-xl md:text-2xl font-bold mb-1 tracking-tight text-center transition-colors ${isActive && founder.color === 'cyan' ? 'text-cyan-400' : isActive && founder.color === 'fuchsia' ? 'text-fuchsia-400' : ''}`}>{founder.name}</h3>
-                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400 text-center opacity-70 mb-2">{founder.role}</p>
+                  <h3 className={`text-xl md:text-2xl font-bold mb-1 tracking-tight text-center transition-colors group-hover:${founder.color === 'cyan' ? 'text-cyan-400' : 'text-fuchsia-400'}`}>{founder.name}</h3>
+                  <p className={`text-[10px] font-black uppercase tracking-[0.3em] text-center opacity-70 mb-2 ${founder.color === 'cyan' ? 'text-cyan-400' : 'text-fuchsia-400'}`}>{founder.role}</p>
                   
                   {/* Email Address Link */}
                   <a 
