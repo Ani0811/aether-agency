@@ -26,7 +26,7 @@ export default function Navbar({ onScheduleCall }) {
   }, [mobileMenuOpen])
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20)
+    const handleScroll = () => setIsScrolled(window.scrollY > 0)
     window.addEventListener('scroll', handleScroll)
 
     // Intersection Observer for Active Section
