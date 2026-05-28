@@ -32,6 +32,8 @@ function LazyMedia({ image, title, isVideo }) {
     ? image
     : `${import.meta.env.BASE_URL}${image?.replace(/^\//, '')}`.replace(/\/+/g, '/')
 
+  const isVideoFile = image?.endsWith('.mp4') || image?.endsWith('.webm') || image?.endsWith('.ogg')
+
   return (
     <div
       ref={ref}
@@ -44,13 +46,25 @@ function LazyMedia({ image, title, isVideo }) {
       )}
 
       {inView && (
-        <img
-          src={resolvedImage}
-          alt={title}
-          loading="lazy"
-          onLoad={() => setIsLoaded(true)}
-          className={`w-full h-full object-cover transition-opacity duration-500 group-hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-        />
+        isVideoFile ? (
+          <video
+            src={resolvedImage}
+            muted
+            playsInline
+            autoPlay
+            loop
+            onLoadedData={() => setIsLoaded(true)}
+            className={`w-full h-full object-cover transition-opacity duration-500 group-hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+          />
+        ) : (
+          <img
+            src={resolvedImage}
+            alt={title}
+            loading="lazy"
+            onLoad={() => setIsLoaded(true)}
+            className={`w-full h-full object-cover transition-opacity duration-500 group-hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+          />
+        )
       )}
 
       {isVideo && (

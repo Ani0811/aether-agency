@@ -150,5 +150,15 @@ values
     'https://realestate-frontend-react.vercel.app/',
     'rimberio-real-estate',
     150
+  ),
+  (
+    'Cinematic Showcase',
+    'Reels',
+    'IG Reels • Showcase',
+    'A cinematic short-form highlight reel showcasing advanced video editing and post-production techniques.',
+    '/Portfolio_Videos/1.mp4',
+    '/Portfolio_Videos/1.mp4',
+    null,
+    25
   )
 on conflict do nothing;
