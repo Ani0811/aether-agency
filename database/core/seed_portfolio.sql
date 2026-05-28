@@ -157,8 +157,8 @@ values
     'IG Reels • Showcase',
     'A cinematic short-form highlight reel showcasing advanced video editing and post-production techniques.',
     '/Portfolio_Videos/1.mp4',
-    '/Portfolio_Videos/1.mp4',
-    null,
+    'https://drive.google.com/file/d/1_IgSdGUY0II3z8k82hjgPOfPhVaG4EGB/view?usp=sharing',
+    'cinematic-showcase',
     25
   )
 on conflict do nothing;

@@ -237,6 +237,21 @@ values
       {"label": "Active Listings", "value": "500+"},
       {"label": "Bounce Rate", "value": "-15%"}
     ]'::jsonb
+  ),
+  (
+    'cinematic-showcase',
+    'Cinematic Showcase',
+    'IG Reels • Showcase',
+    '/Agency_Videos/AiReel.jpg',
+    'A high-impact cinematic showcase highlighting premium editing techniques, color grading, and dynamic sound design.',
+    'Capturing the viewer''s interest within the first seconds and retaining engagement through fast pacing and creative transitions.',
+    'We developed a high-tempo sequence utilizing speed ramping, match cuts, custom typography overlays, and immersive sound effects.',
+    array['Premiere Pro', 'After Effects', 'DaVinci Resolve'],
+    '[
+      {"label": "Views", "value": "1.5M+"},
+      {"label": "Engagement", "value": "+60%"},
+      {"label": "Audience Retention", "value": "82%"}
+    ]'::jsonb
   )
 on conflict (slug) do update
   set title      = excluded.title,
