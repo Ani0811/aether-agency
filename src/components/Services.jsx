@@ -36,7 +36,7 @@ export default function Services() {
     <section id="services" className="relative py-24">
       {/* Background Image */}
       <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 bg-black/85 z-10" />
+        <div className="absolute inset-0 z-10" style={{ backgroundColor: 'var(--bg-deep)', opacity: 0.85 }} />
         <img 
           src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop" 
           alt="Services Background" 

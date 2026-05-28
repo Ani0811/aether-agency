@@ -92,13 +92,17 @@ export default function FounderProfile() {
   return (
     <section className="pt-28 pb-24 relative min-h-screen overflow-hidden">
       {/* Ambient BG */}
-      <div className={`absolute top-0 left-0 right-0 h-[60vh] bg-gradient-to-b ${gradientFrom} to-[#050508] opacity-40 -z-20 pointer-events-none`} />
-      <img
-        src={founder.bgImage}
-        alt="Background"
-        className="absolute top-0 left-0 right-0 w-full h-[60vh] object-cover opacity-10 blur-sm scale-105 -z-30 pointer-events-none"
-      />
-      <div className="absolute top-0 left-0 right-0 h-[60vh] bg-gradient-to-b from-transparent to-[var(--bg-deep)] -z-10 pointer-events-none" />
+      <div className={`absolute top-0 left-0 right-0 h-[60vh] bg-gradient-to-b ${gradientFrom} to-[var(--bg-deep)] opacity-40 -z-20 pointer-events-none`} />
+      
+      {/* Background Image & Overlay Container */}
+      <div className="absolute top-0 left-0 right-0 h-[60vh] overflow-hidden -z-30 pointer-events-none">
+        <img
+          src={founder.bgImage}
+          alt="Background"
+          className="w-full h-full object-cover opacity-10 blur-sm scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[var(--bg-deep)]" />
+      </div>
 
       <div className="container-custom">
         {/* Back Button */}
@@ -143,7 +147,7 @@ export default function FounderProfile() {
             </p>
 
             {/* Stats */}
-            <div className="flex gap-8 mb-8">
+            <div className="flex flex-wrap gap-x-8 gap-y-4 mb-8">
               {founder.stats.map((stat, i) => (
                 <motion.div
                   key={i}

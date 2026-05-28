@@ -100,7 +100,7 @@ export default function About() {
                   className="flex flex-col items-center"
                 >
                   <div 
-                    className={`relative w-full aspect-square max-w-70 mb-6 group cursor-pointer transition-all duration-500 rounded-[40px] ${founder.color === 'cyan' ? 'hover:ring-2 hover:ring-cyan-400 hover:ring-offset-2 hover:ring-offset-black' : 'hover:ring-2 hover:ring-fuchsia-400 hover:ring-offset-2 hover:ring-offset-black'}`}
+                    className={`relative w-full aspect-square max-w-70 mb-6 group cursor-pointer transition-all duration-500 rounded-[40px] ${founder.color === 'cyan' ? 'hover:ring-2 hover:ring-cyan-400 hover:ring-offset-2 hover:ring-offset-[var(--bg-deep)]' : 'hover:ring-2 hover:ring-fuchsia-400 hover:ring-offset-2 hover:ring-offset-[var(--bg-deep)]'}`}
                     onClick={() => navigate(`/about/${founder.slug}`)}
                   >
                     <div className="relative h-full w-full rounded-[40px] overflow-hidden border border-white/10">
