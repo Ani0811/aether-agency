@@ -122,9 +122,28 @@ export default function FounderProfile() {
           </button>
         </motion.div>
 
-        {/* Hero Grid */}
+        {/* Hero Grid — Photo LEFT, Text RIGHT */}
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-24">
-          {/* Left: Text */}
+          {/* Left: Photo */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative w-full max-w-md mx-auto lg:mx-0"
+          >
+            <div className={`relative z-10 rounded-[40px] overflow-hidden shadow-2xl ring-1 ${ringClass} ${accentGlow}`}>
+              <div className="aspect-[3/4] overflow-hidden">
+                <img
+                  src={`${import.meta.env.BASE_URL}${founder.image}`.replace(/\/+/g, '/')}
+                  alt={founder.name}
+                  className="w-full h-full object-cover profile-crop hover:scale-105 transition-transform duration-700"
+                />
+              </div>
+            </div>
+            <div className={`absolute -inset-10 bg-gradient-to-tr ${gradientFrom} to-transparent blur-[80px] -z-10 opacity-50 pointer-events-none`} />
+          </motion.div>
+
+          {/* Right: Text */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -188,25 +207,6 @@ export default function FounderProfile() {
                 })}
               </div>
             </div>
-          </motion.div>
-
-          {/* Right: Photo */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative w-full max-w-md mx-auto lg:ml-auto lg:mr-0"
-          >
-            <div className={`relative z-10 rounded-[40px] overflow-hidden shadow-2xl ring-1 ${ringClass} ${accentGlow}`}>
-              <div className="aspect-[3/4] overflow-hidden">
-                <img
-                  src={`${import.meta.env.BASE_URL}${founder.image}`.replace(/\/+/g, '/')}
-                  alt={founder.name}
-                  className="w-full h-full object-cover profile-crop hover:scale-105 transition-transform duration-700"
-                />
-              </div>
-            </div>
-            <div className={`absolute -inset-10 bg-gradient-to-tr ${gradientFrom} to-transparent blur-[80px] -z-10 opacity-50 pointer-events-none`} />
           </motion.div>
         </div>
 
