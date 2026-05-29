@@ -61,7 +61,7 @@ function CaseStudySkeleton() {
     <section className="pt-28 pb-20">
       <div className="container-custom animate-pulse">
         <div className="h-5 w-32 bg-white/5 rounded mb-10" />
-        <div className="aspect-[21/9] rounded-3xl bg-white/5 mb-12" />
+        <div className="aspect-21/9 rounded-3xl bg-white/5 mb-12" />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
           {[...Array(4)].map((_, i) => (
             <div key={i} className="glass-card p-6 h-28" />
@@ -275,13 +275,18 @@ export default function CaseStudyDetail() {
   const googleDriveEmbedUrl = isGoogleDriveLink ? getGoogleDriveEmbedUrl(study.link) : ''
 
   // Find direct video source URL if available (actual video files, excluding Google Drive)
+  // Prefer an explicit `study.link` when provided (external host), fall back to
+  // `project_image` or `hero_image` only when no suitable link exists.
   let videoSrc = null
-  if (study.project_image && /\.(mp4|webm|ogg)$/i.test(study.project_image)) {
-    videoSrc = resolvedProjectImage
-  } else if (study.link && /\.(mp4|webm|ogg)$/i.test(study.link)) {
+  if (study.link && !isGoogleDriveLink && /\.(mp4|webm|ogg)$/i.test(study.link)) {
     videoSrc = study.link
-  } else if (study.hero_image && /\.(mp4|webm|ogg)$/i.test(study.hero_image)) {
-    videoSrc = resolvedHeroImage
+  }
+  if (!videoSrc) {
+    if (study.project_image && /\.(mp4|webm|ogg)$/i.test(study.project_image)) {
+      videoSrc = resolvedProjectImage
+    } else if (study.hero_image && /\.(mp4|webm|ogg)$/i.test(study.hero_image)) {
+      videoSrc = resolvedHeroImage
+    }
   }
 
   // Determine if this is a video case study based on category or project type
@@ -313,10 +318,16 @@ export default function CaseStudyDetail() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="relative rounded-3xl overflow-hidden mb-12 aspect-[21/9] border border-white/10"
+          className="relative rounded-3xl overflow-hidden mb-12 aspect-21/9 border border-white/10"
         >
           {isVideoCategory && (
-            isVideoFile ? (
+            isGoogleDriveLink ? (
+              <img 
+                src={heroImage} 
+                alt="" 
+                className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110" 
+              />
+            ) : isVideoFile ? (
               <video 
                 src={videoSrc}
                 autoPlay
@@ -356,7 +367,7 @@ export default function CaseStudyDetail() {
               className={`relative z-10 w-full h-full ${isVideoCategory ? 'object-contain' : 'object-cover'}`}
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-deep)] via-transparent to-transparent z-20 pointer-events-none" />
+          <div className="absolute inset-0 bg-linear-to-t from-(--bg-deep) via-transparent to-transparent z-20 pointer-events-none" />
           <div className="absolute bottom-0 left-0 p-8 lg:p-12 z-30">
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-400 mb-3 block">{study.category}</span>
             <h1 className="text-3xl lg:text-5xl font-black" style={{ color: 'var(--text-primary)' }}>{study.title}</h1>
