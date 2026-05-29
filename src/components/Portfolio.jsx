@@ -10,7 +10,9 @@ const videoSubCategories = ['All Videos', 'Reels', 'YT Videos', 'Vlogs']
 function LazyMedia({ image, title, isVideo }) {
   const [inView, setInView] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
+  const [hasError, setHasError] = useState(false)
   const ref = useRef(null)
+  const videoRef = useRef(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -27,12 +29,35 @@ function LazyMedia({ image, title, isVideo }) {
     return () => { if (ref.current) observer.unobserve(ref.current) }
   }, [])
 
+  // Programmatic muted & defaultMuted to guarantee autoplay across all browsers
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = true
+      videoRef.current.defaultMuted = true
+      
+      // If the video has already loaded metadata or data (e.g. from cache)
+      if (videoRef.current.readyState >= 1) {
+        setIsLoaded(true)
+      }
+    }
+  }, [inView])
+
   // Resolve local paths with BASE_URL
   const resolvedImage = image?.startsWith('http')
     ? image
     : `${import.meta.env.BASE_URL}${image?.replace(/^\//, '')}`.replace(/\/+/g, '/')
 
   const isVideoFile = image?.endsWith('.mp4') || image?.endsWith('.webm') || image?.endsWith('.ogg')
+
+  const handleMediaLoaded = () => {
+    setIsLoaded(true)
+  }
+
+  const handleMediaError = () => {
+    console.error(`Failed to load media for title "${title}": ${resolvedImage}`)
+    setHasError(true)
+    setIsLoaded(true) // Hide the spinner even on error to show fallback/original text instead of loading forever
+  }
 
   return (
     <div
@@ -47,21 +72,35 @@ function LazyMedia({ image, title, isVideo }) {
 
       {inView && (
         isVideoFile ? (
-          <video
-            src={resolvedImage}
-            muted
-            playsInline
-            autoPlay
-            loop
-            onLoadedData={() => setIsLoaded(true)}
-            className={`w-full h-full object-cover transition-opacity duration-500 group-hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-          />
+          hasError ? (
+            <div className="w-full h-full bg-neutral-900 flex flex-col items-center justify-center p-6 text-center">
+              <span className="text-cyan-400 text-xs font-bold uppercase tracking-widest mb-2">Video Showcase</span>
+              <span className="text-[var(--text-muted)] text-[10px]">{title}</span>
+            </div>
+          ) : (
+            <video
+              ref={videoRef}
+              src={resolvedImage}
+              muted
+              playsInline
+              autoPlay
+              loop
+              preload="auto"
+              onLoadedMetadata={handleMediaLoaded}
+              onLoadedData={handleMediaLoaded}
+              onCanPlay={handleMediaLoaded}
+              onPlay={handleMediaLoaded}
+              onError={handleMediaError}
+              className={`w-full h-full object-cover transition-opacity duration-500 group-hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+            />
+          )
         ) : (
           <img
             src={resolvedImage}
             alt={title}
             loading="lazy"
-            onLoad={() => setIsLoaded(true)}
+            onLoad={handleMediaLoaded}
+            onError={handleMediaError}
             className={`w-full h-full object-cover transition-opacity duration-500 group-hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
           />
         )
