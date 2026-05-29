@@ -7,6 +7,12 @@ import { supabase } from '../lib/supabaseClient'
 const categories = ['All', 'Websites', 'AI Agents', 'Videos']
 const videoSubCategories = ['All Videos', 'Reels', 'YT Videos', 'Vlogs']
 
+const isVideoProject = (project) => {
+  if (!project) return false
+  return ['Reels', 'YT Videos', 'Vlogs'].includes(project.type) || 
+         (project.image && /\.(mp4|webm|ogg)$/i.test(project.image))
+}
+
 function LazyMedia({ image, title, isVideo, isReel }) {
   const [inView, setInView] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
@@ -270,14 +276,26 @@ export default function Portfolio() {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ duration: 0.4 }}
-                    href={project.case_study_slug ? `/portfolio/${project.case_study_slug}` : (project.image?.match(/\.(mp4|webm|ogg)$/) ? project.image : (project.link || '#'))}
-                    target={(!project.case_study_slug && (project.link || project.image?.match(/\.(mp4|webm|ogg)$/))) ? '_blank' : undefined}
-                    rel={(!project.case_study_slug && (project.link || project.image?.match(/\.(mp4|webm|ogg)$/))) ? 'noopener noreferrer' : undefined}
+                    href={
+                      (project.case_study_slug || isVideoProject(project))
+                        ? `/portfolio/${project.case_study_slug || project.id}`
+                        : (project.link || '#')
+                    }
+                    target={
+                      !(project.case_study_slug || isVideoProject(project)) && project.link
+                        ? '_blank'
+                        : undefined
+                    }
+                    rel={
+                      !(project.case_study_slug || isVideoProject(project)) && project.link
+                        ? 'noopener noreferrer'
+                        : undefined
+                    }
                     className="group cursor-pointer block"
                     onClick={(e) => {
-                      if (project.case_study_slug) {
+                      if (project.case_study_slug || isVideoProject(project)) {
                         e.preventDefault()
-                        navigate(`/portfolio/${project.case_study_slug}`)
+                        navigate(`/portfolio/${project.case_study_slug || project.id}`)
                       } else if (!project.link) {
                         e.preventDefault()
                       }

@@ -132,31 +132,80 @@ export default function CaseStudyDetail() {
         .eq('slug', id)
         .single()
 
-      if (error) {
-        // PGRST116 = no rows found
-        if (error.code === 'PGRST116') {
-          setLoadState('notfound')
-        } else {
-          throw error
+      if (error && error.code !== 'PGRST116') {
+        throw error
+      }
+
+      if (data) {
+        // Found case study in case_studies table!
+        // Now also fetch details from portfolio_projects to match
+        const { data: projectData } = await supabase
+          .from('portfolio_projects')
+          .select('link, type, image')
+          .eq('case_study_slug', id)
+          .single()
+          
+        if (projectData) {
+          data.link = projectData.link
+          data.project_type = projectData.type
+          data.project_image = projectData.image
         }
+
+        setStudy(data)
+        setLoadState('success')
         return
       }
 
-      // Also fetch link and type from portfolio_projects
-      const { data: projectData } = await supabase
-        .from('portfolio_projects')
-        .select('link, type, image')
-        .eq('case_study_slug', id)
-        .single()
-        
-      if (projectData) {
-        data.link = projectData.link
-        data.project_type = projectData.type
-        data.project_image = projectData.image
+      // Fallback: If not found in case_studies, check portfolio_projects by case_study_slug or id
+      let projectQuery = supabase.from('portfolio_projects').select('*')
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)
+      if (isUuid) {
+        projectQuery = projectQuery.eq('id', id)
+      } else {
+        projectQuery = projectQuery.eq('case_study_slug', id)
       }
 
-      setStudy(data)
-      setLoadState('success')
+      const { data: projectData, error: projectError } = await projectQuery.maybeSingle()
+      if (projectError) throw projectError
+
+      if (projectData) {
+        // Create a mock study object using the portfolio project
+        const mockStudy = {
+          slug: projectData.case_study_slug || projectData.id,
+          title: projectData.title,
+          category: projectData.category,
+          hero_image: projectData.image,
+          description: projectData.description,
+          challenge: 'Designing and executing high-performance content customized for target audience engagement.',
+          solution: 'Applying creative styling, editing, and technical solutions to drive conversions and branding goals.',
+          tech_stack: projectData.type === 'Websites' 
+            ? ['React', 'Node.js', 'Tailwind CSS'] 
+            : projectData.type === 'AI Agents' 
+            ? ['Gemini API', 'Node.js', 'Supabase'] 
+            : ['Premiere Pro', 'After Effects', 'DaVinci Resolve'],
+          metrics: projectData.type === 'Websites' 
+            ? [
+                { label: 'Load Time', value: '0.8s' },
+                { label: 'Monthly Users', value: '10K+' }
+              ]
+            : projectData.type === 'AI Agents'
+            ? [
+                { label: 'Cost Reduction', value: '50%' },
+                { label: 'Queries Resolved', value: '85%' }
+              ]
+            : [
+                { label: 'Engagement', value: '+30%' },
+                { label: 'Views', value: '100K+' }
+              ],
+          link: projectData.link,
+          project_type: projectData.type,
+          project_image: projectData.image
+        }
+        setStudy(mockStudy)
+        setLoadState('success')
+      } else {
+        setLoadState('notfound')
+      }
     } catch (err) {
       console.error('[CaseStudy] Supabase fetch error:', err)
       setLoadState('error')
@@ -193,11 +242,53 @@ export default function CaseStudyDetail() {
   
   const heroImage = rawHeroImage?.startsWith('http')
     ? rawHeroImage
-    : `${import.meta.env.BASE_URL}${rawHeroImage?.replace(/^\//, '')}`.replace(/\/+/g, '/')
+    : rawHeroImage
+      ? `${import.meta.env.BASE_URL}${rawHeroImage.replace(/^\//, '')}`.replace(/\/+/g, '/')
+      : ''
 
-  // Determine if this is a video case study based on category
-  const isVideoCategory = ['reel', 'vlog', 'youtube', 'video'].some(kw => study.category.toLowerCase().includes(kw))
-  const isVideoFile = heroImage?.endsWith('.mp4') || heroImage?.endsWith('.webm') || heroImage?.endsWith('.ogg')
+  const resolvedProjectImage = study.project_image?.startsWith('http')
+    ? study.project_image
+    : study.project_image
+      ? `${import.meta.env.BASE_URL}${study.project_image.replace(/^\//, '')}`.replace(/\/+/g, '/')
+      : null
+
+  const resolvedHeroImage = study.hero_image?.startsWith('http')
+    ? study.hero_image
+    : study.hero_image
+      ? `${import.meta.env.BASE_URL}${study.hero_image.replace(/^\//, '')}`.replace(/\/+/g, '/')
+      : null
+
+  const isGoogleDriveLink = !!(study.link && study.link.includes('drive.google.com'))
+
+  // Convert Google Drive view URL to direct embed preview URL with autoplay, mute, and loop enabled
+  const getGoogleDriveEmbedUrl = (url) => {
+    if (!url) return ''
+    let embedUrl = url.replace(/\/view(\?usp=sharing)?$/, '/preview')
+                      .replace(/open\?id=/, 'file/d/')
+    if (!embedUrl.includes('/preview') && embedUrl.includes('/file/d/')) {
+      embedUrl = embedUrl.split('?')[0].replace(/\/+$/, '') + '/preview'
+    }
+    const separator = embedUrl.includes('?') ? '&' : '?'
+    return `${embedUrl}${separator}autoplay=1&mute=1&loop=1`
+  }
+
+  const googleDriveEmbedUrl = isGoogleDriveLink ? getGoogleDriveEmbedUrl(study.link) : ''
+
+  // Find direct video source URL if available (actual video files, excluding Google Drive)
+  let videoSrc = null
+  if (study.project_image && /\.(mp4|webm|ogg)$/i.test(study.project_image)) {
+    videoSrc = resolvedProjectImage
+  } else if (study.link && /\.(mp4|webm|ogg)$/i.test(study.link)) {
+    videoSrc = study.link
+  } else if (study.hero_image && /\.(mp4|webm|ogg)$/i.test(study.hero_image)) {
+    videoSrc = resolvedHeroImage
+  }
+
+  // Determine if this is a video case study based on category or project type
+  const isVideoCategory = ['reel', 'vlog', 'youtube', 'video'].some(kw => study.category?.toLowerCase().includes(kw)) ||
+    ['reels', 'yt videos', 'vlogs'].includes(study.project_type?.toLowerCase())
+  
+  const isVideoFile = !!videoSrc
 
   return (
     <section className="pt-28 pb-20">
@@ -227,7 +318,7 @@ export default function CaseStudyDetail() {
           {isVideoCategory && (
             isVideoFile ? (
               <video 
-                src={heroImage}
+                src={videoSrc}
                 autoPlay
                 loop
                 muted
@@ -242,9 +333,16 @@ export default function CaseStudyDetail() {
               />
             )
           )}
-          {isVideoFile ? (
+          {isGoogleDriveLink ? (
+            <iframe
+              src={googleDriveEmbedUrl}
+              className="relative z-10 w-full h-full border-0"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+            />
+          ) : isVideoFile ? (
             <video
-              src={heroImage}
+              src={videoSrc}
               autoPlay
               loop
               muted
@@ -364,29 +462,15 @@ export default function CaseStudyDetail() {
                 </a>
               ) : null}
               {['Reels', 'YT Videos', 'Vlogs'].includes(study.project_type) && (study.link || study.project_image?.match(/\.(mp4|webm|ogg)$/)) && (
-                <div className="flex flex-col gap-3">
-                  {(study.project_image?.match(/\.(mp4|webm|ogg)$/) || study.link?.match(/\.(mp4|webm|ogg)$/)) && (
-                    <div className="w-full aspect-video rounded-xl overflow-hidden border border-white/10 bg-white/5 relative group">
-                      <video
-                        src={study.project_image?.match(/\.(mp4|webm|ogg)$/) ? study.project_image : study.link}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )}
-                  <a
-                    href={study.project_image?.match(/\.(mp4|webm|ogg)$/) ? study.project_image : study.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full flex items-center justify-center gap-2 py-3 px-5 rounded-xl text-sm font-bold bg-cyan-400 text-black hover:shadow-[0_0_25px_rgba(0,240,255,0.4)] transition-all"
-                  >
-                    <ExternalLink size={14} />
-                    Watch Video
-                  </a>
-                </div>
+                <a
+                  href={study.project_image?.match(/\.(mp4|webm|ogg)$/) ? study.project_image : study.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2 py-3 px-5 rounded-xl text-sm font-bold bg-cyan-400 text-black hover:shadow-[0_0_25px_rgba(0,240,255,0.4)] transition-all"
+                >
+                  <ExternalLink size={14} />
+                  Watch Video
+                </a>
               )}
               <Link
                 to="/get-started"
