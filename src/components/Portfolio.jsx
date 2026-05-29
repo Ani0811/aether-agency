@@ -70,7 +70,7 @@ function LazyMedia({ image, title, isVideo, isReel }) {
             loading="lazy"
             onLoad={() => setIsLoaded(true)}
             onError={() => setIsLoaded(true)}
-            className={`w-full h-full object-cover transition-opacity duration-500 group-hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+            className={`w-full h-full ${isVideo ? 'object-contain' : 'object-cover group-hover:scale-105'} transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
           />
         )
       )}
