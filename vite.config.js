@@ -3,15 +3,16 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-const base = process.env.BASE || '/G-OneMedia/'
+export default defineConfig(({ command }) => {
+  const base = command === 'build' ? (process.env.BASE || '/G-OneMedia/') : '/'
 
-export default defineConfig({
-  base,
-  plugins: [
-    react(),
-    tailwindcss(),
-  ],
-  server: {
+  return {
+    base,
+    plugins: [
+      react(),
+      tailwindcss(),
+    ],
+    server: {
     proxy: {
       '/api': 'http://localhost:3001',
     },
@@ -46,5 +47,4 @@ export default defineConfig({
       }
     }
   }
-})
-
+} })

@@ -164,7 +164,7 @@ values
     'IG Reels • Showcase',
     'A cinematic short-form highlight reel showcasing advanced video editing and post-production techniques.',
     '/Portfolio_Videos/1.mp4',
-    'https://drive.google.com/file/d/1_IgSdGUY0II3z8k82hjgPOfPhVaG4EGB-/view',
+    'https://drive.google.com/file/d/1_IgSdGUY0II3z8k82hjgPOfPhVaG4EGB/view',
     'cinematic-showcase',
     25
   )

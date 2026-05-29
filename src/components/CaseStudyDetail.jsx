@@ -145,13 +145,14 @@ export default function CaseStudyDetail() {
       // Also fetch link and type from portfolio_projects
       const { data: projectData } = await supabase
         .from('portfolio_projects')
-        .select('link, type')
+        .select('link, type, image')
         .eq('case_study_slug', id)
         .single()
         
       if (projectData) {
         data.link = projectData.link
         data.project_type = projectData.type
+        data.project_image = projectData.image
       }
 
       setStudy(data)
@@ -187,13 +188,16 @@ export default function CaseStudyDetail() {
     )
   }
 
-  // Resolve hero image path
-  const heroImage = study.hero_image?.startsWith('http')
-    ? study.hero_image
-    : `${import.meta.env.BASE_URL}${study.hero_image?.replace(/^\//, '')}`.replace(/\/+/g, '/')
+  // Resolve hero image path (prioritize uploaded project image over static hero image)
+  const rawHeroImage = study.project_image || study.hero_image
+  
+  const heroImage = rawHeroImage?.startsWith('http')
+    ? rawHeroImage
+    : `${import.meta.env.BASE_URL}${rawHeroImage?.replace(/^\//, '')}`.replace(/\/+/g, '/')
 
   // Determine if this is a video case study based on category
   const isVideoCategory = ['reel', 'vlog', 'youtube', 'video'].some(kw => study.category.toLowerCase().includes(kw))
+  const isVideoFile = heroImage?.endsWith('.mp4') || heroImage?.endsWith('.webm') || heroImage?.endsWith('.ogg')
 
   return (
     <section className="pt-28 pb-20">
@@ -221,17 +225,39 @@ export default function CaseStudyDetail() {
           className="relative rounded-3xl overflow-hidden mb-12 aspect-[21/9] border border-white/10"
         >
           {isVideoCategory && (
-            <img 
-              src={heroImage} 
-              alt="" 
-              className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110" 
+            isVideoFile ? (
+              <video 
+                src={heroImage}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110" 
+              />
+            ) : (
+              <img 
+                src={heroImage} 
+                alt="" 
+                className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110" 
+              />
+            )
+          )}
+          {isVideoFile ? (
+            <video
+              src={heroImage}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className={`relative z-10 w-full h-full ${isVideoCategory ? 'object-contain' : 'object-cover'}`}
+            />
+          ) : (
+            <img
+              src={heroImage}
+              alt={study.title}
+              className={`relative z-10 w-full h-full ${isVideoCategory ? 'object-contain' : 'object-cover'}`}
             />
           )}
-          <img
-            src={heroImage}
-            alt={study.title}
-            className={`relative z-10 w-full h-full ${isVideoCategory ? 'object-contain' : 'object-cover'}`}
-          />
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-deep)] via-transparent to-transparent z-20 pointer-events-none" />
           <div className="absolute bottom-0 left-0 p-8 lg:p-12 z-30">
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-400 mb-3 block">{study.category}</span>
@@ -337,16 +363,29 @@ export default function CaseStudyDetail() {
                   Website Not Available
                 </a>
               ) : null}
-              {study.link && ['Reels', 'YT Videos', 'Vlogs'].includes(study.project_type) && (
-                <div className="w-full aspect-video rounded-xl overflow-hidden border border-white/10">
-                  <iframe 
-                    src={study.link.replace(/\/view.*$/, '/preview')} 
-                    width="100%" 
-                    height="100%" 
-                    allow="autoplay" 
-                    title={study.title}
-                    style={{ border: 'none' }}
-                  ></iframe>
+              {['Reels', 'YT Videos', 'Vlogs'].includes(study.project_type) && (study.link || study.project_image?.match(/\.(mp4|webm|ogg)$/)) && (
+                <div className="flex flex-col gap-3">
+                  {(study.project_image?.match(/\.(mp4|webm|ogg)$/) || study.link?.match(/\.(mp4|webm|ogg)$/)) && (
+                    <div className="w-full aspect-video rounded-xl overflow-hidden border border-white/10 bg-white/5 relative group">
+                      <video
+                        src={study.project_image?.match(/\.(mp4|webm|ogg)$/) ? study.project_image : study.link}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+                  <a
+                    href={study.project_image?.match(/\.(mp4|webm|ogg)$/) ? study.project_image : study.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full flex items-center justify-center gap-2 py-3 px-5 rounded-xl text-sm font-bold bg-cyan-400 text-black hover:shadow-[0_0_25px_rgba(0,240,255,0.4)] transition-all"
+                  >
+                    <ExternalLink size={14} />
+                    Watch Video
+                  </a>
                 </div>
               )}
               <Link

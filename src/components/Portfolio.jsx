@@ -7,12 +7,10 @@ import { supabase } from '../lib/supabaseClient'
 const categories = ['All', 'Websites', 'AI Agents', 'Videos']
 const videoSubCategories = ['All Videos', 'Reels', 'YT Videos', 'Vlogs']
 
-function LazyMedia({ image, title, isVideo }) {
+function LazyMedia({ image, title, isVideo, isReel }) {
   const [inView, setInView] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
-  const [hasError, setHasError] = useState(false)
   const ref = useRef(null)
-  const videoRef = useRef(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -29,35 +27,12 @@ function LazyMedia({ image, title, isVideo }) {
     return () => { if (ref.current) observer.unobserve(ref.current) }
   }, [])
 
-  // Programmatic muted & defaultMuted to guarantee autoplay across all browsers
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.muted = true
-      videoRef.current.defaultMuted = true
-      
-      // If the video has already loaded metadata or data (e.g. from cache)
-      if (videoRef.current.readyState >= 1) {
-        setIsLoaded(true)
-      }
-    }
-  }, [inView])
-
   // Resolve local paths with BASE_URL
   const resolvedImage = image?.startsWith('http')
     ? image
     : `${import.meta.env.BASE_URL}${image?.replace(/^\//, '')}`.replace(/\/+/g, '/')
 
   const isVideoFile = image?.endsWith('.mp4') || image?.endsWith('.webm') || image?.endsWith('.ogg')
-
-  const handleMediaLoaded = () => {
-    setIsLoaded(true)
-  }
-
-  const handleMediaError = () => {
-    console.error(`Failed to load media for title "${title}": ${resolvedImage}`)
-    setHasError(true)
-    setIsLoaded(true) // Hide the spinner even on error to show fallback/original text instead of loading forever
-  }
 
   return (
     <div
@@ -72,35 +47,23 @@ function LazyMedia({ image, title, isVideo }) {
 
       {inView && (
         isVideoFile ? (
-          hasError ? (
-            <div className="w-full h-full bg-neutral-900 flex flex-col items-center justify-center p-6 text-center">
-              <span className="text-cyan-400 text-xs font-bold uppercase tracking-widest mb-2">Video Showcase</span>
-              <span className="text-[var(--text-muted)] text-[10px]">{title}</span>
-            </div>
-          ) : (
-            <video
-              ref={videoRef}
-              src={resolvedImage}
-              muted
-              playsInline
-              autoPlay
-              loop
-              preload="auto"
-              onLoadedMetadata={handleMediaLoaded}
-              onLoadedData={handleMediaLoaded}
-              onCanPlay={handleMediaLoaded}
-              onPlay={handleMediaLoaded}
-              onError={handleMediaError}
-              className={`w-full h-full object-cover transition-opacity duration-500 group-hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-            />
-          )
+          // Show static first-frame thumbnail — no autoplay, no loop
+          <video
+            src={`${resolvedImage}#t=0.5`}
+            preload="metadata"
+            muted
+            playsInline
+            onLoadedMetadata={() => setIsLoaded(true)}
+            onError={() => setIsLoaded(true)}
+            className={`w-full h-full object-contain transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+          />
         ) : (
           <img
             src={resolvedImage}
             alt={title}
             loading="lazy"
-            onLoad={handleMediaLoaded}
-            onError={handleMediaError}
+            onLoad={() => setIsLoaded(true)}
+            onError={() => setIsLoaded(true)}
             className={`w-full h-full object-cover transition-opacity duration-500 group-hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
           />
         )
@@ -253,8 +216,8 @@ export default function Portfolio() {
                       setCurrentPage(1)
                     }}
                     className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 border shrink-0 cursor-pointer ${activeTab === cat
-                        ? 'bg-cyan-400 border-cyan-400 text-black shadow-[0_0_20px_rgba(0,240,255,0.4)]'
-                        : 'border-[var(--border-subtle)] text-[var(--text-muted)] hover:border-[var(--text-muted)] hover:text-[var(--text-primary)]'
+                      ? 'bg-cyan-400 border-cyan-400 text-black shadow-[0_0_20px_rgba(0,240,255,0.4)]'
+                      : 'border-[var(--border-subtle)] text-[var(--text-muted)] hover:border-[var(--text-muted)] hover:text-[var(--text-primary)]'
                       }`}
                   >
                     {cat}
@@ -307,9 +270,9 @@ export default function Portfolio() {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ duration: 0.4 }}
-                    href={project.link || '#'}
-                    target={project.link ? '_blank' : undefined}
-                    rel={project.link ? 'noopener noreferrer' : undefined}
+                    href={project.case_study_slug ? `/portfolio/${project.case_study_slug}` : (project.image?.match(/\.(mp4|webm|ogg)$/) ? project.image : (project.link || '#'))}
+                    target={(!project.case_study_slug && (project.link || project.image?.match(/\.(mp4|webm|ogg)$/))) ? '_blank' : undefined}
+                    rel={(!project.case_study_slug && (project.link || project.image?.match(/\.(mp4|webm|ogg)$/))) ? 'noopener noreferrer' : undefined}
                     className="group cursor-pointer block"
                     onClick={(e) => {
                       if (project.case_study_slug) {
@@ -324,6 +287,7 @@ export default function Portfolio() {
                       image={project.image}
                       title={project.title}
                       isVideo={['Reels', 'YT Videos', 'Vlogs'].includes(project.type)}
+                      isReel={project.type === 'Reels'}
                     />
                     <span className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-400 mb-3 block opacity-80">
                       {project.category}
@@ -341,7 +305,7 @@ export default function Portfolio() {
 
             {totalPages > 1 && (
               <div className="flex items-center justify-center gap-3 mt-16">
-                 <button
+                <button
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
                   className={`w-11 h-11 rounded-xl border border-[var(--border-subtle)] flex items-center justify-center transition-all duration-300 cursor-pointer ${currentPage === 1 ? 'opacity-30 cursor-not-allowed' : 'hover:border-cyan-400 hover:text-cyan-400 hover:scale-105 hover:bg-cyan-400/5 active:scale-95'}`}
