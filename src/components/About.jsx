@@ -6,7 +6,7 @@ const founders = [
   {
     slug: 'anirudha',
     name: 'Anirudha Basu Thakur',
-    role: 'Co-Founder',
+    role: 'Co-Founder & Lead Engineer',
     icon: Code,
     image: 'Anirudha.jpeg',
     color: 'cyan',
@@ -20,7 +20,7 @@ const founders = [
   {
     slug: 'vasudev',
     name: 'Vasudev Sharma',
-    role: 'Founder',
+    role: 'Founder & Agency Owner',
     icon: Video,
     image: 'Vasudev.jpeg',
     color: 'fuchsia',
