@@ -25,20 +25,20 @@
 }
 
 [data-theme="light"] {
-  --bg-deep: #f8fafc;
-  --bg-primary: #ffffff;
-  --bg-secondary: #f1f5f9;
-  --bg-card: rgba(255, 255, 255, 0.7);
-  --bg-glass: rgba(255, 255, 255, 0.85);
+  --bg-deep: #eef7f8; /* Pale icy cyan */
+  --bg-primary: #f8fcfc; /* Crisp cyan-white */
+  --bg-secondary: #def0f3; /* Muted cyan-gray */
+  --bg-card: rgba(248, 252, 252, 0.75);
+  --bg-glass: rgba(248, 252, 252, 0.85);
   
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
+  --text-primary: #0c2024; /* Rich dark teal-slate */
+  --text-secondary: #3b5055; /* Medium teal-slate */
+  --text-muted: #60777d; /* Soft teal-slate */
   
-  --border-subtle: rgba(15, 23, 42, 0.08);
+  --border-subtle: rgba(12, 32, 36, 0.08);
   --border-glow: rgba(0, 240, 255, 0.4);
   /* image overlay used for cards with photos; adapts to theme */
-  --image-overlay: linear-gradient(to top, rgba(255,255,255,0.9), rgba(255,255,255,0));
+  --image-overlay: linear-gradient(to top, rgba(248,252,252,0.9), rgba(248,252,252,0));
   
   /* Refined accent colors for light mode visibility */
   --accent-blue: #00acc1; 
