@@ -581,26 +581,25 @@ export default function Reviews() {
         </Helmet>
         <div className="container-custom">
 
-          {/* Navigation Buttons */}
+          {/* Navigation Button */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="mb-10 flex flex-wrap gap-4"
+            className="mb-10"
           >
             <button
-              onClick={() => navigate(-1)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest border border-white/10 hover:border-cyan-400 hover:text-cyan-400 transition-colors bg-white/5"
-              style={{ color: 'var(--text-muted)' }}
+              onClick={() => navigate('/')}
+              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border text-xs font-bold uppercase tracking-widest transition-all duration-300 hover:-translate-y-0.5 cursor-pointer hover:text-cyan-400 hover:border-cyan-400/30"
+              style={{
+                color: 'var(--text-secondary)',
+                borderColor: 'var(--border-subtle)',
+                backgroundColor: 'var(--bg-card)',
+                backdropFilter: 'blur(20px)',
+              }}
             >
-              <ArrowLeft size={14} /> Back
+              <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform duration-300" />
+              <span>Back to Home</span>
             </button>
-            <Link
-              to="/"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest border border-white/10 hover:border-cyan-400 hover:text-cyan-400 transition-colors bg-white/5"
-              style={{ color: 'var(--text-muted)' }}
-            >
-              Back to Home
-            </Link>
           </motion.div>
 
           <div className="text-center mb-16">
