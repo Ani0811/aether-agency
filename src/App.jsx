@@ -20,6 +20,7 @@ import AIChatWidget from './components/AIChatWidget'
 import ScheduleModal from './components/ScheduleModal'
 import Loader from './components/Loader'
 import CookieBanner from './components/CookieBanner'
+import ScrollToTop from './components/ScrollToTop'
 
 // Lazy loaded page components
 const GetStarted = lazy(() => import('./components/GetStarted'))
@@ -109,6 +110,7 @@ export default function App() {
     <HelmetProvider>
       <ThemeProvider>
         <div className="min-h-screen relative">
+          <ScrollToTop />
           <Navbar onScheduleCall={handleScheduleCall} />
           <ScheduleModal isOpen={isScheduleOpen} onClose={() => setIsScheduleOpen(false)} />
 
