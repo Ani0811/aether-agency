@@ -117,7 +117,7 @@ export default function About() {
                   {/* Email Address Link */}
                   <a 
                     href={`mailto:${founder.email}`} 
-                    className="text-xs text-white/50 hover:text-cyan-400 transition-colors mb-4 flex items-center gap-1.5 font-medium tracking-wide"
+                    className={`text-xs text-(--text-muted) transition-colors mb-4 flex items-center gap-1.5 font-medium tracking-wide ${founder.color === 'cyan' ? 'hover:text-cyan-400' : 'hover:text-fuchsia-400'}`}
                   >
                     <Mail size={13} className="opacity-80" />
                     {founder.email}
@@ -128,7 +128,7 @@ export default function About() {
                     {founder.socials.map((social, i) => {
                       const Icon = social.icon
                       return (
-                        <a key={i} href={social.url} target="_blank" rel="noreferrer" className="hover:text-cyan-400 transition-colors">
+                        <a key={i} href={social.url} target="_blank" rel="noreferrer" className={`${founder.color === 'cyan' ? 'hover:text-cyan-400' : 'hover:text-fuchsia-400'} transition-colors`}>
                           <Icon size={18} />
                         </a>
                       )

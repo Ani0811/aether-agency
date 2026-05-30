@@ -120,7 +120,7 @@ const individualServicesData = {
     { name: 'Custom LLM Training', price: { INR: '50K - 1.5L', USD: '$600 - $1,800' } },
     { name: 'WhatsApp Bot Integration', price: { INR: '30K - 80K', USD: '$400 - $1,000' } },
     { name: 'Maintenance Retainer', price: { INR: '10K - 30K / mo', USD: '$150 - $400 / mo' } },
-    { name: 'Discovery Call 1:1 (Paid)', price: { INR: '1,500 / 30 mins', USD: '$20 / 30 mins' }, link: 'https://calendly.com/g-onemedia/discovery-call' }
+    { name: 'Discovery Call 1:1 (Paid)', price: { INR: '500 / 30 mins', USD: '$20 / 30 mins' }, link: 'https://calendly.com/g-onemedia/discovery-call' }
   ],
   'Video Editing': [
     { name: 'Reels Editing', price: { INR: '500 - 4K+ / video', USD: '$30 - $150 / video' } },
@@ -129,7 +129,7 @@ const individualServicesData = {
     { name: 'Thumbnail Design', price: { INR: '500 - 2K+ / unit', USD: '$10 - $30 / unit' } },
     { name: 'Captions Only', price: { INR: '300 - 1.5K+ / unit', USD: '$5 - $20 / unit' } },
     { name: 'Full Video Retainer', price: { INR: '40K - 4L+ / mo', USD: '$500 - $5,000 / mo' } },
-    { name: 'Discovery Call 1:1 (Paid)', price: { INR: '1,500 / 30 mins', USD: '$20 / 30 mins' }, link: 'https://calendly.com/g-onemedia/discovery-call' }
+    { name: 'Discovery Call 1:1 (Paid)', price: { INR: '500 / 30 mins', USD: '$20 / 30 mins' }, link: 'https://calendly.com/g-onemedia/discovery-call' }
   ]
 }
 
