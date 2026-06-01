@@ -68,9 +68,9 @@ export default function Footer() {
               className="inline-block"
             >
               <img 
-                src={`${import.meta.env.BASE_URL}G-OneMedia.png`.replace(/\/+/g, '/')} 
+                src={`${import.meta.env.BASE_URL}G-One.png`.replace(/\/+/g, '/')} 
                 alt="G-One Media Logo" 
-                className="h-24 w-80 object-contain object-left block scale-115 origin-left" 
+                className="h-12 w-44 object-contain object-left block origin-left" 
                 onError={(e) => {
                   e.target.style.display = 'none';
                   e.target.parentElement.innerText = 'G-One Media';
